@@ -1,58 +1,67 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import SplitType from 'split-type'
+import { onMounted, onUnmounted, useTemplateRef } from 'vue'
 
 const section = useTemplateRef('section')
 const textCol = useTemplateRef('textCol')
 const codeCol = useTemplateRef('codeCol')
+const codeContent = useTemplateRef('codeContent') // Nouveau ref direct sur le texte
 
-const features = [
-  'TypeScript strict mode',
-  'GSAP micro-interactions built in',
-  'SSR-safe for Nuxt 4',
-  'Zero hidden dependencies',
-]
-
-let loopTimer: ReturnType<typeof setTimeout> | null = null
+let split: SplitType | null = null
+let ctx: gsap.Context | null = null
 
 const startTyping = () => {
-  const tokens = codeCol.value?.querySelectorAll('.ct')
-  if (!tokens?.length) return
+  if (!split) return
 
-  gsap.fromTo(
-    tokens,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      duration: 0,
-      stagger: 0.09,
-      ease: 'none',
-      onComplete: () => {
-        loopTimer = setTimeout(() => {
-          gsap.set(tokens, { opacity: 0 })
-          loopTimer = setTimeout(startTyping, 500)
-        }, 3200)
-      },
-    },
-  )
+  // On remet tout à zéro avant de commencer
+  gsap.set(split.chars, { opacity: 0, y: 5 })
+
+  const tl = gsap.timeline({
+    repeat: -1, // Boucle infinie
+    repeatDelay: 3 // Pause de 3s avant de recommencer
+  })
+
+  tl.to(split.chars, {
+    opacity: 1,
+    y: 0,
+    duration: 0.1,
+    stagger: 0.03, // Effet machine à écrire
+    ease: "power1.out"
+  })
 }
 
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger)
 
-  const tl = gsap.timeline({
-    scrollTrigger: { trigger: section.value, start: 'top 75%', once: true },
-    defaults: { ease: 'power3.out', duration: 0.8 },
-  })
+  // On initialise SplitType
+  if (codeContent.value) {
+    split = new SplitType(codeContent.value, { types: 'chars' })
+  }
 
-  tl.from(textCol.value, { x: -40, opacity: 0 })
-    .from(codeCol.value, { x: 40, opacity: 0 }, '-=0.5')
-    .add(() => startTyping())
+  // Utilisation de gsap.context pour un nettoyage facile
+  ctx = gsap.context(() => {
+    const mainTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section.value,
+        start: 'top 75%',
+        once: true,
+      },
+    })
+
+    mainTl.from(textCol.value, { x: -40, opacity: 0, duration: 0.8 })
+    mainTl.from(codeCol.value, { x: 40, opacity: 0, duration: 0.8 }, '-=0.4')
+    mainTl.add(() => startTyping())
+  })
 })
 
 onUnmounted(() => {
-  if (loopTimer) clearTimeout(loopTimer)
+  ctx?.revert() // Nettoie toutes les animations GSAP
+  split?.revert() // Remet le texte d'origine
 })
+
+const features = ["Fully Typed", "Zero Dependencies", "Tailwind CSS", "Copy & Paste"]
 </script>
 
 <template>
@@ -84,20 +93,35 @@ onUnmounted(() => {
         </div>
 
         <!-- Right: Code editor with typewriter effect -->
-        <div ref="codeCol" class="rounded-2xl border border-zinc-800 bg-[#0d1117] overflow-hidden shadow-2xl shadow-black/60">
-          <!-- Mac window bar -->
-          <div class="flex items-center gap-1.5 px-4 py-3 bg-[#161b22] border-b border-zinc-800">
-            <span class="w-3 h-3 rounded-full bg-[#ff5f56]" />
-            <span class="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-            <span class="w-3 h-3 rounded-full bg-[#27c93f]" />
-            <span class="ml-3 text-xs text-zinc-500 font-mono">UiButton.vue</span>
-          </div>
+        <div ref="codeCol" class="rounded-2xl border border-zinc-800 bg-[#0d1117] overflow-hidden shadow-2xl">
+    <div class="flex items-center gap-1.5 px-4 py-3 bg-[#161b22] border-b border-zinc-800">
+      <span class="w-3 h-3 rounded-full bg-[#ff5f56]" />
+      <span class="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+      <span class="w-3 h-3 rounded-full bg-[#27c93f]" />
+      <span class="ml-3 text-xs text-zinc-500 font-mono">UiButton.vue</span>
+    </div>
 
-          <!-- Code — each token has class "ct" for GSAP typewriter stagger -->
-          <pre class="p-6 text-sm font-mono leading-loose text-[#abb2bf] min-h-[200px]"><span class="ct text-[#e06c75]">&lt;UiButton</span><span class="ct text-[#abb2bf]">&#10;  </span><span class="ct text-[#d19a66]">variant</span><span class="ct text-[#abb2bf]">=</span><span class="ct text-[#98c379]">"primary"</span><span class="ct text-[#abb2bf]">&#10;  </span><span class="ct text-[#d19a66]">size</span><span class="ct text-[#abb2bf]">=</span><span class="ct text-[#98c379]">"md"</span><span class="ct text-[#e06c75]">&#10;&gt;</span><span class="ct text-[#f8f8f2]">&#10;  Get started &#8594;&#10;</span><span class="ct text-[#e06c75]">&lt;/UiButton&gt;</span><span class="cursor-blink text-indigo-400">▋</span></pre>
-        </div>
+    <pre ref="codeContent" class="p-6 text-sm font-mono leading-loose text-[#abb2bf] min-h-[200px]">&lt;UiButton variant="primary"
+  size="md"
+&gt;
+  Get started &rarr;
+&lt;/UiButton&gt;<span class="cursor-blink text-indigo-400">▋</span></pre>
+  </div>
 
       </div>
     </div>
   </section>
 </template>
+<style scoped>
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+/* Important pour garder les couleurs après le SplitType */
+:deep(.char) {
+  display: inline-block;
+}
+</style>
