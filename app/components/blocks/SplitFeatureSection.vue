@@ -1,67 +1,29 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SplitType from 'split-type'
-import { onMounted, onUnmounted, useTemplateRef } from 'vue'
 
-const section = useTemplateRef('section')
-const textCol = useTemplateRef('textCol')
-const codeCol = useTemplateRef('codeCol')
-const codeContent = useTemplateRef('codeContent') // Nouveau ref direct sur le texte
+const section  = useTemplateRef('section')
+const textCol  = useTemplateRef('textCol')
+const codeCol  = useTemplateRef('codeCol')
 
-let split: SplitType | null = null
-let ctx: gsap.Context | null = null
-
-const startTyping = () => {
-  if (!split) return
-
-  // On remet tout à zéro avant de commencer
-  gsap.set(split.chars, { opacity: 0, y: 5 })
-
-  const tl = gsap.timeline({
-    repeat: -1, // Boucle infinie
-    repeatDelay: 3 // Pause de 3s avant de recommencer
-  })
-
-  tl.to(split.chars, {
-    opacity: 1,
-    y: 0,
-    duration: 0.1,
-    stagger: 0.03, // Effet machine à écrire
-    ease: "power1.out"
-  })
-}
+const features = [
+  'TypeScript strict mode',
+  'GSAP micro-interactions built in',
+  'SSR-safe for Nuxt 4',
+  'Zero hidden dependencies',
+]
 
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger)
 
-  // On initialise SplitType
-  if (codeContent.value) {
-    split = new SplitType(codeContent.value, { types: 'chars' })
-  }
-
-  // Utilisation de gsap.context pour un nettoyage facile
-  ctx = gsap.context(() => {
-    const mainTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section.value,
-        start: 'top 75%',
-        once: true,
-      },
-    })
-
-    mainTl.from(textCol.value, { x: -40, opacity: 0, duration: 0.8 })
-    mainTl.from(codeCol.value, { x: 40, opacity: 0, duration: 0.8 }, '-=0.4')
-    mainTl.add(() => startTyping())
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: section.value, start: 'top 75%' },
+    defaults: { ease: 'power3.out', duration: 0.8 },
   })
-})
 
-onUnmounted(() => {
-  ctx?.revert() // Nettoie toutes les animations GSAP
-  split?.revert() // Remet le texte d'origine
+  tl.from(textCol.value, { x: -40, opacity: 0 })
+    .from(codeCol.value, { x: 40, opacity: 0 }, '-=0.5')
 })
-
-const features = ["Fully Typed", "Zero Dependencies", "Tailwind CSS", "Copy & Paste"]
 </script>
 
 <template>
@@ -81,7 +43,11 @@ const features = ["Fully Typed", "Zero Dependencies", "Tailwind CSS", "Copy & Pa
           </p>
 
           <ul class="space-y-3 mb-10">
-            <li v-for="feature in features" :key="feature" class="flex items-center gap-3">
+            <li
+              v-for="feature in features"
+              :key="feature"
+              class="flex items-center gap-3"
+            >
               <span class="w-5 h-5 rounded-full bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
                 <Icon name="lucide:check" class="w-3 h-3 text-indigo-400" />
               </span>
@@ -92,36 +58,47 @@ const features = ["Fully Typed", "Zero Dependencies", "Tailwind CSS", "Copy & Pa
           <UiButton size="lg">Browse components →</UiButton>
         </div>
 
-        <!-- Right: Code editor with typewriter effect -->
-        <div ref="codeCol" class="rounded-2xl border border-zinc-800 bg-[#0d1117] overflow-hidden shadow-2xl">
-    <div class="flex items-center gap-1.5 px-4 py-3 bg-[#161b22] border-b border-zinc-800">
-      <span class="w-3 h-3 rounded-full bg-[#ff5f56]" />
-      <span class="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-      <span class="w-3 h-3 rounded-full bg-[#27c93f]" />
-      <span class="ml-3 text-xs text-zinc-500 font-mono">UiButton.vue</span>
-    </div>
+        <!-- Right: Code editor -->
+        <div ref="codeCol" class="rounded-2xl border border-zinc-800 bg-[#0d1117] overflow-hidden shadow-2xl shadow-black/60">
+          <!-- Mac window bar -->
+          <div class="flex items-center gap-1.5 px-4 py-3 bg-[#161b22] border-b border-zinc-800">
+            <span class="w-3 h-3 rounded-full bg-[#ff5f56]" />
+            <span class="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+            <span class="w-3 h-3 rounded-full bg-[#27c93f]" />
+            <span class="ml-3 text-xs text-zinc-500 font-mono">UiButton.vue</span>
+          </div>
 
-    <pre ref="codeContent" class="p-6 text-sm font-mono leading-loose text-[#abb2bf] min-h-[200px]">&lt;UiButton variant="primary"
-  size="md"
-&gt;
-  Get started &rarr;
-&lt;/UiButton&gt;<span class="cursor-blink text-indigo-400">▋</span></pre>
-  </div>
+          <!-- Syntax highlighted code — One Dark theme -->
+          <pre class="p-6 text-[13px] font-mono leading-relaxed overflow-x-auto text-[#abb2bf] select-text"><span class="text-[#e06c75]">&lt;script</span> <span class="text-[#d19a66]">setup</span> <span class="text-[#d19a66]">lang</span><span class="text-[#abb2bf]">=</span><span class="text-[#98c379]">"ts"</span><span class="text-[#e06c75]">&gt;</span>
+<span class="text-[#c678dd]">interface</span> <span class="text-[#e5c07b]">Props</span> <span class="text-[#abb2bf]">{</span>
+  <span class="text-[#e06c75]">variant</span><span class="text-[#abb2bf]">?:</span> <span class="text-[#98c379]">'primary'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'secondary'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'ghost'</span>
+  <span class="text-[#e06c75]">size</span><span class="text-[#abb2bf]">?:</span> <span class="text-[#98c379]">'sm'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'md'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'lg'</span>
+  <span class="text-[#e06c75]">disabled</span><span class="text-[#abb2bf]">?:</span> <span class="text-[#c678dd]">boolean</span>
+<span class="text-[#abb2bf]">}</span>
+
+<span class="text-[#c678dd]">const</span> <span class="text-[#e5c07b]">props</span> <span class="text-[#abb2bf]">=</span> <span class="text-[#61afef]">withDefaults</span><span class="text-[#abb2bf]">(</span>
+  <span class="text-[#61afef]">defineProps</span><span class="text-[#abb2bf]">&lt;</span><span class="text-[#e5c07b]">Props</span><span class="text-[#abb2bf]">&gt;(), {</span>
+    <span class="text-[#d19a66]">variant</span><span class="text-[#abb2bf]">:</span> <span class="text-[#98c379]">'primary'</span><span class="text-[#abb2bf]">,</span>
+    <span class="text-[#d19a66]">size</span><span class="text-[#abb2bf]">:</span> <span class="text-[#98c379]">'md'</span><span class="text-[#abb2bf]">,</span>
+    <span class="text-[#d19a66]">disabled</span><span class="text-[#abb2bf]">:</span> <span class="text-[#c678dd]">false</span><span class="text-[#abb2bf]">,</span>
+  <span class="text-[#abb2bf]">}</span>
+<span class="text-[#abb2bf]">)</span>
+<span class="text-[#e06c75]">&lt;/script&gt;</span>
+
+<span class="text-[#e06c75]">&lt;template&gt;</span>
+  <span class="text-[#e06c75]">&lt;button</span>
+    <span class="text-[#d19a66]">:class</span><span class="text-[#abb2bf]">="[</span><span class="text-[#98c379]">'rounded-lg font-medium'</span><span class="text-[#abb2bf]">, {</span>
+      <span class="text-[#98c379]">'bg-white text-zinc-950'</span><span class="text-[#abb2bf]">:</span> <span class="text-[#e5c07b]">variant</span> <span class="text-[#abb2bf]">===</span> <span class="text-[#98c379]">'primary'</span><span class="text-[#abb2bf]">,</span>
+      <span class="text-[#98c379]">'border border-zinc-700'</span><span class="text-[#abb2bf]">:</span> <span class="text-[#e5c07b]">variant</span> <span class="text-[#abb2bf]">===</span> <span class="text-[#98c379]">'ghost'</span><span class="text-[#abb2bf]">,</span>
+    <span class="text-[#abb2bf]">}]"</span>
+    <span class="text-[#d19a66]">:disabled</span><span class="text-[#abb2bf]">="</span><span class="text-[#e5c07b]">disabled</span><span class="text-[#abb2bf]">"</span>
+  <span class="text-[#e06c75]">&gt;</span>
+    <span class="text-[#e06c75]">&lt;slot /&gt;</span>
+  <span class="text-[#e06c75]">&lt;/button&gt;</span>
+<span class="text-[#e06c75]">&lt;/template&gt;</span></pre>
+        </div>
 
       </div>
     </div>
   </section>
 </template>
-<style scoped>
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-@keyframes blink {
-  from, to { opacity: 1; }
-  50% { opacity: 0; }
-}
-/* Important pour garder les couleurs après le SplitType */
-:deep(.char) {
-  display: inline-block;
-}
-</style>
