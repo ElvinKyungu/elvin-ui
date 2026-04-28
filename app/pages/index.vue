@@ -1,10 +1,10 @@
 <template>
   <div>
-    <NavBar />
-    <HeroSection />
-    <FeaturesSection />
-    <ShowcaseSection />
-    <CTASection />
-    <FooterSection />
+    <BlocksNavBar />
+    <BlocksHeroSection />
+    <BlocksFeaturesSection />
+    <BlocksShowcaseSection />
+    <BlocksCTASection />
+    <BlocksFooterSection />
   </div>
 </template>
