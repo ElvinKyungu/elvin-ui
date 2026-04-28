@@ -1,7 +1,7 @@
 # Project Context
 
 ## Name
-MotionKit UI (ou ton nom final)
+Elvin UI (ou ton nom final)
 
 ## What this is
 A Nuxt 4 UI kit + template system with copy-paste components and animated UI blocks.
