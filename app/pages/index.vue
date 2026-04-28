@@ -2,6 +2,7 @@
   <div>
     <BlocksNavBar />
     <BlocksHeroSection />
+    <BlocksSplitFeatureSection />
     <BlocksFeaturesSection />
     <BlocksShowcaseSection />
     <BlocksCTASection />

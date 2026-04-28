@@ -43,9 +43,19 @@ onMounted(() => {
         </NuxtLink>
       </nav>
 
-      <UiButton size="sm" variant="primary">
-        Browse →
-      </UiButton>
+      <div class="flex items-center gap-3">
+        <a
+          href="#"
+          class="text-zinc-500 hover:text-zinc-200 transition-colors duration-200"
+          aria-label="GitHub"
+        >
+          <Icon name="lucide:github" class="w-4 h-4" />
+        </a>
+        <div class="w-px h-4 bg-zinc-800" />
+        <UiButton size="sm" variant="primary">
+          Browse →
+        </UiButton>
+      </div>
     </div>
   </header>
 </template>
