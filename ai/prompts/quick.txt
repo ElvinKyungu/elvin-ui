@@ -1,0 +1,8 @@
+/commit
+/clean
+/fix
+/refactor
+/docs
+/props
+/polish
+/copy
