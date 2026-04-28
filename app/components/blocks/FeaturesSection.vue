@@ -22,7 +22,7 @@ const features = [
   },
 ]
 
-onMounted(() => {
+onMounted(async () => {
   gsap.registerPlugin(ScrollTrigger)
 
   gsap.from('.feature-card', {

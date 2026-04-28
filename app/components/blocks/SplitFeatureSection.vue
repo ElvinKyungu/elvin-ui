@@ -2,9 +2,9 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const section  = useTemplateRef('section')
-const textCol  = useTemplateRef('textCol')
-const codeCol  = useTemplateRef('codeCol')
+const section = useTemplateRef('section')
+const textCol = useTemplateRef('textCol')
+const codeCol = useTemplateRef('codeCol')
 
 const features = [
   'TypeScript strict mode',
@@ -13,16 +13,45 @@ const features = [
   'Zero hidden dependencies',
 ]
 
+let loopTimer: ReturnType<typeof setTimeout> | null = null
+
+const startTyping = () => {
+  const tokens = codeCol.value?.querySelectorAll('.ct')
+  if (!tokens?.length) return
+
+  gsap.fromTo(
+    tokens,
+    { opacity: 0 },
+    {
+      opacity: 1,
+      duration: 0,
+      stagger: 0.09,
+      ease: 'none',
+      onComplete: () => {
+        loopTimer = setTimeout(() => {
+          gsap.set(tokens, { opacity: 0 })
+          loopTimer = setTimeout(startTyping, 500)
+        }, 3200)
+      },
+    },
+  )
+}
+
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger)
 
   const tl = gsap.timeline({
-    scrollTrigger: { trigger: section.value, start: 'top 75%' },
+    scrollTrigger: { trigger: section.value, start: 'top 75%', once: true },
     defaults: { ease: 'power3.out', duration: 0.8 },
   })
 
   tl.from(textCol.value, { x: -40, opacity: 0 })
     .from(codeCol.value, { x: 40, opacity: 0 }, '-=0.5')
+    .add(() => startTyping())
+})
+
+onUnmounted(() => {
+  if (loopTimer) clearTimeout(loopTimer)
 })
 </script>
 
@@ -43,11 +72,7 @@ onMounted(() => {
           </p>
 
           <ul class="space-y-3 mb-10">
-            <li
-              v-for="feature in features"
-              :key="feature"
-              class="flex items-center gap-3"
-            >
+            <li v-for="feature in features" :key="feature" class="flex items-center gap-3">
               <span class="w-5 h-5 rounded-full bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
                 <Icon name="lucide:check" class="w-3 h-3 text-indigo-400" />
               </span>
@@ -58,7 +83,7 @@ onMounted(() => {
           <UiButton size="lg">Browse components →</UiButton>
         </div>
 
-        <!-- Right: Code editor -->
+        <!-- Right: Code editor with typewriter effect -->
         <div ref="codeCol" class="rounded-2xl border border-zinc-800 bg-[#0d1117] overflow-hidden shadow-2xl shadow-black/60">
           <!-- Mac window bar -->
           <div class="flex items-center gap-1.5 px-4 py-3 bg-[#161b22] border-b border-zinc-800">
@@ -68,34 +93,8 @@ onMounted(() => {
             <span class="ml-3 text-xs text-zinc-500 font-mono">UiButton.vue</span>
           </div>
 
-          <!-- Syntax highlighted code — One Dark theme -->
-          <pre class="p-6 text-[13px] font-mono leading-relaxed overflow-x-auto text-[#abb2bf] select-text"><span class="text-[#e06c75]">&lt;script</span> <span class="text-[#d19a66]">setup</span> <span class="text-[#d19a66]">lang</span><span class="text-[#abb2bf]">=</span><span class="text-[#98c379]">"ts"</span><span class="text-[#e06c75]">&gt;</span>
-<span class="text-[#c678dd]">interface</span> <span class="text-[#e5c07b]">Props</span> <span class="text-[#abb2bf]">{</span>
-  <span class="text-[#e06c75]">variant</span><span class="text-[#abb2bf]">?:</span> <span class="text-[#98c379]">'primary'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'secondary'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'ghost'</span>
-  <span class="text-[#e06c75]">size</span><span class="text-[#abb2bf]">?:</span> <span class="text-[#98c379]">'sm'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'md'</span> <span class="text-[#abb2bf]">|</span> <span class="text-[#98c379]">'lg'</span>
-  <span class="text-[#e06c75]">disabled</span><span class="text-[#abb2bf]">?:</span> <span class="text-[#c678dd]">boolean</span>
-<span class="text-[#abb2bf]">}</span>
-
-<span class="text-[#c678dd]">const</span> <span class="text-[#e5c07b]">props</span> <span class="text-[#abb2bf]">=</span> <span class="text-[#61afef]">withDefaults</span><span class="text-[#abb2bf]">(</span>
-  <span class="text-[#61afef]">defineProps</span><span class="text-[#abb2bf]">&lt;</span><span class="text-[#e5c07b]">Props</span><span class="text-[#abb2bf]">&gt;(), {</span>
-    <span class="text-[#d19a66]">variant</span><span class="text-[#abb2bf]">:</span> <span class="text-[#98c379]">'primary'</span><span class="text-[#abb2bf]">,</span>
-    <span class="text-[#d19a66]">size</span><span class="text-[#abb2bf]">:</span> <span class="text-[#98c379]">'md'</span><span class="text-[#abb2bf]">,</span>
-    <span class="text-[#d19a66]">disabled</span><span class="text-[#abb2bf]">:</span> <span class="text-[#c678dd]">false</span><span class="text-[#abb2bf]">,</span>
-  <span class="text-[#abb2bf]">}</span>
-<span class="text-[#abb2bf]">)</span>
-<span class="text-[#e06c75]">&lt;/script&gt;</span>
-
-<span class="text-[#e06c75]">&lt;template&gt;</span>
-  <span class="text-[#e06c75]">&lt;button</span>
-    <span class="text-[#d19a66]">:class</span><span class="text-[#abb2bf]">="[</span><span class="text-[#98c379]">'rounded-lg font-medium'</span><span class="text-[#abb2bf]">, {</span>
-      <span class="text-[#98c379]">'bg-white text-zinc-950'</span><span class="text-[#abb2bf]">:</span> <span class="text-[#e5c07b]">variant</span> <span class="text-[#abb2bf]">===</span> <span class="text-[#98c379]">'primary'</span><span class="text-[#abb2bf]">,</span>
-      <span class="text-[#98c379]">'border border-zinc-700'</span><span class="text-[#abb2bf]">:</span> <span class="text-[#e5c07b]">variant</span> <span class="text-[#abb2bf]">===</span> <span class="text-[#98c379]">'ghost'</span><span class="text-[#abb2bf]">,</span>
-    <span class="text-[#abb2bf]">}]"</span>
-    <span class="text-[#d19a66]">:disabled</span><span class="text-[#abb2bf]">="</span><span class="text-[#e5c07b]">disabled</span><span class="text-[#abb2bf]">"</span>
-  <span class="text-[#e06c75]">&gt;</span>
-    <span class="text-[#e06c75]">&lt;slot /&gt;</span>
-  <span class="text-[#e06c75]">&lt;/button&gt;</span>
-<span class="text-[#e06c75]">&lt;/template&gt;</span></pre>
+          <!-- Code — each token has class "ct" for GSAP typewriter stagger -->
+          <pre class="p-6 text-sm font-mono leading-loose text-[#abb2bf] min-h-[200px]"><span class="ct text-[#e06c75]">&lt;UiButton</span><span class="ct text-[#abb2bf]">&#10;  </span><span class="ct text-[#d19a66]">variant</span><span class="ct text-[#abb2bf]">=</span><span class="ct text-[#98c379]">"primary"</span><span class="ct text-[#abb2bf]">&#10;  </span><span class="ct text-[#d19a66]">size</span><span class="ct text-[#abb2bf]">=</span><span class="ct text-[#98c379]">"md"</span><span class="ct text-[#e06c75]">&#10;&gt;</span><span class="ct text-[#f8f8f2]">&#10;  Get started &#8594;&#10;</span><span class="ct text-[#e06c75]">&lt;/UiButton&gt;</span><span class="cursor-blink text-indigo-400">▋</span></pre>
         </div>
 
       </div>
