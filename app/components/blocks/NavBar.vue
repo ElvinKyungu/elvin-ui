@@ -33,7 +33,7 @@ onMounted(() => {
         >
           <span class="text-white text-[10px] font-bold leading-none">E</span>
         </span>
-        <span class="text-sm font-semibold text-white tracking-tight"
+        <span class="text-base font-semibold text-white tracking-tight"
           >elvin ui</span
         >
       </NuxtLink>
