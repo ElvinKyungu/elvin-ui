@@ -22,20 +22,28 @@ const features = [
   },
 ]
 
-onMounted(async () => {
+onMounted(() => {
   gsap.registerPlugin(ScrollTrigger)
 
-  gsap.from('.feature-card', {
-    y: 36,
-    opacity: 0,
-    duration: 0.7,
-    stagger: 0.12,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: section.value,
-      start: 'top 80%',
+  const cards = section.value?.querySelectorAll<HTMLElement>('.feature-card')
+  if (!cards?.length) return
+
+  gsap.fromTo(
+    cards,
+    { y: 36, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: section.value,
+        start: 'top 80%',
+        once: true,
+      },
     },
-  })
+  )
 })
 </script>
 

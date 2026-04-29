@@ -12,16 +12,17 @@ const tabs = [
 
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger)
-  gsap.from(section.value, {
-    y: 28,
-    opacity: 0,
-    duration: 0.8,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: section.value,
-      start: 'top 80%',
+  gsap.fromTo(
+    section.value,
+    { y: 28, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: section.value, start: 'top 80%', once: true },
     },
-  })
+  )
 })
 </script>
 
