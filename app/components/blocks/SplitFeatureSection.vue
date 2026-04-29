@@ -79,7 +79,7 @@ onUnmounted(() => {
 
 <template>
   <section ref="section" class="py-20 px-4">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[95rem] mx-auto">
       <div class="grid md:grid-cols-2 gap-16 items-center">
         <!-- Left: Text -->
         <div ref="textCol">
