@@ -37,13 +37,9 @@ onMounted(() => {
   <section
     class="relative min-h-screen flex flex-col items-center justify-center pt-14 overflow-hidden"
   >
-    <!-- Grid background -->
-    <div
-      class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:64px_64px]"
-    />
     <!-- Glow -->
     <div
-      class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-indigo-600/8 rounded-full blur-[140px] pointer-events-none"
+      class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-indigo-600/30 rounded-full blur-[140px] pointer-events-none"
     />
 
     <div
