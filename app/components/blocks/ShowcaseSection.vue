@@ -27,8 +27,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="section" class="py-24 px-6">
-    <div class="max-w-4xl mx-auto">
+  <section ref="section" class="py-16 px-4">
+    <div class="max-w-5xl mx-auto">
       <div class="text-center mb-12">
         <p class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-3">Live preview</p>
         <h2 class="text-3xl md:text-4xl font-bold text-white">See what's possible</h2>

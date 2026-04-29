@@ -36,7 +36,7 @@ onMounted(() => {
     <!-- Glow -->
     <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-indigo-600/8 rounded-full blur-[140px] pointer-events-none" />
 
-    <div class="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto w-full">
+    <div class="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto w-full">
       <!-- Badge -->
       <div ref="badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-700/80 bg-zinc-900/80 text-xs text-zinc-400 mb-8 backdrop-blur-sm">
         <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />

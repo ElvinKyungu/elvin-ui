@@ -24,7 +24,7 @@ onMounted(() => {
     ref="navRef"
     class="fixed top-0 inset-x-0 z-50 h-14 border-b border-zinc-800/60 backdrop-blur-md bg-zinc-950/80"
   >
-    <div class="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
       <NuxtLink to="/" class="flex items-center gap-2">
         <span class="w-5 h-5 rounded-md bg-indigo-500 flex items-center justify-center flex-shrink-0">
           <span class="text-white text-[10px] font-bold leading-none">E</span>

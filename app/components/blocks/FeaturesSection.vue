@@ -48,8 +48,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="section" class="py-32 px-6">
-    <div class="max-w-6xl mx-auto">
+  <section ref="section" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16">
         <p class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-3">Why Elvin UI</p>
         <h2 class="text-3xl md:text-4xl font-bold text-white">

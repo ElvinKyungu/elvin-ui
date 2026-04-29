@@ -1,6 +1,6 @@
 <template>
-  <footer class="border-t border-zinc-800/60 py-10 px-6">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+  <footer class="border-t border-zinc-800/60 py-8 px-4">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex items-center gap-2">
         <span class="w-5 h-5 rounded-md bg-indigo-500 flex items-center justify-center flex-shrink-0">
           <span class="text-white text-[10px] font-bold leading-none">E</span>

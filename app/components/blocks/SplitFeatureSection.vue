@@ -78,8 +78,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section ref="section" class="py-32 px-6">
-    <div class="max-w-6xl mx-auto">
+  <section ref="section" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
       <div class="grid md:grid-cols-2 gap-16 items-center">
 
         <!-- Left: Text -->
