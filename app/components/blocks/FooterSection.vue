@@ -9,27 +9,27 @@
         >
           <span class="text-white text-[10px] font-bold leading-none">E</span>
         </span>
-        <span class="text-sm font-semibold text-zinc-300">elvin ui</span>
+        <span class="text-base font-semibold text-zinc-300">elvin ui</span>
       </div>
 
-      <p class="text-xs text-zinc-600 order-last md:order-none">
+      <p class="text-sm text-zinc-600 order-last md:order-none">
         Built for Nuxt devs who ship fast. © {{ new Date().getFullYear() }}
       </p>
 
       <div class="flex items-center gap-5">
         <a
           href="#"
-          class="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+          class="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
           >GitHub</a
         >
         <a
           href="#"
-          class="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+          class="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
           >Components</a
         >
         <a
           href="#"
-          class="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+          class="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
           >Docs</a
         >
       </div>

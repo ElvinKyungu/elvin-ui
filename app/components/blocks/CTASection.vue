@@ -22,7 +22,7 @@ onMounted(() => {
 
 <template>
   <section ref="section" class="py-16 px-4">
-    <div class="max-w-3xl mx-auto">
+    <div class="max-w-[95rem] mx-auto">
       <!-- Gradient border card -->
       <div class="p-px rounded-3xl bg-gradient-to-b from-zinc-700 to-zinc-900">
         <div

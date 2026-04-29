@@ -45,7 +45,7 @@
               >Powered by Shiki · 30+ themes</span
             >
             <h2
-              class="text-3xl leading-[1.05] font-extrabold tracking-tighter md:text-4xl lg:text-5xl"
+              class="text-4xl md:text-5xl leading-[1.05] tracking-tighter font-bold"
             >
               Create beautiful images of your code.
             </h2>

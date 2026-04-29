@@ -8,4 +8,8 @@ export default defineNuxtConfig({
     "@nuxtjs/sitemap",
     "@nuxtjs/tailwindcss",
   ],
+  nitro: {
+    preset: "cloudflare-pages"
+  },
+  ssr: false
 });
