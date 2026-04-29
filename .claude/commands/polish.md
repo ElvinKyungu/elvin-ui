@@ -1,6 +1,7 @@
 Enhance the GSAP animations in $ARGUMENTS for a premium feel.
 
 Rules:
+
 - Micro-interactions only (hover, enter, exit, click feedback)
 - Use `useTemplateRef` to grab elements
 - All GSAP calls inside `onMounted`, cleaned up in `onUnmounted`

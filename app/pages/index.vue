@@ -3,6 +3,7 @@
     <BlocksNavBar />
     <BlocksHeroSection />
     <BlocksSplitFeatureSection />
+    <BlocksFeatures />
     <BlocksFeaturesSection />
     <BlocksShowcaseSection />
     <BlocksCTASection />

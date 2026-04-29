@@ -1,6 +1,7 @@
 Make the component $ARGUMENTS fully copy-paste ready for any Nuxt 4 project.
 
 Requirements:
+
 - Self-contained: no imports from project-specific files
 - All utilities inlined or clearly marked as external
 - Add a comment block at the top of the file:

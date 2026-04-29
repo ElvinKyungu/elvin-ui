@@ -1,6 +1,7 @@
 # Elvin UI — Claude Context
 
 ## Project
+
 Elvin UI is a Nuxt 4 UI system built for copy-paste components and reusable UI blocks.
 
 It is NOT a package. NOT an npm library.
@@ -10,6 +11,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 ---
 
 ## Core philosophy
+
 - Copy over install
 - Simplicity over abstraction
 - Speed of building over architecture complexity
@@ -19,6 +21,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 ---
 
 ## Tech stack
+
 - Nuxt 4
 - Vue 3 (Composition API only)
 - TypeScript (strict mode)
@@ -30,6 +33,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 ## Architecture rules
 
 ### Components
+
 - Must be fully self-contained
 - Must work in Nuxt 4 without modification
 - Must not rely on hidden utilities unless explicitly provided
@@ -38,6 +42,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 - Must be copy-paste ready
 
 ### UI Blocks
+
 - Can compose multiple components
 - Must remain reusable and portable
 - Must not depend on project-specific logic
@@ -45,6 +50,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 ---
 
 ## Styling rules
+
 - TailwindCSS only (avoid custom CSS unless absolutely necessary)
 - Consistent spacing system
 - Modern minimal UI
@@ -57,6 +63,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 ---
 
 ## Animation rules
+
 - GSAP for micro-interactions only
 - Hover / enter / exit animations only
 - No heavy page transitions
@@ -65,6 +72,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 ---
 
 ## Nuxt 4 rules
+
 - Always use `<script setup>`
 - Prefer composables only when necessary
 - Keep code server-safe (SSR compatible)
@@ -74,6 +82,7 @@ The goal is to ship fast, clean, production-ready UI code that developers can di
 ---
 
 ## Component structure standard
+
 Every component should follow this structure:
 
 1. Props (TypeScript)
@@ -85,7 +94,9 @@ Every component should follow this structure:
 ---
 
 ## Output rules for Claude
+
 When generating code:
+
 - Always return full components (not partial snippets)
 - No unnecessary explanations unless asked
 - Code must be production-ready
@@ -95,6 +106,7 @@ When generating code:
 ---
 
 ## File structure
+
 ```
 app/
   components/
@@ -116,6 +128,7 @@ ai/
 ---
 
 ## Naming conventions
+
 - **UI components**: PascalCase with `Ui` prefix → `UiButton.vue`, `UiInput.vue`, `UiBadge.vue`
 - **Block components**: PascalCase descriptive → `HeroSection.vue`, `NavBar.vue`, `PricingCards.vue`
 - **Composables**: camelCase with `use` prefix → `useAnimation.ts`, `useToast.ts`
@@ -130,34 +143,34 @@ Every UI component must follow this exact structure:
 
 ```vue
 <script setup lang="ts">
-import { gsap } from 'gsap'
+import { gsap } from "gsap";
 
 // 1. Props
 interface Props {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
-  size?: 'sm' | 'md' | 'lg'
-  disabled?: boolean
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  variant: 'primary',
-  size: 'md',
+  variant: "primary",
+  size: "md",
   disabled: false,
-})
+});
 
 // 2. Logic
-const el = useTemplateRef('el')
+const el = useTemplateRef("el");
 
 // 3. Animations (GSAP — only if needed)
 onMounted(() => {
-  if (!el.value) return
-  el.value.addEventListener('mouseenter', () => {
-    gsap.to(el.value, { scale: 1.03, duration: 0.2, ease: 'power2.out' })
-  })
-  el.value.addEventListener('mouseleave', () => {
-    gsap.to(el.value, { scale: 1, duration: 0.2, ease: 'power2.out' })
-  })
-})
+  if (!el.value) return;
+  el.value.addEventListener("mouseenter", () => {
+    gsap.to(el.value, { scale: 1.03, duration: 0.2, ease: "power2.out" });
+  });
+  el.value.addEventListener("mouseleave", () => {
+    gsap.to(el.value, { scale: 1, duration: 0.2, ease: "power2.out" });
+  });
+});
 </script>
 
 <template>
@@ -170,7 +183,8 @@ onMounted(() => {
       {
         'bg-zinc-900 text-white hover:bg-zinc-700': variant === 'primary',
         'bg-zinc-100 text-zinc-900 hover:bg-zinc-200': variant === 'secondary',
-        'bg-transparent border border-zinc-300 hover:bg-zinc-50': variant === 'ghost',
+        'bg-transparent border border-zinc-300 hover:bg-zinc-50':
+          variant === 'ghost',
         'bg-red-600 text-white hover:bg-red-700': variant === 'danger',
         'px-3 py-1.5 text-sm': size === 'sm',
         'px-4 py-2 text-sm': size === 'md',
@@ -193,4 +207,5 @@ USAGE:
 ---
 
 ## Goal
+
 Help developers build Nuxt 4 applications 10x faster using beautiful, reusable, copy-paste UI components with premium UX and micro-interactions.
