@@ -2,10 +2,10 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const section  = useTemplateRef('section')
-const textCol  = useTemplateRef('textCol')
-const codeCol  = useTemplateRef('codeCol')
-const codeText = useTemplateRef('codeText')
+const section       = useTemplateRef('section')
+const textCol       = useTemplateRef('textCol')
+const codeCol       = useTemplateRef('codeCol')
+const codeContainer = useTemplateRef('codeContainer')
 
 const features = [
   'TypeScript strict mode',
@@ -17,25 +17,35 @@ const features = [
 let loopTimer: ReturnType<typeof setTimeout> | null = null
 
 const startTypewriter = async () => {
-  if (!codeText.value) return
+  if (!codeContainer.value) return
 
   const { animate, splitText, stagger } = await import('animejs')
 
-  const split = splitText(codeText.value, { chars: true })
-  if (!split.chars.length) return
+  // Apply splitText to each colored token individually, collect all chars
+  const tokenEls = codeContainer.value.querySelectorAll<HTMLElement>('.token')
+  const allChars: Element[] = []
+
+  tokenEls.forEach((el) => {
+    const split = splitText(el, { chars: true })
+    allChars.push(...split.chars)
+  })
+
+  if (!allChars.length) return
 
   const play = () => {
-    animate(split.chars, {
+    // Type in left → right
+    animate(allChars, {
       opacity: [{ from: 0 }, { to: 1 }],
       duration: 1,
       delay: stagger(44),
       ease: 'linear',
       onComplete: () => {
+        // Pause 3s then backspace right → left
         loopTimer = setTimeout(() => {
-          animate(split.chars, {
+          animate(allChars, {
             opacity: 0,
             duration: 1,
-            delay: stagger(18, { from: 'last' }),
+            delay: stagger(16, { from: 'last' }),
             ease: 'linear',
             onComplete: () => {
               loopTimer = setTimeout(play, 500)
@@ -107,15 +117,13 @@ onUnmounted(() => {
             <span class="ml-3 text-xs text-zinc-500 font-mono">UiButton.vue</span>
           </div>
 
-          <!-- Code block — splitText operates on plain text node only -->
-          <pre class="p-6 text-sm font-mono leading-loose min-h-[210px] select-none overflow-hidden"><!--
-         --><span ref="codeText" class="text-[#abb2bf]">&lt;UiButton
-  variant="primary"
-  size="md"
-&gt;
-  Get started &#8594;
-&lt;/UiButton&gt;</span><!--
-         --><span class="cursor-blink text-indigo-400"> ▋</span></pre>
+          <!--
+            Each .token span has one color.
+            splitText({ chars: true }) wraps each char in a data-char span
+            that inherits the parent's color — syntax highlighting preserved.
+            No whitespace between spans so the <pre> renders correctly.
+          -->
+          <pre ref="codeContainer" class="p-6 text-sm font-mono leading-loose min-h-[220px] select-none overflow-hidden"><span class="token text-[#e06c75]">&lt;UiButton</span><span class="token text-[#abb2bf]">&#10;  variant=</span><span class="token text-[#98c379]">"primary"</span><span class="token text-[#abb2bf]">&#10;  size=</span><span class="token text-[#98c379]">"md"</span><span class="token text-[#e06c75]">&#10;&gt;</span><span class="token text-[#f8f8f2]">&#10;  Get started &#8594;&#10;</span><span class="token text-[#e06c75]">&lt;/UiButton&gt;</span><span class="cursor-blink text-indigo-400"> ▋</span></pre>
         </div>
 
       </div>
