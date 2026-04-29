@@ -14,6 +14,7 @@
     <BlocksFeatures />
     <BlocksFeaturesSection />
     <BlocksShowcaseSection />
+    <BlocksPricingSection />
     <BlocksCTASection />
     <BlocksFooterSection />
   </div>
