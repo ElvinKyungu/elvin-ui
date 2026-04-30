@@ -1,7 +1,7 @@
 <template>
   <footer class="border-t border-zinc-800/60 py-8 px-6">
     <div
-      class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
+      class="max-w-6xl 2xl:max-w-[95rem] mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
     >
       <div class="flex items-center gap-2">
         <span

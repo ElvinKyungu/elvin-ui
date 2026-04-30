@@ -90,7 +90,7 @@ onMounted(() => {
 
 <template>
   <section ref="section" class="py-20 px-6">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-6xl 2xl:max-w-[95rem] mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div
           v-for="(stat, i) in stats"
