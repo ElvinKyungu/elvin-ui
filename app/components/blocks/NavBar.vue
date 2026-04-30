@@ -25,7 +25,7 @@ onMounted(() => {
     class="fixed top-0 inset-x-0 z-50 h-14 border-b border-zinc-800/60 backdrop-blur-md bg-zinc-950/80"
   >
     <div
-      class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between"
+      class="max-w-5xl 2xl:max-w-[80rem] mx-auto px-4 h-full flex items-center justify-between"
     >
       <NuxtLink to="/" class="flex items-center gap-2">
         <span
