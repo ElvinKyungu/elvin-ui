@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
   <section
-    class="relative min-h-screen flex flex-col items-center justify-center pt-14 overflow-hidden"
+    class="relative min-h-screen flex flex-col items-center justify-center md:pt-40 2xl:pt-14 overflow-hidden"
   >
     <!-- Glow -->
     <div
