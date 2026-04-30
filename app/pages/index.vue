@@ -10,12 +10,16 @@
     </div>
     <BlocksNavBar />
     <BlocksHeroSection />
+    <BlocksMarqueeStrip />
     <BlocksSplitFeatureSection />
     <BlocksBentoSection />
+    <BlocksStatsCounter />
     <BlocksFeaturesSection />
+    <BlocksScrollRevealText />
     <BlocksShowcaseSection />
+    <BlocksFloatingStack />
     <BlocksPricingSection />
-    <BlocksCTASection />
+    <BlocksMagneticCTA />
     <BlocksFooterSection />
   </div>
 </template>
