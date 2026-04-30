@@ -11,7 +11,7 @@
     <BlocksNavBar />
     <BlocksHeroSection />
     <BlocksSplitFeatureSection />
-    <BlocksFeatures />
+    <BlocksBentoSection />
     <BlocksFeaturesSection />
     <BlocksShowcaseSection />
     <BlocksPricingSection />
