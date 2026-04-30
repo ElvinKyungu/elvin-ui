@@ -15,7 +15,6 @@
     <BlocksBentoSection />
     <BlocksFeaturesSection />
     <BlocksScrollRevealText />
-    <BlocksShowcaseSection />
     <BlocksPricingSection />
     <BlocksMagneticCTA />
     <BlocksFooterSection />
