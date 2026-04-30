@@ -89,8 +89,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="section" class="py-20 px-4">
-    <div class="max-w-[95rem] mx-auto">
+  <section ref="section" class="py-20 px-6">
+    <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div
           v-for="(stat, i) in stats"

@@ -105,8 +105,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="section" class="py-16 px-4">
-    <div class="max-w-[95rem] mx-auto">
+  <section ref="section" class="py-16 px-6">
+    <div class="max-w-7xl mx-auto">
       <div class="p-px rounded-3xl bg-gradient-to-b from-zinc-700/60 to-zinc-900/60">
         <div
           class="rounded-3xl bg-zinc-950 px-8 py-24 text-center relative overflow-hidden"

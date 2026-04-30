@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="section" class="py-16 px-4">
+  <section ref="section" class="py-16 px-6">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-12">
         <p
