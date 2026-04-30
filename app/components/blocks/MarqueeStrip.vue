@@ -37,7 +37,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="py-10 overflow-hidden border-y border-zinc-800/50 bg-zinc-950/60 select-none"
+    class="max-w-6xl 2xl:max-w-[95rem] mx-auto py-10 overflow-hidden border-y border-zinc-800/50 select-none"
     style="mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);"
   >
     <!-- Row 1 — moves left -->
