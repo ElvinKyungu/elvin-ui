@@ -10,7 +10,6 @@ const codeContainer = useTemplateRef("codeContainer");
 const features = [
   "TypeScript strict mode",
   "GSAP micro-interactions built in",
-  "SSR-safe for Nuxt 4",
   "Zero hidden dependencies",
 ];
 
