@@ -13,11 +13,9 @@
     <BlocksMarqueeStrip />
     <BlocksSplitFeatureSection />
     <BlocksBentoSection />
-    <BlocksStatsCounter />
     <BlocksFeaturesSection />
     <BlocksScrollRevealText />
     <BlocksShowcaseSection />
-    <BlocksFloatingStack />
     <BlocksPricingSection />
     <BlocksMagneticCTA />
     <BlocksFooterSection />

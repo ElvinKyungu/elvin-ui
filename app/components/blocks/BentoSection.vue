@@ -3,29 +3,47 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const section = useTemplateRef("section");
+const displayCount = ref(0);
 
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger);
 
   const cards = section.value?.querySelectorAll<HTMLElement>(".bento-card");
-  if (!cards?.length) return;
-
-  gsap.fromTo(
-    cards,
-    { y: 32, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.7,
-      stagger: 0.1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: section.value,
-        start: "top 78%",
-        once: true,
+  if (cards?.length) {
+    gsap.fromTo(
+      cards,
+      { y: 32, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: section.value,
+          start: "top 78%",
+          once: true,
+        },
       },
+    );
+  }
+
+  const counter = { val: 0 };
+  ScrollTrigger.create({
+    trigger: section.value,
+    start: "top 78%",
+    once: true,
+    onEnter() {
+      gsap.to(counter, {
+        val: 50,
+        duration: 2,
+        ease: "power2.out",
+        onUpdate() {
+          displayCount.value = Math.round(counter.val);
+        },
+      });
     },
-  );
+  });
 });
 </script>
 
@@ -57,7 +75,9 @@ onMounted(() => {
           </p>
           <div class="flex items-end gap-6 flex-wrap">
             <div>
-              <span class="text-7xl md:text-8xl font-bold text-white leading-none">50+</span>
+              <span class="text-7xl md:text-8xl font-bold text-white leading-none tabular-nums">
+                {{ displayCount }}+
+              </span>
               <p class="text-sm text-zinc-400 mt-2">ready-to-paste components</p>
             </div>
             <div class="mb-2 flex flex-col gap-1.5">
