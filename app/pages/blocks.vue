@@ -77,7 +77,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen flex flex-col overflow-hidden bg-zinc-950 text-white">
+  <div class="min-h-screen bg-zinc-950 text-white">
 
     <!-- Grid background -->
     <div class="fixed inset-0 pointer-events-none z-0">
@@ -86,11 +86,10 @@ onMounted(() => {
     </div>
 
     <BlocksNavBar />
-    <div class="h-14 flex-shrink-0" />
 
     <!-- BODY -->
-    <div class="flex-1 overflow-hidden flex">
-    <div class="flex w-full max-w-5xl 2xl:max-w-[80rem] mx-auto overflow-hidden relative z-10">
+    <div class="pt-14 flex justify-center relative z-10">
+    <div class="flex w-full max-w-5xl 2xl:max-w-[80rem] mx-auto">
 
       <!-- Mobile backdrop -->
       <Transition
@@ -108,13 +107,13 @@ onMounted(() => {
 
       <!-- SIDEBAR -->
       <aside
-        class="border-r border-zinc-800/60 overflow-hidden bg-zinc-950"
+        class="flex-shrink-0 border-r border-zinc-800/60 overflow-x-hidden bg-zinc-950"
         :class="isMobile
           ? 'fixed left-0 z-30 transition-transform duration-300 ease-in-out'
-          : 'relative flex-shrink-0 transition-[width] duration-300 ease-in-out'"
+          : 'sticky top-14 self-start transition-[width] duration-300 ease-in-out'"
         :style="isMobile
           ? { top: '56px', bottom: 0, width: '264px', transform: sidebarOpen ? 'translateX(0)' : 'translateX(-110%)' }
-          : { width: sidebarOpen ? '224px' : '0px' }"
+          : { width: sidebarOpen ? '224px' : '0px', height: 'calc(100vh - 56px)' }"
       >
         <div class="h-full overflow-y-auto" :style="{ width: isMobile ? '264px' : '224px' }">
           <div class="p-5 flex flex-col gap-6">
@@ -194,10 +193,10 @@ onMounted(() => {
       </aside>
 
       <!-- MAIN -->
-      <main class="flex-1 overflow-y-auto min-w-0">
+      <main class="flex-1 min-w-0">
 
         <!-- Toolbar -->
-        <div class="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/60 h-11 flex items-center gap-3 px-4">
+        <div class="sticky top-14 z-10 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/60 h-11 flex items-center gap-3 px-4">
           <button
             @click="toggleSidebar"
             class="p-1.5 rounded-md transition-colors"
