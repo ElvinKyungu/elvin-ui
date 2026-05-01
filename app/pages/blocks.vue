@@ -296,8 +296,11 @@ onMounted(() => {
 
       </div><!-- end flex row (sidebar + main) -->
 
-    <BlocksFooterSection />
     </div><!-- end bordered max-w container -->
     </div><!-- end pt-14 outer wrapper -->
+
+    <div class="border-t border-zinc-800/60">
+      <BlocksFooterSection />
+    </div>
   </div>
 </template>
