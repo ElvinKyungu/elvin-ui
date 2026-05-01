@@ -123,7 +123,7 @@ onMounted(() => {
             <!-- Sidebar header -->
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2.5">
-                <div class="w-[3px] h-5 bg-indigo-500 rounded-full" />
+                <div class="w-[3px] h-5 bg-accent rounded-full" />
                 <span class="text-sm font-semibold text-white tracking-tight">Browse</span>
               </div>
               <span class="text-[11px] font-semibold tabular-nums px-2 py-1 bg-zinc-900 border border-zinc-800/80 rounded-lg text-zinc-400">
@@ -140,7 +140,7 @@ onMounted(() => {
                 v-model="search"
                 type="text"
                 placeholder="Search blocks..."
-                class="w-full pl-9 pr-8 py-2 bg-zinc-900/60 border border-zinc-800 rounded-lg text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500/40 focus:bg-zinc-900 transition-all duration-200"
+                class="w-full pl-9 pr-8 py-2 bg-zinc-900/60 border border-zinc-800 rounded-lg text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-accent/40 focus:bg-zinc-900 transition-all duration-200"
               />
               <Transition
                 enter-active-class="transition-all duration-150"
@@ -255,7 +255,7 @@ onMounted(() => {
             <p class="text-sm font-medium text-zinc-300">No blocks found</p>
             <p class="text-xs text-zinc-600 mt-0.5">Try a different search or category</p>
           </div>
-          <button @click="search = ''; activeCategory = 'All'" class="text-xs text-indigo-400 hover:text-indigo-300 transition-colors">
+          <button @click="search = ''; activeCategory = 'All'" class="text-xs text-accent hover:text-accent/70 transition-colors">
             Clear filters
           </button>
         </div>
