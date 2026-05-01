@@ -89,7 +89,8 @@ onMounted(() => {
     <div class="h-14 flex-shrink-0" />
 
     <!-- BODY -->
-    <div class="flex flex-1 overflow-hidden relative z-10">
+    <div class="flex-1 overflow-hidden flex">
+    <div class="flex w-full max-w-5xl 2xl:max-w-[80rem] mx-auto overflow-hidden relative z-10">
 
       <!-- Mobile backdrop -->
       <Transition
@@ -498,6 +499,7 @@ onMounted(() => {
           </div>
         </div>
       </main>
+    </div>
     </div>
   </div>
 </template>
