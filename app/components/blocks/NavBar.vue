@@ -2,6 +2,7 @@
 import { gsap } from "gsap";
 
 const navRef = useTemplateRef("navRef");
+const route = useRoute();
 
 const links = [
   { label: "Components", href: "/components" },
@@ -43,7 +44,12 @@ onMounted(() => {
           v-for="link in links"
           :key="link.href"
           :to="link.href"
-          class="px-3 py-1.5 text-sm text-zinc-400 hover:text-white rounded-md hover:bg-zinc-800/50 transition-all duration-200"
+          :class="[
+            'px-3 py-1.5 text-sm rounded-md transition-all duration-200',
+            route.path === link.href
+              ? 'text-white'
+              : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50',
+          ]"
         >
           {{ link.label }}
         </NuxtLink>

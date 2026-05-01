@@ -65,37 +65,22 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen flex flex-col overflow-hidden bg-zinc-950 text-white">
+  <div class="h-screen flex flex-col overflow-hidden bg-zinc-950 text-white max-w-6xl 2xl:max-w-[80rem] mx-auto">
 
-    <!-- HEADER -->
-    <header class="flex-shrink-0 h-14 border-b border-zinc-800/60 flex items-center px-6 gap-3 bg-zinc-950 z-20">
-      <NuxtLink to="/" class="flex items-center gap-2 mr-2">
-        <div class="w-6 h-6 bg-white rounded-[5px] grid place-items-center flex-shrink-0">
-          <div class="w-2.5 h-2.5 bg-zinc-950 rounded-[3px]" />
-        </div>
-        <span class="text-sm font-semibold tracking-tight">elvin ui</span>
-      </NuxtLink>
+    <!-- Grid background (same as index) -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff12_0.3px,transparent_0.8px)] bg-[size:64px_64px]" />
+      <div class="absolute inset-0 bg-[linear-gradient(to_bottom,#ffffff12_0.3px,transparent_0.8px)] bg-[size:60px_60px]" />
+    </div>
 
-      <div class="w-px h-4 bg-zinc-800" />
+    <!-- Shared navbar (fixed, h-14) -->
+    <BlocksNavBar />
 
-      <nav class="flex items-center gap-0.5 text-sm">
-        <a href="#" class="px-3 py-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors">Illustrations</a>
-        <a href="#" class="px-3 py-1.5 text-white bg-zinc-800 rounded-lg font-medium">Blocks</a>
-        <a href="#" class="px-3 py-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors">Pages</a>
-        <a href="#" class="px-3 py-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors">Pricing</a>
-        <a href="#" class="px-3 py-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors">Docs</a>
-      </nav>
-
-      <div class="ml-auto flex items-center gap-4">
-        <a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">Login</a>
-        <button class="px-4 py-1.5 bg-white text-zinc-950 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors">
-          Get started →
-        </button>
-      </div>
-    </header>
+    <!-- Spacer for fixed navbar -->
+    <div class="h-14 flex-shrink-0" />
 
     <!-- BODY -->
-    <div class="flex flex-1 overflow-hidden">
+    <div class="flex flex-1 overflow-hidden relative z-10">
 
       <!-- SIDEBAR -->
       <aside
