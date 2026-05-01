@@ -8,7 +8,6 @@ const drawerContainerRef = useTemplateRef("drawerContainerRef");
 const drawerLinksRef = useTemplateRef("drawerLinksRef");
 
 const isOpen = ref(false);
-const route = useRoute();
 
 const links = [
   { label: "Components", href: "/components", icon: "lucide:layers" },
