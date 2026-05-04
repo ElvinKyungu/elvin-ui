@@ -135,13 +135,12 @@ const gridEl = useTemplateRef<HTMLElement>('gridEl')
 
 function animateGrid() {
   if (!gridEl.value) return
-  gsap.from(Array.from(gridEl.value.children), {
-    opacity: 0,
-    y: 16,
-    duration: 0.35,
-    stagger: 0.04,
-    ease: 'power2.out',
-  })
+  const items = Array.from(gridEl.value.children)
+  gsap.killTweensOf(items)
+  gsap.fromTo(items,
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: 'power2.out', clearProps: 'transform,opacity' },
+  )
 }
 
 watch(filteredItems, () => nextTick(animateGrid))

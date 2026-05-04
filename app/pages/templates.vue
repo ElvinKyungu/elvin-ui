@@ -54,6 +54,18 @@ function toggleSidebar() {
 
 const gridEl = useTemplateRef<HTMLElement>('gridEl')
 
+function animateGrid() {
+  if (!gridEl.value) return
+  const items = Array.from(gridEl.value.children)
+  gsap.killTweensOf(items)
+  gsap.fromTo(items,
+    { opacity: 0, y: 24 },
+    { opacity: 1, y: 0, duration: 0.45, stagger: 0.05, ease: 'power2.out', clearProps: 'transform,opacity' },
+  )
+}
+
+watch(filteredTemplates, () => nextTick(animateGrid))
+
 onMounted(() => {
   const mql = window.matchMedia('(min-width: 768px)')
   isMobile.value = !mql.matches
@@ -66,14 +78,7 @@ onMounted(() => {
   mql.addEventListener('change', handler)
   onUnmounted(() => mql.removeEventListener('change', handler))
 
-  if (!gridEl.value) return
-  gsap.from(Array.from(gridEl.value.children), {
-    opacity: 0,
-    y: 24,
-    duration: 0.45,
-    stagger: 0.05,
-    ease: 'power2.out',
-  })
+  nextTick(animateGrid)
 })
 </script>
 
