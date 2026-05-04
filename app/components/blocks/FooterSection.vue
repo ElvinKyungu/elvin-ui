@@ -18,19 +18,21 @@
 
       <div class="flex items-center gap-5">
         <a
-          href="#"
+          href="https://github.com/Elvinkyungu/elvin-ui"
+          target="_blank"
+          rel="noopener noreferrer"
           class="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
           >GitHub</a
         >
-        <a
-          href="#"
+        <NuxtLink
+          to="/components"
           class="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
-          >Components</a
+          >Components</NuxtLink
         >
-        <a
-          href="#"
+        <NuxtLink
+          to="/docs"
           class="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
-          >Docs</a
+          >Docs</NuxtLink
         >
       </div>
     </div>

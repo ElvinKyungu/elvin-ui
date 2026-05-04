@@ -108,7 +108,9 @@ onUnmounted(() => {
           </a>
         </div>
         <div class="w-px h-4 bg-zinc-800 hidden md:block" />
-        <UiButton size="sm" variant="primary" class="hidden md:inline-flex">Browse →</UiButton>
+        <NuxtLink to="/components">
+          <UiButton size="sm" variant="primary" class="hidden md:inline-flex">Browse →</UiButton>
+        </NuxtLink>
 
         <!-- Hamburger (mobile only) -->
         <button

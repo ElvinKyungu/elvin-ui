@@ -49,8 +49,8 @@ onMounted(() => {
               project. That's it.
             </p>
             <div class="flex items-center justify-center gap-3 flex-wrap">
-              <UiButton size="lg">Browse components</UiButton>
-              <UiButton size="lg" variant="ghost">Read the docs →</UiButton>
+              <NuxtLink to="/components"><UiButton size="lg">Browse components</UiButton></NuxtLink>
+              <NuxtLink to="/docs"><UiButton size="lg" variant="ghost">Read the docs →</UiButton></NuxtLink>
             </div>
           </div>
         </div>
