@@ -153,9 +153,9 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
 
           <!-- Preview pane -->
           <Transition
-            enter-active-class="transition-all duration-200"
-            enter-from-class="opacity-0 translate-y-1"
-            leave-active-class="transition-all duration-150 absolute"
+            enter-active-class="transition-opacity duration-200"
+            enter-from-class="opacity-0"
+            leave-active-class="transition-opacity duration-100"
             leave-to-class="opacity-0"
             mode="out-in"
           >
