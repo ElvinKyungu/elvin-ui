@@ -13,6 +13,10 @@ useHead(() => ({
   title: doc.value ? `${doc.value.name} — Components — Elvin UI` : 'Component — Elvin UI',
 }))
 
+// Preview / Code tab
+const activeTab = ref<'preview' | 'code'>('preview')
+watch(id, () => { activeTab.value = 'preview' })
+
 // Demo state
 const tabsActive = ref('overview')
 const tabsPillActive = ref('grid')
@@ -24,19 +28,18 @@ const inputVal = ref('')
 const textareaVal = ref('')
 const selectVal = ref('pro')
 const selectOptions = [
-  { label: 'Free',        value: 'free' },
+  { label: 'Free',         value: 'free' },
   { label: 'Pro — $12/mo', value: 'pro' },
-  { label: 'Enterprise',  value: 'enterprise' },
+  { label: 'Enterprise',   value: 'enterprise' },
 ]
 
-// Prev / next navigation
 const currentIndex = computed(() => allItems.findIndex(i => i.id === id.value))
 const prevItem = computed(() => currentIndex.value > 0 ? allItems[currentIndex.value - 1] : null)
 const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allItems[currentIndex.value + 1] : null)
 </script>
 
 <template>
-  <main class="flex-1 min-w-0">
+  <main class="flex-1 min-w-0 overflow-x-hidden">
 
     <!-- Toolbar -->
     <div class="sticky top-14 z-10 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/60 h-11 flex items-center gap-3 px-4">
@@ -44,7 +47,6 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
         @click="toggleSidebar"
         class="p-1.5 rounded-md transition-colors"
         :class="sidebarOpen ? 'text-white bg-zinc-800' : 'text-zinc-500 hover:text-white hover:bg-zinc-800'"
-        title="Toggle sidebar"
       >
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
           <rect x="3" y="3" width="18" height="18" rx="2.5" />
@@ -59,257 +61,340 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
       ]" />
     </div>
 
-    <!-- Not documented yet -->
-    <div v-if="!doc" class="flex flex-col items-center justify-center py-20 gap-4 px-6 text-center">
-      <div class="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 grid place-items-center">
-        <svg class="w-5 h-5 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Not documented -->
+    <div v-if="!doc" class="flex flex-col items-center justify-center py-28 gap-5 px-6 text-center">
+      <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 grid place-items-center">
+        <svg class="w-6 h-6 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </div>
       <div>
-        <p class="text-sm font-semibold text-zinc-300">{{ item?.name ?? id }} — documentation coming soon</p>
-        <p class="text-xs text-zinc-600 mt-1">Only the first 10 components are documented so far.</p>
+        <p class="text-base font-semibold text-zinc-200">{{ item?.name ?? id }}</p>
+        <p class="text-sm text-zinc-500 mt-1.5">Documentation for this component is coming soon.</p>
       </div>
-      <NuxtLink to="/components" class="text-xs text-accent hover:text-accent/70 transition-colors">← Back to all components</NuxtLink>
+      <NuxtLink to="/components" class="inline-flex items-center gap-1.5 text-sm text-accent hover:text-accent/70 transition-colors">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to all components
+      </NuxtLink>
     </div>
 
-    <!-- Component page -->
-    <div v-else class="max-w-3xl mx-auto px-5 sm:px-8 py-10 flex flex-col gap-12">
+    <!-- Doc page -->
+    <div v-else class="pb-20">
 
-      <!-- Header -->
-      <div class="flex flex-col gap-3">
-        <div class="flex items-center gap-3">
-          <h1 class="text-2xl font-bold text-white tracking-tight">{{ doc.name }}</h1>
-          <span v-if="item?.isNew" class="text-[10px] px-1.5 py-0.5 bg-accent/15 text-accent border border-accent/20 rounded font-semibold uppercase tracking-wide">New</span>
-        </div>
-        <p class="text-zinc-400 leading-relaxed">{{ doc.description }}</p>
-      </div>
+      <!-- ── Hero header ──────────────────────────────────────────────── -->
+      <div class="relative border-b border-zinc-800/60 px-6 sm:px-10 pt-10 pb-8 overflow-hidden">
+        <!-- Subtle radial glow -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_10%_50%,rgb(99_102_241_/_0.07),transparent_70%)] pointer-events-none" />
 
-      <!-- PREVIEW -->
-      <section class="flex flex-col gap-4">
-        <h2 class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Preview</h2>
-        <div class="rounded-xl border border-zinc-800 bg-zinc-900/40 overflow-hidden">
-          <div class="min-h-[200px] flex items-center justify-center p-8">
-
-            <!-- BUTTON -->
-            <template v-if="id === 'button'">
-              <div class="flex flex-col items-center gap-4 w-full">
-                <div class="flex flex-wrap items-center justify-center gap-2.5">
-                  <UiButton variant="primary">Primary</UiButton>
-                  <UiButton variant="secondary">Secondary</UiButton>
-                  <UiButton variant="ghost">Ghost</UiButton>
-                  <UiButton variant="danger">Danger</UiButton>
-                </div>
-                <div class="flex items-center gap-2">
-                  <UiButton size="sm">Small</UiButton>
-                  <UiButton size="md">Medium</UiButton>
-                  <UiButton size="lg">Large</UiButton>
-                </div>
-                <UiButton disabled>Disabled</UiButton>
-              </div>
-            </template>
-
-            <!-- ICON BUTTON -->
-            <template v-else-if="id === 'icon-button'">
-              <div class="flex flex-col items-center gap-6">
-                <div class="flex items-center gap-3">
-                  <UiIconButton label="Add" variant="primary">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-                  </UiIconButton>
-                  <UiIconButton label="Save" variant="secondary">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 12 6 6L21 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </UiIconButton>
-                  <UiIconButton label="Edit" variant="ghost">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </UiIconButton>
-                  <UiIconButton label="Delete" variant="danger">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4h6v3M3 7h18" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </UiIconButton>
-                </div>
-                <div class="flex items-end gap-3">
-                  <div class="flex flex-col items-center gap-1.5">
-                    <UiIconButton label="SM" variant="secondary" size="sm">
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-                    </UiIconButton>
-                    <span class="text-xs text-zinc-600">sm</span>
-                  </div>
-                  <div class="flex flex-col items-center gap-1.5">
-                    <UiIconButton label="MD" variant="secondary" size="md">
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-                    </UiIconButton>
-                    <span class="text-xs text-zinc-600">md</span>
-                  </div>
-                  <div class="flex flex-col items-center gap-1.5">
-                    <UiIconButton label="LG" variant="secondary" size="lg">
-                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-                    </UiIconButton>
-                    <span class="text-xs text-zinc-600">lg</span>
-                  </div>
-                </div>
-              </div>
-            </template>
-
-            <!-- BUTTON GROUP -->
-            <template v-else-if="id === 'button-group'">
-              <div class="flex flex-col items-center gap-6">
-                <div class="flex flex-col items-center gap-2">
-                  <span class="text-xs text-zinc-600 mb-1">Default</span>
-                  <UiButtonGroup v-model="buttonGroupVal" :items="[{ label: 'Day', value: 'day' }, { label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }]" />
-                </div>
-                <div class="flex flex-col items-center gap-2">
-                  <span class="text-xs text-zinc-600 mb-1">Segmented</span>
-                  <UiButtonGroup variant="segmented" v-model="segmentedVal" :items="[{ label: 'Grid', value: 'grid' }, { label: 'List', value: 'list' }, { label: 'Table', value: 'table' }]" />
-                </div>
-              </div>
-            </template>
-
-            <!-- INPUT -->
-            <template v-else-if="id === 'input'">
-              <div class="flex flex-col gap-4 w-full max-w-sm">
-                <UiInput v-model="inputVal" label="Email address" type="email" placeholder="you@example.com" hint="We'll never share your email." />
-                <UiInput label="Username" placeholder="johndoe" error="Username is already taken" />
-                <UiInput label="Disabled" placeholder="Can't touch this" disabled />
-              </div>
-            </template>
-
-            <!-- TEXTAREA -->
-            <template v-else-if="id === 'textarea'">
-              <div class="flex flex-col gap-4 w-full max-w-sm">
-                <UiTextarea v-model="textareaVal" label="Message" placeholder="Write your message here…" :rows="4" hint="Maximum 500 characters" />
-                <UiTextarea label="Feedback" placeholder="Tell us what you think…" error="This field is required" :rows="3" />
-              </div>
-            </template>
-
-            <!-- SELECT -->
-            <template v-else-if="id === 'select'">
-              <div class="flex flex-col gap-4 w-full max-w-sm">
-                <UiSelect v-model="selectVal" label="Subscription plan" :options="selectOptions" hint="You can change this anytime." />
-                <UiSelect label="Country" placeholder="Select your country" :options="[{ label: 'France', value: 'fr' }, { label: 'USA', value: 'us' }, { label: 'Japan', value: 'jp' }]" />
-                <UiSelect label="Disabled" placeholder="Not available" :options="[]" disabled />
-              </div>
-            </template>
-
-            <!-- CHECKBOX -->
-            <template v-else-if="id === 'checkbox'">
-              <div class="flex flex-col gap-3">
-                <UiCheckbox v-model="checkboxes[0]" label="Accept terms and conditions" />
-                <UiCheckbox v-model="checkboxes[1]" label="Subscribe to newsletter" />
-                <UiCheckbox v-model="checkboxes[2]" label="Enable notifications" />
-                <UiCheckbox v-model="checkboxes[3]" label="Analytics sharing" disabled />
-                <UiCheckbox :model-value="true" :indeterminate="true" label="Indeterminate state" />
-              </div>
-            </template>
-
-            <!-- SWITCH -->
-            <template v-else-if="id === 'switch'">
-              <div class="flex flex-col gap-4">
-                <div v-for="(on, i) in switches" :key="i" class="flex items-center gap-3">
-                  <UiToggle v-model="switches[i]" />
-                  <span class="text-sm" :class="on ? 'text-zinc-200' : 'text-zinc-500'">
-                    {{ ['Dark mode', 'Notifications', 'Auto-save'][i] }}
-                  </span>
-                </div>
-              </div>
-            </template>
-
-            <!-- TABS -->
-            <template v-else-if="id === 'tabs'">
-              <div class="flex flex-col gap-8 w-full">
-                <div class="flex flex-col gap-2">
-                  <span class="text-xs text-zinc-600">Underline variant</span>
-                  <UiTabs v-model="tabsActive" :tabs="[{ id: 'overview', label: 'Overview' }, { id: 'code', label: 'Code' }, { id: 'props', label: 'Props' }]">
-                    <p class="text-sm text-zinc-400">Content for tab: <strong class="text-white">{{ tabsActive }}</strong></p>
-                  </UiTabs>
-                </div>
-                <div class="flex flex-col gap-2">
-                  <span class="text-xs text-zinc-600">Pill variant</span>
-                  <UiTabs variant="pill" v-model="tabsPillActive" :tabs="[{ id: 'grid', label: 'Grid' }, { id: 'list', label: 'List' }, { id: 'table', label: 'Table', disabled: true }]">
-                    <p class="text-sm text-zinc-400">View: <strong class="text-white">{{ tabsPillActive }}</strong></p>
-                  </UiTabs>
-                </div>
-              </div>
-            </template>
-
-            <!-- BREADCRUMB -->
-            <template v-else-if="id === 'breadcrumb'">
-              <div class="flex flex-col gap-5 w-full">
-                <UiBreadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'Docs', href: '/docs' }, { label: 'Components', href: '/components' }, { label: 'Breadcrumb' }]" />
-                <UiBreadcrumb :items="[{ label: 'Dashboard', href: '/' }, { label: 'Settings', href: '/settings' }, { label: 'Profile' }]" />
-                <UiBreadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'About' }]" />
-              </div>
-            </template>
-
+        <div class="relative flex flex-col gap-3 max-w-2xl">
+          <!-- Category + New -->
+          <div class="flex items-center gap-2">
+            <NuxtLink
+              :to="`/components?cat=${doc.categoryId}`"
+              class="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+            >{{ doc.category }}</NuxtLink>
+            <span class="text-zinc-700">·</span>
+            <span v-if="item?.isNew" class="text-[10px] px-1.5 py-0.5 bg-accent/15 text-accent border border-accent/20 rounded font-semibold uppercase tracking-wide">New</span>
+            <span v-else class="text-xs text-zinc-600">Component</span>
           </div>
+
+          <!-- Name -->
+          <h1 class="text-3xl font-bold text-white tracking-tight leading-none">{{ doc.name }}</h1>
+
+          <!-- Description -->
+          <p class="text-zinc-400 text-sm leading-relaxed">{{ doc.description }}</p>
         </div>
-      </section>
-
-      <!-- USAGE -->
-      <section class="flex flex-col gap-4">
-        <h2 class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Usage</h2>
-        <UiCodeBlock :code="doc.usage" />
-      </section>
-
-      <!-- PROPS -->
-      <section class="flex flex-col gap-4">
-        <h2 class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Props</h2>
-        <div class="rounded-xl border border-zinc-800 overflow-hidden">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-zinc-800 bg-zinc-900">
-                <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Prop</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Type</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Default</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider hidden lg:table-cell">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="prop in doc.props"
-                :key="prop.name"
-                class="border-b border-zinc-800/60 last:border-0 hover:bg-zinc-800/20 transition-colors"
-              >
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2">
-                    <code class="text-indigo-400 font-mono text-xs">{{ prop.name }}</code>
-                    <span v-if="prop.required" class="text-[9px] px-1 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded font-semibold uppercase leading-none">req</span>
-                  </div>
-                </td>
-                <td class="px-4 py-3">
-                  <code class="text-[11px] font-mono text-amber-400/80 bg-amber-500/5 px-1.5 py-0.5 rounded border border-amber-500/10">{{ prop.type }}</code>
-                </td>
-                <td class="px-4 py-3">
-                  <code v-if="prop.default" class="text-[11px] font-mono text-zinc-400">{{ prop.default }}</code>
-                  <span v-else class="text-zinc-700 text-xs">—</span>
-                </td>
-                <td class="px-4 py-3 text-zinc-400 hidden lg:table-cell">{{ prop.description }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- PREV / NEXT -->
-      <div class="flex items-center justify-between pt-4 border-t border-zinc-800/60">
-        <NuxtLink
-          v-if="prevItem"
-          :to="`/components/${prevItem.id}`"
-          class="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors group"
-        >
-          <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          {{ prevItem.name }}
-        </NuxtLink>
-        <div v-else />
-        <NuxtLink
-          v-if="nextItem"
-          :to="`/components/${nextItem.id}`"
-          class="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors group"
-        >
-          {{ nextItem.name }}
-          <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </NuxtLink>
-        <div v-else />
       </div>
 
+      <!-- ── Content ──────────────────────────────────────────────────── -->
+      <div class="px-6 sm:px-10 flex flex-col gap-10 pt-10 max-w-3xl">
+
+        <!-- PREVIEW + CODE -->
+        <section class="flex flex-col gap-3">
+
+          <!-- Section header with tab toggle -->
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Preview</h2>
+            <div class="flex items-center p-0.5 bg-zinc-900 border border-zinc-800 rounded-lg gap-0.5">
+              <button
+                v-for="tab in ['preview', 'code'] as const"
+                :key="tab"
+                @click="activeTab = tab"
+                :class="[
+                  'px-3 py-1 text-xs font-medium rounded-md transition-all duration-150 capitalize',
+                  activeTab === tab
+                    ? 'bg-zinc-700 text-white'
+                    : 'text-zinc-500 hover:text-zinc-300',
+                ]"
+              >{{ tab }}</button>
+            </div>
+          </div>
+
+          <!-- Preview pane -->
+          <Transition
+            enter-active-class="transition-all duration-200"
+            enter-from-class="opacity-0 translate-y-1"
+            leave-active-class="transition-all duration-150 absolute"
+            leave-to-class="opacity-0"
+            mode="out-in"
+          >
+            <!-- LIVE DEMO -->
+            <div
+              v-if="activeTab === 'preview'"
+              class="rounded-xl border border-zinc-800/80 bg-zinc-900/30 overflow-hidden"
+            >
+              <!-- Inner grid bg -->
+              <div class="relative min-h-[220px] flex items-center justify-center p-8 sm:p-12">
+                <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_0.3px,transparent_0.8px)] bg-[size:32px_32px] pointer-events-none" />
+                <div class="absolute inset-0 bg-[linear-gradient(to_bottom,#ffffff06_0.3px,transparent_0.8px)] bg-[size:32px_32px] pointer-events-none" />
+
+                <div class="relative w-full flex items-center justify-center">
+
+                  <!-- BUTTON -->
+                  <template v-if="id === 'button'">
+                    <div class="flex flex-col items-center gap-5 w-full">
+                      <div class="flex flex-wrap items-center justify-center gap-2.5">
+                        <UiButton variant="primary">Primary</UiButton>
+                        <UiButton variant="secondary">Secondary</UiButton>
+                        <UiButton variant="ghost">Ghost</UiButton>
+                        <UiButton variant="danger">Danger</UiButton>
+                      </div>
+                      <div class="flex items-end gap-3">
+                        <div class="flex flex-col items-center gap-1.5">
+                          <UiButton size="sm" variant="secondary">Small</UiButton>
+                          <span class="text-[10px] text-zinc-600">sm</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1.5">
+                          <UiButton size="md" variant="secondary">Medium</UiButton>
+                          <span class="text-[10px] text-zinc-600">md</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1.5">
+                          <UiButton size="lg" variant="secondary">Large</UiButton>
+                          <span class="text-[10px] text-zinc-600">lg</span>
+                        </div>
+                      </div>
+                      <UiButton disabled>Disabled</UiButton>
+                    </div>
+                  </template>
+
+                  <!-- ICON BUTTON -->
+                  <template v-else-if="id === 'icon-button'">
+                    <div class="flex flex-col items-center gap-6">
+                      <div class="flex items-center gap-3">
+                        <UiTooltip content="Primary" placement="top">
+                          <UiIconButton label="Add" variant="primary">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                          </UiIconButton>
+                        </UiTooltip>
+                        <UiTooltip content="Secondary" placement="top">
+                          <UiIconButton label="Save" variant="secondary">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 12 6 6L21 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </UiIconButton>
+                        </UiTooltip>
+                        <UiTooltip content="Ghost" placement="top">
+                          <UiIconButton label="Edit" variant="ghost">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </UiIconButton>
+                        </UiTooltip>
+                        <UiTooltip content="Danger" placement="top">
+                          <UiIconButton label="Delete" variant="danger">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4h6v3M3 7h18" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </UiIconButton>
+                        </UiTooltip>
+                      </div>
+                      <div class="flex items-end gap-4">
+                        <div v-for="size in ['sm', 'md', 'lg'] as const" :key="size" class="flex flex-col items-center gap-1.5">
+                          <UiIconButton :label="size" variant="secondary" :size="size">
+                            <svg :class="size === 'sm' ? 'w-3 h-3' : size === 'md' ? 'w-4 h-4' : 'w-5 h-5'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                          </UiIconButton>
+                          <span class="text-[10px] text-zinc-600">{{ size }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- BUTTON GROUP -->
+                  <template v-else-if="id === 'button-group'">
+                    <div class="flex flex-col items-center gap-8">
+                      <div class="flex flex-col items-center gap-2">
+                        <UiButtonGroup v-model="buttonGroupVal" :items="[{ label: 'Day', value: 'day' }, { label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }]" />
+                        <span class="text-xs text-zinc-600 mt-1">Default variant</span>
+                      </div>
+                      <div class="flex flex-col items-center gap-2">
+                        <UiButtonGroup variant="segmented" v-model="segmentedVal" :items="[{ label: 'Grid', value: 'grid' }, { label: 'List', value: 'list' }, { label: 'Table', value: 'table' }]" />
+                        <span class="text-xs text-zinc-600 mt-1">Segmented variant</span>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- INPUT -->
+                  <template v-else-if="id === 'input'">
+                    <div class="flex flex-col gap-4 w-full max-w-sm">
+                      <UiInput v-model="inputVal" label="Email address" type="email" placeholder="you@example.com" hint="We'll never share your email." />
+                      <UiInput label="Username" placeholder="johndoe" error="Username is already taken" />
+                      <UiInput label="Disabled field" placeholder="Read only" disabled />
+                    </div>
+                  </template>
+
+                  <!-- TEXTAREA -->
+                  <template v-else-if="id === 'textarea'">
+                    <div class="flex flex-col gap-4 w-full max-w-sm">
+                      <UiTextarea v-model="textareaVal" label="Message" placeholder="Write your message here…" :rows="3" hint="Maximum 500 characters" />
+                      <UiTextarea label="Feedback" placeholder="Tell us what you think…" error="This field is required" :rows="2" />
+                    </div>
+                  </template>
+
+                  <!-- SELECT -->
+                  <template v-else-if="id === 'select'">
+                    <div class="flex flex-col gap-4 w-full max-w-sm">
+                      <UiSelect v-model="selectVal" label="Subscription plan" :options="selectOptions" hint="You can change this anytime." />
+                      <UiSelect label="Country" placeholder="Select your country" :options="[{ label: 'France', value: 'fr' }, { label: 'USA', value: 'us' }, { label: 'Japan', value: 'jp' }]" />
+                      <UiSelect label="Disabled" placeholder="Not available" :options="[]" disabled />
+                    </div>
+                  </template>
+
+                  <!-- CHECKBOX -->
+                  <template v-else-if="id === 'checkbox'">
+                    <div class="flex flex-col gap-3.5">
+                      <UiCheckbox v-model="checkboxes[0]" label="Accept terms and conditions" />
+                      <UiCheckbox v-model="checkboxes[1]" label="Subscribe to newsletter" />
+                      <UiCheckbox v-model="checkboxes[2]" label="Enable notifications" />
+                      <UiCheckbox v-model="checkboxes[3]" label="Analytics sharing" disabled />
+                      <UiCheckbox :model-value="true" :indeterminate="true" label="Indeterminate state" />
+                    </div>
+                  </template>
+
+                  <!-- SWITCH -->
+                  <template v-else-if="id === 'switch'">
+                    <div class="flex flex-col gap-4">
+                      <div v-for="(_, i) in switches" :key="i" class="flex items-center gap-3">
+                        <UiToggle v-model="switches[i]" />
+                        <span class="text-sm" :class="switches[i] ? 'text-zinc-200' : 'text-zinc-500'">
+                          {{ ['Dark mode', 'Notifications', 'Auto-save'][i] }}
+                        </span>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- TABS -->
+                  <template v-else-if="id === 'tabs'">
+                    <div class="flex flex-col gap-10 w-full">
+                      <div class="flex flex-col gap-1">
+                        <p class="text-xs text-zinc-600 mb-3">underline</p>
+                        <UiTabs v-model="tabsActive" :tabs="[{ id: 'overview', label: 'Overview' }, { id: 'code', label: 'Code' }, { id: 'props', label: 'Props' }]">
+                          <p class="text-sm text-zinc-400 pt-1">Active tab: <span class="text-white font-medium">{{ tabsActive }}</span></p>
+                        </UiTabs>
+                      </div>
+                      <div class="flex flex-col gap-1">
+                        <p class="text-xs text-zinc-600 mb-3">pill</p>
+                        <UiTabs variant="pill" v-model="tabsPillActive" :tabs="[{ id: 'grid', label: 'Grid' }, { id: 'list', label: 'List' }, { id: 'table', label: 'Table', disabled: true }]">
+                          <p class="text-sm text-zinc-400 pt-1">Layout: <span class="text-white font-medium">{{ tabsPillActive }}</span></p>
+                        </UiTabs>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- BREADCRUMB -->
+                  <template v-else-if="id === 'breadcrumb'">
+                    <div class="flex flex-col gap-5 w-full">
+                      <UiBreadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'Docs', href: '/docs' }, { label: 'Components', href: '/components' }, { label: 'Breadcrumb' }]" />
+                      <UiBreadcrumb :items="[{ label: 'Dashboard', href: '/' }, { label: 'Settings', href: '/settings' }, { label: 'Profile' }]" />
+                      <UiBreadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'About' }]" />
+                    </div>
+                  </template>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- CODE BLOCK -->
+            <UiCodeBlock v-else :code="doc.usage" />
+          </Transition>
+        </section>
+
+        <!-- USAGE (code always visible) -->
+        <section v-if="activeTab !== 'code'" class="flex flex-col gap-3">
+          <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Usage</h2>
+          <UiCodeBlock :code="doc.usage" />
+        </section>
+
+        <!-- PROPS TABLE -->
+        <section class="flex flex-col gap-3">
+          <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Props</h2>
+
+          <div class="rounded-xl border border-zinc-800/80 overflow-hidden">
+            <!-- Header -->
+            <div class="grid grid-cols-[1fr_1.6fr_0.8fr_2fr] px-4 py-2.5 border-b border-zinc-800/60 bg-zinc-900/60">
+              <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Prop</span>
+              <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Type</span>
+              <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Default</span>
+              <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider hidden lg:block">Description</span>
+            </div>
+
+            <!-- Rows -->
+            <div
+              v-for="(prop, i) in doc.props"
+              :key="prop.name"
+              :class="[
+                'grid grid-cols-[1fr_1.6fr_0.8fr_2fr] px-4 py-3.5 border-b border-zinc-800/40 last:border-0 transition-colors hover:bg-zinc-800/20',
+                i % 2 === 0 ? '' : 'bg-zinc-900/20',
+              ]"
+            >
+              <!-- Prop name -->
+              <div class="flex items-start gap-1.5 pt-0.5">
+                <code class="text-[12px] font-mono font-medium text-indigo-400">{{ prop.name }}</code>
+                <span v-if="prop.required" class="text-[9px] mt-0.5 px-1 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded font-bold uppercase leading-none">req</span>
+              </div>
+
+              <!-- Type -->
+              <div class="flex items-start pt-0.5 pr-4">
+                <code class="text-[11px] font-mono text-amber-300/80 bg-amber-500/8 px-2 py-0.5 rounded-md border border-amber-500/10 break-all leading-relaxed">{{ prop.type }}</code>
+              </div>
+
+              <!-- Default -->
+              <div class="flex items-start pt-0.5">
+                <code v-if="prop.default" class="text-[12px] font-mono text-zinc-400">{{ prop.default }}</code>
+                <span v-else class="text-zinc-700 text-xs pt-0.5">—</span>
+              </div>
+
+              <!-- Description -->
+              <div class="hidden lg:flex items-start pt-0.5">
+                <span class="text-[13px] text-zinc-400 leading-snug">{{ prop.description }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PREV / NEXT ──────────────────────────────────────────────── -->
+        <div class="flex items-center justify-between pt-6 border-t border-zinc-800/60 mt-4">
+          <NuxtLink
+            v-if="prevItem"
+            :to="`/components/${prevItem.id}`"
+            class="group flex flex-col gap-0.5"
+          >
+            <span class="text-[11px] text-zinc-600 uppercase tracking-wider">Previous</span>
+            <span class="flex items-center gap-1.5 text-sm text-zinc-300 group-hover:text-white transition-colors">
+              <svg class="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {{ prevItem.name }}
+            </span>
+          </NuxtLink>
+          <div v-else />
+
+          <NuxtLink
+            v-if="nextItem"
+            :to="`/components/${nextItem.id}`"
+            class="group flex flex-col items-end gap-0.5"
+          >
+            <span class="text-[11px] text-zinc-600 uppercase tracking-wider">Next</span>
+            <span class="flex items-center gap-1.5 text-sm text-zinc-300 group-hover:text-white transition-colors">
+              {{ nextItem.name }}
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </NuxtLink>
+          <div v-else />
+        </div>
+
+      </div>
     </div>
   </main>
 </template>
