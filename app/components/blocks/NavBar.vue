@@ -95,10 +95,10 @@ onUnmounted(() => {
         </NuxtLink>
       </nav>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center justify-center gap-3">
         <a
           href="#"
-          class="text-zinc-500 hover:text-zinc-200 transition-colors duration-200"
+          class="flex items-center text-zinc-500 hover:text-zinc-200 transition-colors duration-200"
           aria-label="GitHub"
         >
           <Icon name="lucide:github" class="w-4 h-4" />
