@@ -96,13 +96,17 @@ onUnmounted(() => {
       </nav>
 
       <div class="flex items-center justify-center gap-3">
-        <a
-          href="#"
-          class="flex items-center text-zinc-500 hover:text-zinc-200 transition-colors duration-200"
-          aria-label="GitHub"
-        >
-          <Icon name="lucide:github" class="w-4 h-4" />
-        </a>
+        <div class="hidden md:flex items-center gap-2">
+          <a href="https://github.com/Elvinkyungu/elvin-ui" target="_blank" rel="noopener noreferrer" class="flex items-center text-zinc-500 hover:text-zinc-200 transition-colors duration-200" aria-label="GitHub">
+            <Icon name="lucide:github" class="w-4 h-4" />
+          </a>
+          <a href="https://x.com/ElvinKyungu" target="_blank" rel="noopener noreferrer" class="flex items-center text-zinc-500 hover:text-zinc-200 transition-colors duration-200" aria-label="X">
+            <Icon name="lucide:twitter" class="w-4 h-4" />
+          </a>
+          <a href="https://www.linkedin.com/in/elvincode/" target="_blank" rel="noopener noreferrer" class="flex items-center text-zinc-500 hover:text-zinc-200 transition-colors duration-200" aria-label="LinkedIn">
+            <Icon name="lucide:linkedin" class="w-4 h-4" />
+          </a>
+        </div>
         <div class="w-px h-4 bg-zinc-800 hidden md:block" />
         <UiButton size="sm" variant="primary" class="hidden md:inline-flex">Browse →</UiButton>
 
@@ -172,7 +176,7 @@ onUnmounted(() => {
         <!-- Social links -->
         <div class="p-5 border-t border-zinc-800/60 shrink-0 flex items-center gap-3">
           <a
-            href="https://github.com/ElvinKyungu"
+            href="https://github.com/Elvinkyungu/elvin-ui"
             target="_blank"
             rel="noopener noreferrer"
             class="flex items-center justify-center w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all duration-200"
@@ -185,12 +189,12 @@ onUnmounted(() => {
             target="_blank"
             rel="noopener noreferrer"
             class="flex items-center justify-center w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all duration-200"
-            aria-label="X (Twitter)"
+            aria-label="X"
           >
             <Icon name="lucide:twitter" class="w-4 h-4" />
           </a>
           <a
-            href="https://linkedin.com/in/ElvinKyungu"
+            href="https://www.linkedin.com/in/elvincode/"
             target="_blank"
             rel="noopener noreferrer"
             class="flex items-center justify-center w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all duration-200"
