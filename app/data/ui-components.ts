@@ -27,6 +27,7 @@ export interface ComponentDoc {
   description: string
   props: PropDef[]
   usage: string
+  filename?: string  // override when id doesn't match Ui{PascalCase}.vue (e.g. switch → UiToggle)
 }
 
 export const categories: Category[] = [
@@ -270,6 +271,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   switch: {
     id: 'switch',
     name: 'Switch',
+    filename: 'UiToggle',
     category: 'Forms',
     categoryId: 'forms',
     isNew: true,

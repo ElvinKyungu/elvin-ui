@@ -13,8 +13,22 @@ useHead(() => ({
   title: doc.value ? `${doc.value.name} — Components — Elvin UI` : 'Component — Elvin UI',
 }))
 
-// Preview / Code tab
-const activeTab = ref<'preview' | 'code'>('preview')
+// Load all component source files at build time
+const sources = import.meta.glob('~/components/ui/*.vue', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+
+function toPascalCase(str: string) {
+  return str.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')
+}
+
+const componentSource = computed(() => {
+  if (!doc.value) return ''
+  const filename = doc.value.filename ?? `Ui${toPascalCase(id.value)}`
+  const key = Object.keys(sources).find(k => k.endsWith(`/${filename}.vue`))
+  return key ? sources[key] : ''
+})
+
+// Preview / Usage / Source tabs
+const activeTab = ref<'preview' | 'usage' | 'source'>('preview')
 watch(id, () => { activeTab.value = 'preview' })
 
 // Demo state
@@ -53,6 +67,8 @@ const dropdownItems = [
   { divider: true },
   { label: 'Delete', icon: 'lucide:trash-2', danger: true },
 ]
+
+const componentFilename = computed(() => doc.value?.filename ?? `Ui${toPascalCase(id.value)}`)
 
 const currentIndex = computed(() => allItems.findIndex(i => i.id === id.value))
 const prevItem = computed(() => currentIndex.value > 0 ? allItems[currentIndex.value - 1] : null)
@@ -138,16 +154,16 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
             <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Preview</h2>
             <div class="flex items-center p-0.5 bg-zinc-900 border border-zinc-800 rounded-lg gap-0.5">
               <button
-                v-for="tab in ['preview', 'code'] as const"
-                :key="tab"
-                @click="activeTab = tab"
+                v-for="tab in [{ key: 'preview', label: 'Preview' }, { key: 'usage', label: 'Usage' }, { key: 'source', label: 'Source' }]"
+                :key="tab.key"
+                @click="activeTab = tab.key as 'preview' | 'usage' | 'source'"
                 :class="[
-                  'px-3 py-1 text-xs font-medium rounded-md transition-all duration-150 capitalize',
-                  activeTab === tab
+                  'px-3 py-1 text-xs font-medium rounded-md transition-all duration-150',
+                  activeTab === tab.key
                     ? 'bg-zinc-700 text-white'
                     : 'text-zinc-500 hover:text-zinc-300',
                 ]"
-              >{{ tab }}</button>
+              >{{ tab.label }}</button>
             </div>
           </div>
 
@@ -543,15 +559,18 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
               </div>
             </div>
 
-            <!-- CODE BLOCK -->
-            <UiCodeBlock v-else :code="doc.usage" />
-          </Transition>
-        </section>
+            <!-- USAGE TAB -->
+            <UiCodeBlock v-else-if="activeTab === 'usage'" :code="doc.usage" />
 
-        <!-- USAGE (code always visible) -->
-        <section v-if="activeTab !== 'code'" class="flex flex-col gap-3">
-          <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Usage</h2>
-          <UiCodeBlock :code="doc.usage" />
+            <!-- SOURCE TAB -->
+            <div v-else class="flex flex-col gap-3">
+              <div class="flex items-center gap-2 text-xs text-zinc-500 px-1">
+                <Icon name="lucide:info" class="w-3.5 h-3.5 shrink-0" />
+                Copie ce fichier dans <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded">components/ui/{{ componentFilename }}.vue</code>
+              </div>
+              <UiCodeBlock :code="componentSource" />
+            </div>
+          </Transition>
         </section>
 
         <!-- PROPS TABLE -->
