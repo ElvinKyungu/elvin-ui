@@ -10,7 +10,9 @@
       "Bash(npx nuxi *)",
       "Bash(gh pr *)",
       "Bash(Get-ChildItem -Path \"D:\\\\elvin-ui\\\\app\\\\pages\" -Force)",
-      "Bash(Select-Object -ExpandProperty Name)"
+      "Bash(Select-Object -ExpandProperty Name)",
+      "Bash(New-Item -ItemType Directory -Force -Path \"D:\\\\elvin-ui\\\\app\\\\pages\\\\components\")",
+      "Bash(Out-Null)"
     ]
   }
 }
