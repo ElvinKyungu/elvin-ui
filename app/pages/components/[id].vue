@@ -32,6 +32,27 @@ const selectOptions = [
   { label: 'Pro — $12/mo', value: 'pro' },
   { label: 'Enterprise',   value: 'enterprise' },
 ]
+const paginationPage = ref(5)
+const progressVal = ref(68)
+const modalOpen = ref(false)
+const tags = ref(['Vue 3', 'Nuxt', 'TypeScript', 'GSAP'])
+const tableRows = [
+  { name: 'Alice Martin', role: 'Engineer', status: 'Active' },
+  { name: 'Bob Chen',     role: 'Designer', status: 'Active' },
+  { name: 'Carol Smith',  role: 'Manager',  status: 'Pending' },
+  { name: 'Dan Park',     role: 'DevOps',   status: 'Inactive' },
+]
+const tableColumns = [
+  { key: 'name', label: 'Name' },
+  { key: 'role', label: 'Role' },
+  { key: 'status', label: 'Status', align: 'center' as const },
+]
+const dropdownItems = [
+  { label: 'Edit', icon: 'lucide:pencil' },
+  { label: 'Duplicate', icon: 'lucide:copy' },
+  { divider: true },
+  { label: 'Delete', icon: 'lucide:trash-2', danger: true },
+]
 
 const currentIndex = computed(() => allItems.findIndex(i => i.id === id.value))
 const prevItem = computed(() => currentIndex.value > 0 ? allItems[currentIndex.value - 1] : null)
@@ -300,6 +321,221 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
                       <UiBreadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'Docs', href: '/docs' }, { label: 'Components', href: '/components' }, { label: 'Breadcrumb' }]" />
                       <UiBreadcrumb :items="[{ label: 'Dashboard', href: '/' }, { label: 'Settings', href: '/settings' }, { label: 'Profile' }]" />
                       <UiBreadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'About' }]" />
+                    </div>
+                  </template>
+
+                  <!-- PAGINATION -->
+                  <template v-else-if="id === 'pagination'">
+                    <div class="flex flex-col items-center gap-8">
+                      <div class="flex flex-col items-center gap-2">
+                        <UiPagination v-model="paginationPage" :total="120" :per-page="10" />
+                        <span class="text-xs text-zinc-600">Page {{ paginationPage }} of 12</span>
+                      </div>
+                      <div class="flex flex-col items-center gap-2">
+                        <UiPagination v-model="paginationPage" :total="500" :per-page="20" :siblings="2" />
+                        <span class="text-xs text-zinc-600">siblings: 2</span>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- BADGE -->
+                  <template v-else-if="id === 'badge'">
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                      <UiBadge>Default</UiBadge>
+                      <UiBadge variant="indigo">TypeScript</UiBadge>
+                      <UiBadge variant="green">Active</UiBadge>
+                      <UiBadge variant="red">Deprecated</UiBadge>
+                      <UiBadge variant="zinc">Draft</UiBadge>
+                    </div>
+                  </template>
+
+                  <!-- ALERT -->
+                  <template v-else-if="id === 'alert'">
+                    <div class="flex flex-col gap-3 w-full max-w-md">
+                      <UiAlert variant="info" title="Heads up!">This action will affect all users in your organization.</UiAlert>
+                      <UiAlert variant="success" title="Saved!" dismissible>Your changes have been saved successfully.</UiAlert>
+                      <UiAlert variant="warning">Your trial expires in 3 days. Upgrade to keep access.</UiAlert>
+                      <UiAlert variant="error" title="Something went wrong">Unable to connect to the server. Please try again.</UiAlert>
+                    </div>
+                  </template>
+
+                  <!-- TOAST -->
+                  <template v-else-if="id === 'toast'">
+                    <div class="flex flex-col gap-3 items-center">
+                      <UiToast title="Changes saved" description="Your profile has been updated." variant="success" :duration="0" />
+                      <UiToast title="Upload failed" description="Max file size is 10 MB." variant="error" :duration="0" />
+                      <UiToast title="Reminder" description="Your meeting starts in 5 minutes." variant="default" :duration="0" />
+                    </div>
+                  </template>
+
+                  <!-- SPINNER -->
+                  <template v-else-if="id === 'spinner'">
+                    <div class="flex flex-col gap-10 items-center">
+                      <div class="flex items-center gap-8">
+                        <div class="flex flex-col items-center gap-2">
+                          <UiSpinner size="sm" />
+                          <span class="text-[10px] text-zinc-600">sm</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                          <UiSpinner size="md" />
+                          <span class="text-[10px] text-zinc-600">md</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                          <UiSpinner size="lg" />
+                          <span class="text-[10px] text-zinc-600">lg</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-8">
+                        <div class="flex flex-col items-center gap-2">
+                          <UiSpinner variant="primary" />
+                          <span class="text-[10px] text-zinc-600">primary</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 bg-zinc-700 rounded-xl p-3">
+                          <UiSpinner variant="white" />
+                          <span class="text-[10px] text-zinc-400">white</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                          <UiSpinner variant="muted" />
+                          <span class="text-[10px] text-zinc-600">muted</span>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- PROGRESS -->
+                  <template v-else-if="id === 'progress'">
+                    <div class="flex flex-col gap-5 w-full max-w-sm">
+                      <UiProgress :value="progressVal" label="Storage" show-value />
+                      <UiProgress :value="100" variant="success" size="sm" label="Upload complete" show-value />
+                      <UiProgress :value="55" variant="warning" label="CPU usage" show-value />
+                      <UiProgress :value="30" variant="danger" size="lg" label="Memory critical" show-value />
+                      <input type="range" v-model="progressVal" min="0" max="100" class="w-full accent-indigo-500" />
+                    </div>
+                  </template>
+
+                  <!-- MODAL -->
+                  <template v-else-if="id === 'modal'">
+                    <div class="flex flex-col items-center gap-4">
+                      <UiButton @click="modalOpen = true">Open modal</UiButton>
+                      <p class="text-xs text-zinc-600">Click the button to open a modal</p>
+                      <UiModal v-model="modalOpen" title="Confirm deletion" size="sm">
+                        Are you sure you want to delete this item? This action cannot be undone.
+                        <template #footer>
+                          <UiButton variant="ghost" @click="modalOpen = false">Cancel</UiButton>
+                          <UiButton variant="danger" @click="modalOpen = false">Delete</UiButton>
+                        </template>
+                      </UiModal>
+                    </div>
+                  </template>
+
+                  <!-- TOOLTIP -->
+                  <template v-else-if="id === 'tooltip'">
+                    <div class="flex flex-col gap-10 items-center">
+                      <div class="flex items-center gap-6">
+                        <UiTooltip content="Top tooltip" placement="top">
+                          <UiButton variant="secondary" size="sm">Top</UiButton>
+                        </UiTooltip>
+                        <UiTooltip content="Bottom tooltip" placement="bottom">
+                          <UiButton variant="secondary" size="sm">Bottom</UiButton>
+                        </UiTooltip>
+                        <UiTooltip content="Left tooltip" placement="left">
+                          <UiButton variant="secondary" size="sm">Left</UiButton>
+                        </UiTooltip>
+                        <UiTooltip content="Right tooltip" placement="right">
+                          <UiButton variant="secondary" size="sm">Right</UiButton>
+                        </UiTooltip>
+                      </div>
+                      <p class="text-xs text-zinc-600">Hover over each button to reveal the tooltip</p>
+                    </div>
+                  </template>
+
+                  <!-- DROPDOWN -->
+                  <template v-else-if="id === 'dropdown'">
+                    <div class="flex flex-col items-center gap-4">
+                      <UiDropdown :items="dropdownItems">
+                        <UiButton variant="secondary">Options
+                          <svg class="w-3.5 h-3.5 ml-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </UiButton>
+                      </UiDropdown>
+                      <p class="text-xs text-zinc-600">Click to open the context menu</p>
+                    </div>
+                  </template>
+
+                  <!-- CARD -->
+                  <template v-else-if="id === 'card'">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
+                      <UiCard>
+                        <p class="text-xs text-zinc-500 mb-1">Default</p>
+                        <h3 class="text-white font-semibold text-sm">Card title</h3>
+                        <p class="text-zinc-400 text-xs mt-1">Card content goes here.</p>
+                      </UiCard>
+                      <UiCard hoverable>
+                        <p class="text-xs text-zinc-500 mb-1">Hoverable</p>
+                        <h3 class="text-white font-semibold text-sm">Hover me</h3>
+                        <p class="text-zinc-400 text-xs mt-1">I lift on hover.</p>
+                      </UiCard>
+                      <UiCard padding="sm">
+                        <p class="text-xs text-zinc-500 mb-1">Small padding</p>
+                        <p class="text-zinc-400 text-xs">Compact layout.</p>
+                      </UiCard>
+                      <UiCard padding="lg" hoverable>
+                        <p class="text-xs text-zinc-500 mb-1">Large + hoverable</p>
+                        <p class="text-zinc-400 text-xs">More breathing room.</p>
+                      </UiCard>
+                    </div>
+                  </template>
+
+                  <!-- AVATAR -->
+                  <template v-else-if="id === 'avatar'">
+                    <div class="flex flex-col gap-8 items-center">
+                      <div class="flex items-end gap-4">
+                        <UiAvatar name="Alice" size="xs" color="indigo" />
+                        <UiAvatar name="Bob Chen" size="sm" color="green" />
+                        <UiAvatar name="Carol" size="md" color="amber" :online="true" />
+                        <UiAvatar name="Dan Park" size="lg" color="red" :online="false" />
+                        <UiAvatar name="Eve Long" size="xl" color="pink" :online="true" />
+                      </div>
+                      <div class="flex -space-x-2">
+                        <UiAvatar name="Alice" color="indigo" size="sm" />
+                        <UiAvatar name="Bob" color="green" size="sm" />
+                        <UiAvatar name="Carol" color="amber" size="sm" />
+                        <UiAvatar name="Dan" color="red" size="sm" />
+                        <div class="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs text-zinc-400 font-medium">+4</div>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- TABLE -->
+                  <template v-else-if="id === 'table'">
+                    <div class="w-full">
+                      <UiTable :columns="tableColumns" :rows="tableRows" striped>
+                        <template #status="{ value }">
+                          <UiBadge :variant="value === 'Active' ? 'green' : value === 'Pending' ? 'indigo' : 'zinc'">{{ value }}</UiBadge>
+                        </template>
+                      </UiTable>
+                    </div>
+                  </template>
+
+                  <!-- TAG -->
+                  <template v-else-if="id === 'tag'">
+                    <div class="flex flex-col gap-6 items-center">
+                      <div class="flex flex-wrap justify-center gap-2">
+                        <UiTag>Default</UiTag>
+                        <UiTag variant="indigo">Vue 3</UiTag>
+                        <UiTag variant="green">Active</UiTag>
+                        <UiTag variant="amber">Beta</UiTag>
+                        <UiTag variant="red">Deprecated</UiTag>
+                      </div>
+                      <div class="flex flex-wrap justify-center gap-2">
+                        <UiTag
+                          v-for="tag in tags"
+                          :key="tag"
+                          variant="indigo"
+                          removable
+                          @remove="tags = tags.filter(t => t !== tag)"
+                        >{{ tag }}</UiTag>
+                        <span v-if="!tags.length" class="text-xs text-zinc-600">All tags removed</span>
+                      </div>
                     </div>
                   </template>
 
