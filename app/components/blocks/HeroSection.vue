@@ -78,8 +78,10 @@ onMounted(() => {
         ref="ctas"
         class="flex items-center justify-center gap-3 flex-wrap mb-24"
       >
-        <UiButton size="lg">Browse components</UiButton>
-        <UiButton size="lg" variant="ghost">View on GitHub →</UiButton>
+        <NuxtLink to="/components"><UiButton size="lg">Browse components</UiButton></NuxtLink>
+        <a href="https://github.com/Elvinkyungu/elvin-ui" target="_blank" rel="noopener noreferrer">
+          <UiButton size="lg" variant="ghost">View on GitHub →</UiButton>
+        </a>
       </div>
 
       <!-- Preview card -->
