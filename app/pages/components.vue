@@ -28,18 +28,25 @@ function toggleCategory(id: string) {
   expandedCategories.value = next
 }
 
+function closeSidebarOnMobile() {
+  if (isMobile.value) sidebarOpen.value = false
+}
+
 function selectAll() {
   router.push('/components')
+  closeSidebarOnMobile()
 }
 
 function selectCategory(id: string) {
   expandedCategories.value = new Set([...expandedCategories.value, id])
   router.push({ path: '/components', query: { cat: id } })
+  closeSidebarOnMobile()
 }
 
 function selectItem(id: string, categoryId: string) {
   expandedCategories.value = new Set([...expandedCategories.value, categoryId])
   router.push(`/components/${id}`)
+  closeSidebarOnMobile()
 }
 
 onMounted(() => {
