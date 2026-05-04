@@ -1,5 +1,38 @@
 <script setup lang="ts">
 defineProps<{ id: string }>()
+
+const checkboxStates = ref([true, true, false, false])
+const switchStates = ref([true, false, true])
+const tabActive = ref('preview')
+const buttonGroupVal = ref('week')
+const segmentedVal = ref('grid')
+const paginationPage = ref(3)
+const progressVals = [75, 42, 85]
+
+const dropdownItems = [
+  { label: 'Edit',     icon: 'lucide:pencil' },
+  { label: 'Duplicate', icon: 'lucide:copy' },
+  { divider: true },
+  { label: 'Delete',   icon: 'lucide:trash-2', danger: true },
+]
+
+const selectOptions = [
+  { label: 'Free',       value: 'free' },
+  { label: 'Pro',        value: 'pro' },
+  { label: 'Enterprise', value: 'enterprise' },
+]
+const selectedPlan = ref('pro')
+
+const tableColumns = [
+  { key: 'name',   label: 'Name' },
+  { key: 'role',   label: 'Role' },
+  { key: 'status', label: 'Status', align: 'right' as const },
+]
+const tableRows = [
+  { name: 'Alice Martin', role: 'Designer',  status: 'Active' },
+  { name: 'Bob Chen',     role: 'Engineer',  status: 'Idle' },
+  { name: 'Sara López',   role: 'Manager',   status: 'Active' },
+]
 </script>
 
 <template>
@@ -7,24 +40,14 @@ defineProps<{ id: string }>()
   <!-- BUTTON -->
   <template v-if="id === 'button'">
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-3">
-      <div class="flex items-center gap-2.5">
-        <div class="h-7 px-4 bg-white rounded-lg flex items-center">
-          <div class="h-1.5 w-10 bg-zinc-800 rounded-full" />
-        </div>
-        <div class="h-7 px-4 border border-zinc-700 rounded-lg flex items-center">
-          <div class="h-1.5 w-10 bg-zinc-500 rounded-full" />
-        </div>
-        <div class="h-7 px-4 bg-accent rounded-lg flex items-center">
-          <div class="h-1.5 w-10 bg-white/70 rounded-full" />
-        </div>
+      <div class="flex items-center gap-2.5 flex-wrap justify-center">
+        <UiButton size="sm" variant="primary">Primary</UiButton>
+        <UiButton size="sm" variant="secondary">Secondary</UiButton>
+        <UiButton size="sm" variant="ghost">Ghost</UiButton>
+        <UiButton size="sm" variant="danger">Danger</UiButton>
       </div>
       <div class="flex items-center gap-2">
-        <div class="h-6 px-3 bg-zinc-900 border border-zinc-800 rounded-md flex items-center">
-          <div class="h-1 w-7 bg-zinc-600 rounded-full" />
-        </div>
-        <div class="h-6 px-3 bg-red-500/20 border border-red-500/30 rounded-md flex items-center">
-          <div class="h-1 w-7 bg-red-400/60 rounded-full" />
-        </div>
+        <UiButton size="sm" variant="primary" disabled>Disabled</UiButton>
       </div>
     </div>
   </template>
@@ -32,105 +55,65 @@ defineProps<{ id: string }>()
   <!-- ICON BUTTON -->
   <template v-else-if="id === 'icon-button'">
     <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center gap-3">
-      <div class="w-9 h-9 bg-white rounded-lg flex items-center justify-center">
-        <svg class="w-4 h-4 text-zinc-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-      </div>
-      <div class="w-9 h-9 bg-accent rounded-lg flex items-center justify-center">
-        <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 12 6 6L21 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="w-9 h-9 border border-zinc-700 rounded-lg flex items-center justify-center">
-        <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4h6v3M3 7h18" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="w-9 h-9 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center">
-        <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
+      <UiIconButton label="Add" variant="primary" size="md">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+      </UiIconButton>
+      <UiIconButton label="Done" variant="secondary" size="md">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 12 6 6L21 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </UiIconButton>
+      <UiIconButton label="Delete" variant="ghost" size="md">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4h6v3M3 7h18" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </UiIconButton>
+      <UiIconButton label="Danger" variant="danger" size="md">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </UiIconButton>
     </div>
   </template>
 
   <!-- BUTTON GROUP -->
   <template v-else-if="id === 'button-group'">
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-4">
-      <div class="flex">
-        <div class="h-7 px-3 bg-zinc-900 border border-zinc-700 rounded-l-lg border-r-0 flex items-center">
-          <div class="h-1.5 w-6 bg-zinc-500 rounded-full" />
-        </div>
-        <div class="h-7 px-3 bg-white border border-zinc-700 border-r-0 flex items-center">
-          <div class="h-1.5 w-6 bg-zinc-800 rounded-full" />
-        </div>
-        <div class="h-7 px-3 bg-zinc-900 border border-zinc-700 rounded-r-lg flex items-center">
-          <div class="h-1.5 w-6 bg-zinc-500 rounded-full" />
-        </div>
-      </div>
-      <div class="flex p-0.5 bg-zinc-900 border border-zinc-800 rounded-lg gap-0.5">
-        <div class="h-6 px-3 bg-zinc-800 rounded-md flex items-center">
-          <div class="h-1 w-5 bg-zinc-300 rounded-full" />
-        </div>
-        <div class="h-6 px-3 flex items-center">
-          <div class="h-1 w-5 bg-zinc-600 rounded-full" />
-        </div>
-        <div class="h-6 px-3 flex items-center">
-          <div class="h-1 w-5 bg-zinc-600 rounded-full" />
-        </div>
-      </div>
+      <UiButtonGroup
+        v-model="buttonGroupVal"
+        :items="[{ label: 'Day', value: 'day' }, { label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }]"
+      />
+      <UiButtonGroup
+        variant="segmented"
+        v-model="segmentedVal"
+        :items="[{ label: 'Grid', value: 'grid' }, { label: 'List', value: 'list' }, { label: 'Table', value: 'table' }]"
+      />
     </div>
   </template>
 
   <!-- INPUT -->
   <template v-else-if="id === 'input'">
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-3 px-8">
-      <div class="w-full flex flex-col gap-1">
-        <div class="h-1.5 w-10 bg-zinc-400 rounded-full" />
-        <div class="h-8 w-full bg-zinc-900 border border-zinc-700 rounded-lg flex items-center px-3 gap-2">
-          <div class="h-1.5 w-24 bg-zinc-600 rounded-full" />
-          <div class="h-4 w-px bg-accent ml-auto opacity-80" />
-        </div>
-      </div>
-      <div class="w-full flex flex-col gap-1">
-        <div class="h-1.5 w-12 bg-zinc-400 rounded-full" />
-        <div class="h-8 w-full bg-zinc-900 border border-red-500/40 rounded-lg flex items-center px-3">
-          <div class="h-1.5 w-20 bg-zinc-600 rounded-full" />
-        </div>
-        <div class="h-1 w-24 bg-red-400/50 rounded-full" />
-      </div>
+      <UiInput label="Email address" placeholder="you@example.com" type="email" />
+      <UiInput label="Username" placeholder="johndoe" error="Username already taken" />
     </div>
   </template>
 
   <!-- TEXTAREA -->
   <template v-else-if="id === 'textarea'">
     <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center px-8">
-      <div class="w-full flex flex-col gap-1.5">
-        <div class="h-1.5 w-14 bg-zinc-400 rounded-full" />
-        <div class="w-full h-16 bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 flex flex-col gap-1.5">
-          <div class="h-1 w-full bg-zinc-700 rounded-full" />
-          <div class="h-1 w-5/6 bg-zinc-700 rounded-full" />
-          <div class="h-1 w-3/4 bg-zinc-700 rounded-full" />
-          <div class="h-3 w-px bg-accent ml-[72%] mt-auto opacity-80" />
-        </div>
-        <div class="h-1 w-20 bg-zinc-600 rounded-full" />
-      </div>
+      <UiTextarea label="Message" placeholder="Write your message here..." :rows="3" hint="Max 500 characters" />
     </div>
   </template>
 
   <!-- SELECT -->
   <template v-else-if="id === 'select'">
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-3 px-8">
-      <div class="w-full flex flex-col gap-1">
-        <div class="h-1.5 w-10 bg-zinc-400 rounded-full" />
-        <div class="h-8 w-full bg-zinc-900 border border-zinc-700 rounded-lg flex items-center px-3">
-          <div class="h-1.5 w-20 bg-zinc-400 rounded-full" />
-          <svg class="w-3.5 h-3.5 text-zinc-500 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <!-- Open dropdown state -->
-      <div class="w-full bg-zinc-900 border border-zinc-700 rounded-lg overflow-hidden shadow-xl">
-        <div v-for="(active, i) in [false, true, false, false]" :key="i"
-          class="flex items-center gap-2 px-3 py-1.5"
-          :class="active ? 'bg-accent/20' : 'hover:bg-zinc-800'"
-        >
-          <div class="w-1.5 h-1.5 rounded-full" :class="active ? 'bg-accent' : 'bg-transparent'" />
-          <div class="h-1 rounded-full" :class="[active ? 'bg-accent/70 w-14' : 'bg-zinc-600 w-12']" />
-        </div>
-      </div>
+      <UiSelect
+        v-model="selectedPlan"
+        label="Plan"
+        :options="selectOptions"
+      />
+      <UiSelect
+        label="Country"
+        placeholder="Select a country"
+        :options="[{ label: 'France', value: 'fr' }, { label: 'USA', value: 'us' }, { label: 'Japan', value: 'jp' }]"
+        hint="Used for billing"
+      />
     </div>
   </template>
 
@@ -138,15 +121,10 @@ defineProps<{ id: string }>()
   <template v-else-if="id === 'checkbox'">
     <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center">
       <div class="flex flex-col gap-3">
-        <div v-for="(checked, i) in [true, true, false, false]" :key="i" class="flex items-center gap-2.5">
-          <div
-            class="w-4 h-4 rounded flex items-center justify-center border"
-            :class="checked ? 'bg-accent border-accent' : 'bg-zinc-900 border-zinc-700'"
-          >
-            <svg v-if="checked" class="w-2.5 h-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="h-1.5 rounded-full" :class="checked ? 'w-16 bg-zinc-300' : 'w-14 bg-zinc-600'" />
-        </div>
+        <UiCheckbox v-model="checkboxStates[0]" label="Accept terms and conditions" />
+        <UiCheckbox v-model="checkboxStates[1]" label="Subscribe to newsletter" />
+        <UiCheckbox v-model="checkboxStates[2]" label="Enable notifications" />
+        <UiCheckbox v-model="checkboxStates[3]" label="Share analytics" disabled />
       </div>
     </div>
   </template>
@@ -155,17 +133,11 @@ defineProps<{ id: string }>()
   <template v-else-if="id === 'switch'">
     <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center">
       <div class="flex flex-col gap-4">
-        <div v-for="(on, i) in [true, false, true]" :key="i" class="flex items-center gap-3">
-          <div
-            class="w-9 h-5 rounded-full flex items-center px-0.5 transition-colors"
-            :class="on ? 'bg-accent' : 'bg-zinc-700'"
-          >
-            <div
-              class="w-4 h-4 bg-white rounded-full shadow-sm transition-transform"
-              :style="{ transform: on ? 'translateX(16px)' : 'translateX(0)' }"
-            />
-          </div>
-          <div class="h-1.5 w-14 rounded-full" :class="on ? 'bg-zinc-300' : 'bg-zinc-600'" />
+        <div v-for="(on, i) in switchStates" :key="i" class="flex items-center gap-3">
+          <UiToggle v-model="switchStates[i]" />
+          <span class="text-sm" :class="on ? 'text-zinc-200' : 'text-zinc-500'">
+            {{ ['Dark mode', 'Notifications', 'Auto-save'][i] }}
+          </span>
         </div>
       </div>
     </div>
@@ -173,43 +145,30 @@ defineProps<{ id: string }>()
 
   <!-- TABS -->
   <template v-else-if="id === 'tabs'">
-    <div class="absolute inset-0 bg-zinc-950 flex flex-col px-6 py-5 gap-3">
-      <div class="flex border-b border-zinc-800 gap-0">
-        <div v-for="(active, i) in [true, false, false]" :key="i"
-          class="px-3 pb-2 text-xs flex flex-col items-center gap-1.5 relative"
-        >
-          <div class="h-1.5 w-10 rounded-full" :class="active ? 'bg-white' : 'bg-zinc-600'" />
-          <div v-if="active" class="absolute bottom-0 left-0 right-0 h-0.5 bg-accent rounded-full" />
+    <div class="absolute inset-0 bg-zinc-950 flex flex-col px-5 py-4">
+      <UiTabs
+        v-model="tabActive"
+        :tabs="[
+          { id: 'preview', label: 'Preview' },
+          { id: 'code',    label: 'Code' },
+          { id: 'props',   label: 'Props' },
+        ]"
+      >
+        <div class="flex flex-col gap-1.5 mt-1">
+          <div class="h-1.5 w-3/4 bg-zinc-700 rounded-full" />
+          <div class="h-1.5 w-full bg-zinc-800 rounded-full" />
+          <div class="h-1.5 w-2/3 bg-zinc-800 rounded-full" />
         </div>
-      </div>
-      <div class="flex-1 flex flex-col gap-2">
-        <div class="h-1.5 w-3/4 bg-zinc-300 rounded-full" />
-        <div class="h-1 w-full bg-zinc-700 rounded-full" />
-        <div class="h-1 w-5/6 bg-zinc-700 rounded-full" />
-        <div class="h-1 w-2/3 bg-zinc-800 rounded-full" />
-      </div>
+      </UiTabs>
     </div>
   </template>
 
   <!-- BREADCRUMB -->
   <template v-else-if="id === 'breadcrumb'">
     <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center px-6">
-      <div class="flex flex-col gap-3 w-full">
-        <div class="flex items-center gap-1.5">
-          <div v-for="(active, i) in [false, false, true]" :key="i" class="flex items-center gap-1.5">
-            <div class="h-1.5 w-8 rounded-full" :class="active ? 'bg-zinc-200' : 'bg-zinc-600'" />
-            <div v-if="i < 2" class="h-1 w-1 bg-zinc-700 rounded-full" />
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <div class="w-3 h-3 rounded bg-zinc-800 border border-zinc-700" />
-          <div class="w-1 h-1 bg-zinc-700 rotate-45" />
-          <div class="h-1.5 w-10 bg-zinc-600 rounded-full" />
-          <div class="w-1 h-1 bg-zinc-700 rotate-45" />
-          <div class="h-1.5 w-14 bg-zinc-400 rounded-full" />
-          <div class="w-1 h-1 bg-zinc-700 rotate-45" />
-          <div class="h-1.5 w-8 bg-zinc-200 rounded-full" />
-        </div>
+      <div class="flex flex-col gap-4 w-full">
+        <UiBreadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'Docs', href: '/docs' }, { label: 'Components' }]" />
+        <UiBreadcrumb :items="[{ label: 'Dashboard', href: '/' }, { label: 'Settings' }]" />
       </div>
     </div>
   </template>
@@ -217,20 +176,7 @@ defineProps<{ id: string }>()
   <!-- PAGINATION -->
   <template v-else-if="id === 'pagination'">
     <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center">
-      <div class="flex items-center gap-1">
-        <div class="w-7 h-7 rounded-lg border border-zinc-700 bg-zinc-900 flex items-center justify-center">
-          <svg class="w-3 h-3 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div v-for="(active, i) in [false, true, false, false, false]" :key="i"
-          class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-medium"
-          :class="active ? 'bg-accent text-white' : 'border border-zinc-800 text-zinc-500'"
-        >
-          {{ i + 1 }}
-        </div>
-        <div class="w-7 h-7 rounded-lg border border-zinc-700 bg-zinc-900 flex items-center justify-center">
-          <svg class="w-3 h-3 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
+      <UiPagination v-model="paginationPage" :total="120" :per-page="10" />
     </div>
   </template>
 
@@ -238,100 +184,48 @@ defineProps<{ id: string }>()
   <template v-else-if="id === 'badge'">
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-3">
       <div class="flex items-center gap-2 flex-wrap justify-center">
-        <div class="h-5 px-2.5 bg-accent/15 border border-accent/30 rounded-full flex items-center">
-          <div class="h-1 w-8 bg-accent/70 rounded-full" />
-        </div>
-        <div class="h-5 px-2.5 bg-emerald-500/15 border border-emerald-500/30 rounded-full flex items-center">
-          <div class="h-1 w-6 bg-emerald-400/70 rounded-full" />
-        </div>
-        <div class="h-5 px-2.5 bg-amber-500/15 border border-amber-500/30 rounded-full flex items-center">
-          <div class="h-1 w-8 bg-amber-400/70 rounded-full" />
-        </div>
+        <UiBadge variant="indigo">Indigo</UiBadge>
+        <UiBadge variant="green">Success</UiBadge>
+        <UiBadge variant="red">Error</UiBadge>
       </div>
       <div class="flex items-center gap-2">
-        <div class="h-5 px-2.5 bg-red-500/15 border border-red-500/30 rounded-full flex items-center gap-1">
-          <div class="w-1.5 h-1.5 rounded-full bg-red-400" />
-          <div class="h-1 w-6 bg-red-400/60 rounded-full" />
-        </div>
-        <div class="h-5 px-2.5 bg-zinc-800 border border-zinc-700 rounded-full flex items-center">
-          <div class="h-1 w-8 bg-zinc-500 rounded-full" />
-        </div>
+        <UiBadge>Default</UiBadge>
+        <UiBadge variant="zinc">Muted</UiBadge>
       </div>
     </div>
   </template>
 
   <!-- ALERT -->
   <template v-else-if="id === 'alert'">
-    <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-2.5 px-6">
-      <div class="w-full p-3 bg-accent/10 border border-accent/25 rounded-xl flex gap-2.5">
-        <div class="w-4 h-4 rounded-full bg-accent/30 shrink-0 flex items-center justify-center mt-0.5">
-          <div class="w-1 h-1 bg-accent rounded-full" />
-        </div>
-        <div class="flex flex-col gap-1">
-          <div class="h-1.5 w-16 bg-accent/60 rounded-full" />
-          <div class="h-1 w-24 bg-zinc-600 rounded-full" />
-        </div>
-      </div>
-      <div class="w-full p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl flex gap-2.5">
-        <div class="w-4 h-4 rounded-full bg-emerald-500/30 shrink-0 flex items-center justify-center mt-0.5">
-          <svg class="w-2 h-2 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="flex flex-col gap-1">
-          <div class="h-1.5 w-12 bg-emerald-400/60 rounded-full" />
-          <div class="h-1 w-20 bg-zinc-600 rounded-full" />
-        </div>
-      </div>
-      <div class="w-full p-3 bg-red-500/10 border border-red-500/25 rounded-xl flex gap-2.5">
-        <div class="w-4 h-4 rounded-full bg-red-500/30 shrink-0 flex items-center justify-center mt-0.5">
-          <div class="w-1.5 h-px bg-red-400 rounded-full" />
-        </div>
-        <div class="flex flex-col gap-1">
-          <div class="h-1.5 w-10 bg-red-400/60 rounded-full" />
-          <div class="h-1 w-28 bg-zinc-600 rounded-full" />
-        </div>
-      </div>
+    <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-2 px-5">
+      <UiAlert variant="info" title="Update available">A new version is ready to install.</UiAlert>
+      <UiAlert variant="success" title="Saved!">Your changes have been saved.</UiAlert>
+      <UiAlert variant="error" title="Error">Failed to connect to server.</UiAlert>
     </div>
   </template>
 
   <!-- TOAST -->
   <template v-else-if="id === 'toast'">
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-end justify-end gap-2 p-4">
-      <div class="w-48 p-3 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl flex gap-2.5">
-        <div class="w-4 h-4 rounded-full bg-emerald-500/30 shrink-0 flex items-center justify-center mt-0.5">
-          <svg class="w-2 h-2 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="flex-1 flex flex-col gap-1">
-          <div class="h-1.5 w-16 bg-zinc-300 rounded-full" />
-          <div class="h-1 w-24 bg-zinc-600 rounded-full" />
-        </div>
-        <svg class="w-3 h-3 text-zinc-600 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </div>
-      <div class="w-48 p-3 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl flex gap-2.5 opacity-70">
-        <div class="w-4 h-4 rounded-full bg-red-500/30 shrink-0 flex items-center justify-center mt-0.5">
-          <div class="w-1.5 h-px bg-red-400 rounded-full" />
-        </div>
-        <div class="flex-1 flex flex-col gap-1">
-          <div class="h-1.5 w-12 bg-zinc-400 rounded-full" />
-          <div class="h-1 w-20 bg-zinc-600 rounded-full" />
-        </div>
-      </div>
+      <UiToast title="Changes saved" description="Your profile was updated." variant="success" :duration="0" />
+      <UiToast title="Upload failed" description="Max file size exceeded." variant="error" :duration="0" />
     </div>
   </template>
 
   <!-- SPINNER -->
   <template v-else-if="id === 'spinner'">
-    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center gap-5">
+    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center gap-6">
       <div class="flex flex-col items-center gap-2">
-        <div class="w-8 h-8 rounded-full border-2 border-zinc-800 border-t-accent" />
-        <div class="h-1 w-8 bg-zinc-700 rounded-full" />
+        <UiSpinner size="lg" variant="primary" />
+        <span class="text-xs text-zinc-500">Primary</span>
       </div>
       <div class="flex flex-col items-center gap-2">
-        <div class="w-6 h-6 rounded-full border-2 border-zinc-800 border-t-white" />
-        <div class="h-1 w-6 bg-zinc-700 rounded-full" />
+        <UiSpinner size="md" variant="white" />
+        <span class="text-xs text-zinc-500">White</span>
       </div>
       <div class="flex flex-col items-center gap-2">
-        <div class="w-5 h-5 rounded-full border-[3px] border-zinc-800 border-t-emerald-400" />
-        <div class="h-1 w-5 bg-zinc-700 rounded-full" />
+        <UiSpinner size="sm" variant="muted" />
+        <span class="text-xs text-zinc-500">Muted</span>
       </div>
     </div>
   </template>
@@ -339,46 +233,28 @@ defineProps<{ id: string }>()
   <!-- PROGRESS -->
   <template v-else-if="id === 'progress'">
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-4 px-8">
-      <div class="w-full flex flex-col gap-1.5">
-        <div class="flex justify-between">
-          <div class="h-1.5 w-12 bg-zinc-400 rounded-full" />
-          <div class="h-1.5 w-6 bg-zinc-500 rounded-full" />
-        </div>
-        <div class="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
-          <div class="h-full w-3/4 bg-accent rounded-full" />
-        </div>
-      </div>
-      <div class="w-full flex flex-col gap-1.5">
-        <div class="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
-          <div class="h-full w-2/5 bg-emerald-500 rounded-full" />
-        </div>
-      </div>
-      <div class="w-full flex flex-col gap-1.5">
-        <div class="h-3 w-full bg-zinc-800 rounded-full overflow-hidden">
-          <div class="h-full w-[85%] bg-gradient-to-r from-accent to-violet-500 rounded-full" />
-        </div>
-      </div>
+      <UiProgress :value="75" label="Upload" show-value size="md" />
+      <UiProgress :value="42" variant="success" size="md" label="Storage" show-value />
+      <UiProgress :value="85" variant="warning" size="lg" label="CPU" show-value />
     </div>
   </template>
 
   <!-- MODAL -->
   <template v-else-if="id === 'modal'">
     <div class="absolute inset-0 bg-zinc-950/60 backdrop-blur-[1px] flex items-center justify-center p-4">
-      <div class="w-full max-w-[180px] bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl overflow-hidden">
-        <div class="p-3 border-b border-zinc-800 flex items-center justify-between">
-          <div class="h-2 w-16 bg-zinc-200 rounded-full" />
-          <div class="w-4 h-4 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-            <svg class="w-2 h-2 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
+      <div class="w-full max-w-[220px] bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-4 border-b border-zinc-800 flex items-center justify-between">
+          <span class="text-sm font-semibold text-white">Confirm deletion</span>
+          <div class="w-5 h-5 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+            <svg class="w-3 h-3 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
           </div>
         </div>
-        <div class="p-3 flex flex-col gap-1.5">
-          <div class="h-1 w-full bg-zinc-700 rounded-full" />
-          <div class="h-1 w-5/6 bg-zinc-700 rounded-full" />
-          <div class="h-1 w-3/4 bg-zinc-800 rounded-full" />
+        <div class="p-4 text-xs text-zinc-400">
+          Are you sure you want to delete this item? This action cannot be undone.
         </div>
-        <div class="p-3 pt-1 flex gap-2">
-          <div class="flex-1 h-6 bg-zinc-800 border border-zinc-700 rounded-lg" />
-          <div class="flex-1 h-6 bg-accent rounded-lg" />
+        <div class="px-4 pb-4 flex gap-2">
+          <UiButton size="sm" variant="ghost" class="flex-1">Cancel</UiButton>
+          <UiButton size="sm" variant="danger" class="flex-1">Delete</UiButton>
         </div>
       </div>
     </div>
@@ -386,84 +262,63 @@ defineProps<{ id: string }>()
 
   <!-- TOOLTIP -->
   <template v-else-if="id === 'tooltip'">
-    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center">
-      <div class="flex flex-col items-center gap-1.5">
-        <div class="px-3 py-1.5 bg-zinc-700 rounded-lg shadow-lg flex items-center gap-1.5">
-          <div class="h-1 w-16 bg-zinc-300 rounded-full" />
-        </div>
-        <div class="w-1.5 h-1.5 bg-zinc-700 rotate-45 -mt-0.5" />
-        <div class="h-8 px-4 bg-white rounded-lg flex items-center">
-          <div class="h-1.5 w-12 bg-zinc-700 rounded-full" />
-        </div>
-      </div>
+    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center gap-6">
+      <UiTooltip content="Copy to clipboard" placement="top">
+        <UiButton size="sm" variant="ghost">Hover me</UiButton>
+      </UiTooltip>
+      <UiTooltip content="View details" placement="bottom">
+        <UiIconButton label="Info" variant="secondary">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round"/></svg>
+        </UiIconButton>
+      </UiTooltip>
     </div>
   </template>
 
   <!-- DROPDOWN -->
   <template v-else-if="id === 'dropdown'">
-    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center px-8">
-      <div class="w-full flex flex-col gap-1.5">
-        <div class="h-8 w-full bg-zinc-900 border border-zinc-700 rounded-lg flex items-center px-3 gap-2">
-          <div class="h-1.5 w-16 bg-zinc-400 rounded-full" />
-          <svg class="w-3.5 h-3.5 text-zinc-500 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="w-full bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden shadow-xl">
-          <div class="px-2 py-1">
-            <div v-for="(active, i) in [false, true, false, false]" :key="i"
-              class="flex items-center gap-2 px-2 py-1.5 rounded-lg"
-              :class="active ? 'bg-accent/20' : ''"
-            >
-              <div class="w-3 h-3 rounded bg-zinc-800 border border-zinc-700 shrink-0" />
-              <div class="h-1 rounded-full" :class="[active ? 'bg-accent/70 w-14' : 'bg-zinc-600 w-12']" />
-            </div>
-          </div>
-          <div class="border-t border-zinc-800 px-2 py-1">
-            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg">
-              <div class="w-3 h-3 rounded bg-red-500/20 border border-red-500/30 shrink-0" />
-              <div class="h-1 w-10 bg-red-400/50 rounded-full" />
-            </div>
-          </div>
-        </div>
+    <div class="absolute inset-0 bg-zinc-950 flex items-start justify-center pt-8 px-4">
+      <div class="flex flex-col gap-1.5">
+        <UiDropdown :items="dropdownItems">
+          <UiButton size="sm" variant="secondary">
+            Options
+            <svg class="w-3.5 h-3.5 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" stroke-linecap="round"/></svg>
+          </UiButton>
+        </UiDropdown>
       </div>
     </div>
   </template>
 
   <!-- CARD -->
   <template v-else-if="id === 'card'">
-    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center p-4 gap-3">
-      <div class="flex-1 h-full max-h-28 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col">
-        <div class="h-12 bg-zinc-800" />
-        <div class="p-2.5 flex flex-col gap-1.5 flex-1">
-          <div class="h-1.5 w-full bg-zinc-300 rounded-full" />
-          <div class="h-1 w-3/4 bg-zinc-600 rounded-full" />
-          <div class="mt-auto h-5 bg-accent rounded-md" />
-        </div>
-      </div>
-      <div class="flex-1 h-full max-h-28 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col">
-        <div class="h-12 bg-gradient-to-br from-accent/20 to-violet-500/20" />
-        <div class="p-2.5 flex flex-col gap-1.5 flex-1">
-          <div class="h-1.5 w-full bg-zinc-300 rounded-full" />
-          <div class="h-1 w-2/3 bg-zinc-600 rounded-full" />
-          <div class="mt-auto h-5 border border-zinc-700 rounded-md" />
-        </div>
-      </div>
+    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center gap-3 p-4">
+      <UiCard hoverable class="flex-1">
+        <p class="text-sm font-semibold text-white">Analytics</p>
+        <p class="text-xs text-zinc-500 mt-1">Track your performance metrics in real time.</p>
+        <p class="text-2xl font-bold text-indigo-400 mt-3">+24.3%</p>
+      </UiCard>
+      <UiCard hoverable class="flex-1">
+        <p class="text-sm font-semibold text-white">Revenue</p>
+        <p class="text-xs text-zinc-500 mt-1">Monthly recurring revenue overview.</p>
+        <p class="text-2xl font-bold text-green-400 mt-3">$12.8k</p>
+      </UiCard>
     </div>
   </template>
 
   <!-- AVATAR -->
   <template v-else-if="id === 'avatar'">
-    <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-4">
+    <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-5">
       <div class="flex items-center -space-x-2">
-        <div v-for="(color, i) in ['bg-accent', 'bg-emerald-500', 'bg-amber-500', 'bg-pink-500', 'bg-zinc-700']" :key="i"
-          class="w-8 h-8 rounded-full border-2 border-zinc-950 flex items-center justify-center text-[9px] font-bold text-white"
-          :class="color"
-        >{{ ['A','B','C','D','+3'][i] }}</div>
+        <UiAvatar name="Alice M" color="indigo" size="sm" />
+        <UiAvatar name="Bob C"   color="green"  size="sm" />
+        <UiAvatar name="Sara L"  color="amber"  size="sm" />
+        <UiAvatar name="Tom K"   color="pink"   size="sm" />
+        <div class="w-8 h-8 rounded-full bg-zinc-800 border-2 border-zinc-950 flex items-center justify-center text-[10px] font-semibold text-zinc-400">+3</div>
       </div>
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-accent/20 border-2 border-accent/40 flex items-center justify-center text-[10px] font-semibold text-accent">EK</div>
-        <div class="flex flex-col gap-1">
-          <div class="h-1.5 w-16 bg-zinc-300 rounded-full" />
-          <div class="h-1 w-12 bg-zinc-600 rounded-full" />
+        <UiAvatar name="Elvin Kyungu" color="indigo" size="md" :online="true" />
+        <div>
+          <p class="text-sm font-medium text-white">Elvin Kyungu</p>
+          <p class="text-xs text-zinc-500">Admin · Online</p>
         </div>
       </div>
     </div>
@@ -471,45 +326,26 @@ defineProps<{ id: string }>()
 
   <!-- TABLE -->
   <template v-else-if="id === 'table'">
-    <div class="absolute inset-0 bg-zinc-950 flex flex-col p-3 gap-2">
-      <div class="flex items-center gap-2">
-        <div class="h-1.5 w-16 bg-zinc-300 rounded-full" />
-        <div class="ml-auto h-5 w-14 bg-accent rounded-md" />
-      </div>
-      <div class="flex-1 border border-zinc-800 rounded-xl overflow-hidden">
-        <div class="flex gap-2 px-3 py-1.5 bg-zinc-900 border-b border-zinc-800">
-          <div v-for="w in ['w-8','w-14','w-10','w-8']" :key="w" class="h-1 rounded-full bg-zinc-500 flex-1" />
-        </div>
-        <div v-for="row in 3" :key="row" class="flex gap-2 px-3 py-2 border-b border-zinc-800/60 last:border-0 items-center">
-          <div class="w-3 h-3 rounded-full bg-zinc-700 shrink-0" />
-          <div class="h-1 flex-1 bg-zinc-700 rounded-full" />
-          <div class="h-1 flex-1 bg-zinc-700 rounded-full" />
-          <div class="h-4 w-10 rounded-full flex-shrink-0"
-            :class="row === 1 ? 'bg-emerald-500/20 border border-emerald-500/30' : row === 2 ? 'bg-accent/20 border border-accent/30' : 'bg-zinc-800'"
-          />
-        </div>
-      </div>
+    <div class="absolute inset-0 bg-zinc-950 flex flex-col p-3 gap-2 overflow-hidden">
+      <UiTable :columns="tableColumns" :rows="tableRows">
+        <template #status="{ value }">
+          <div class="flex justify-end">
+            <UiBadge :variant="value === 'Active' ? 'green' : 'zinc'">{{ value }}</UiBadge>
+          </div>
+        </template>
+      </UiTable>
     </div>
   </template>
 
   <!-- TAG -->
   <template v-else-if="id === 'tag'">
-    <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-2.5 px-6">
+    <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-3 px-6">
       <div class="flex flex-wrap gap-1.5 justify-center">
-        <div v-for="(cfg, i) in [
-          { w: 'w-12', bg: 'bg-accent/10 border-accent/25 text-accent/70' },
-          { w: 'w-10', bg: 'bg-zinc-800 border-zinc-700' },
-          { w: 'w-14', bg: 'bg-emerald-500/10 border-emerald-500/25' },
-          { w: 'w-8',  bg: 'bg-zinc-800 border-zinc-700' },
-          { w: 'w-12', bg: 'bg-amber-500/10 border-amber-500/25' },
-          { w: 'w-16', bg: 'bg-zinc-800 border-zinc-700' },
-        ]" :key="i"
-          class="h-5 px-2 border rounded-full flex items-center gap-1"
-          :class="cfg.bg"
-        >
-          <div class="h-1 flex-1 bg-current opacity-40 rounded-full" />
-          <svg class="w-2 h-2 opacity-40 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-        </div>
+        <UiTag variant="indigo">TypeScript</UiTag>
+        <UiTag variant="green">Vue 3</UiTag>
+        <UiTag variant="amber">Beta</UiTag>
+        <UiTag>Nuxt 4</UiTag>
+        <UiTag variant="red" removable>Deprecated</UiTag>
       </div>
     </div>
   </template>
