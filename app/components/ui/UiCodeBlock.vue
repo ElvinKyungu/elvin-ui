@@ -137,9 +137,9 @@ const highlighted = computed(() => tokenize(props.code))
     <div class="flex items-center justify-between px-4 py-2.5 border-b border-zinc-800/60 bg-zinc-900/40">
       <div class="flex items-center gap-2">
         <div class="flex gap-1.5">
-          <div class="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-          <div class="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-          <div class="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+          <div class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <div class="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <div class="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
         <span class="text-xs font-medium text-zinc-600 ml-1">{{ lang }}</span>
       </div>

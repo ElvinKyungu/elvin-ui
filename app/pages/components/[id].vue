@@ -63,7 +63,7 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
   <main class="flex-1 min-w-0 overflow-x-hidden">
 
     <!-- Toolbar -->
-    <div class="sticky top-14 z-10 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/60 h-11 flex items-center gap-3 px-4">
+    <div class="sticky z-10 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/60 h-11 flex items-center gap-3 px-4">
       <button
         @click="toggleSidebar"
         class="p-1.5 rounded-md transition-colors"
