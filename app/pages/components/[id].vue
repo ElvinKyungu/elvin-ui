@@ -558,13 +558,14 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
         <section class="flex flex-col gap-3">
           <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Props</h2>
 
-          <div class="rounded-xl border border-zinc-800/80 overflow-hidden">
+          <div class="rounded-xl border border-zinc-800/80 overflow-x-auto">
+            <div class="min-w-[540px]">
             <!-- Header -->
             <div class="grid grid-cols-[1fr_1.6fr_0.8fr_2fr] px-4 py-2.5 border-b border-zinc-800/60 bg-zinc-900/60">
               <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Prop</span>
               <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Type</span>
               <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Default</span>
-              <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider hidden lg:block">Description</span>
+              <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Description</span>
             </div>
 
             <!-- Rows -->
@@ -594,9 +595,10 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
               </div>
 
               <!-- Description -->
-              <div class="hidden lg:flex items-start pt-0.5">
+              <div class="flex items-start pt-0.5">
                 <span class="text-[13px] text-zinc-400 leading-snug">{{ prop.description }}</span>
               </div>
+            </div>
             </div>
           </div>
         </section>
