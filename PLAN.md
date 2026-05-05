@@ -47,7 +47,8 @@
 - ✅ Cards dans `/blocks` cliquables → lien vers la page de détail
 - ✅ `app/data/blocks.ts` — descriptions et mapping composants pour les 13 blocks
 - ✅ `LICENSE` — MIT License
-- ⬜ Pages de détail `/templates/[id]` — preview only + bouton téléchargement zip
+- ✅ Pages de détail `/templates/[id]` — preview wireframe + "What's included" + CTA "Notify me" / "Get template"
+- ✅ `app/data/templates.ts` — descriptions, tags, comingSoon flag pour les 13 templates
 
 ---
 
