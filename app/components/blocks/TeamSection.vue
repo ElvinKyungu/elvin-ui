@@ -5,10 +5,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 const section = useTemplateRef('section')
 
 const team = [
-  { name: 'Elvin Kyungu', role: 'Founder & Designer', bio: 'Building beautiful UI systems for the modern web. Obsessed with developer experience and micro-interactions.', avatar: 'EK', color: 'from-indigo-500 to-violet-500', social: { twitter: '#', github: '#', linkedin: '#' } },
-  { name: 'Sarah Chen', role: 'Lead Engineer', bio: 'Vue 3 core contributor. Makes sure every component is type-safe, accessible, and performs at 60fps.', avatar: 'SC', color: 'from-emerald-500 to-teal-500', social: { twitter: '#', github: '#', linkedin: '#' } },
-  { name: 'Marc Dubois', role: 'Design Systems', bio: 'Former Figma designer turned engineer. Bridges the gap between design tokens and production code.', avatar: 'MD', color: 'from-amber-500 to-orange-500', social: { twitter: '#', github: '#', linkedin: '#' } },
-  { name: 'Aisha Patel', role: 'DX Engineer', bio: 'Writes docs, builds tooling, and makes sure every copy-paste just works. Champion of zero-config setups.', avatar: 'AP', color: 'from-rose-500 to-pink-500', social: { twitter: '#', github: '#', linkedin: '#' } },
+  { name: 'Elvin Code', role: 'Founder & Designer', bio: 'Building beautiful UI systems for the modern web. Obsessed with developer experience and micro-interactions.', avatar: 'EC', color: 'from-indigo-500 to-violet-500', social: { twitter: '#', github: '#', linkedin: '#' } },
+  { name: 'Vander Otis', role: 'Lead Engineer', bio: 'Makes sure every component is type-safe, accessible, and performs at 60fps. Vue architecture nerd.', avatar: 'VO', color: 'from-emerald-500 to-teal-500', social: { twitter: '#', github: '#', linkedin: '#' } },
+  { name: 'Gabriel Delattre', role: 'Design Systems', bio: 'Former Figma designer turned engineer. Bridges the gap between design tokens and production code.', avatar: 'GD', color: 'from-amber-500 to-orange-500', social: { twitter: '#', github: '#', linkedin: '#' } },
+  { name: 'Eric Ampire', role: 'DX Engineer', bio: 'Writes docs, builds tooling, and makes sure every copy-paste just works. Champion of zero-config setups.', avatar: 'EA', color: 'from-rose-500 to-pink-500', social: { twitter: '#', github: '#', linkedin: '#' } },
 ]
 
 onMounted(() => {

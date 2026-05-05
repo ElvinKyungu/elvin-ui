@@ -134,7 +134,7 @@ onMounted(() => {
             :key="i"
             class="w-5 h-5 rounded-full border-2 border-zinc-950 flex items-center justify-center text-[7px] font-bold text-white"
             :class="c"
-          >{{ ['A', 'B', 'C', 'D'][i] }}</div>
+          >{{ ['E', 'V', 'G', 'K'][i] }}</div>
         </div>
         <span>Join 800+ developers already subscribed</span>
       </div>
