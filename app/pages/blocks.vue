@@ -289,9 +289,10 @@ onMounted(() => {
             ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
             : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'"
         >
-          <div
+          <NuxtLink
             v-for="block in filteredBlocks"
             :key="block.id"
+            :to="`/blocks/${block.id}`"
             class="group bg-zinc-900/40 border border-zinc-800/60 rounded-xl overflow-hidden hover:border-zinc-700/60 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30 transition-all duration-200 cursor-pointer"
           >
             <div class="aspect-video relative overflow-hidden bg-zinc-900">
@@ -310,7 +311,7 @@ onMounted(() => {
               </div>
               <span class="text-xs text-zinc-500">{{ block.category }}</span>
             </div>
-          </div>
+          </NuxtLink>
         </div>
       </main>
 

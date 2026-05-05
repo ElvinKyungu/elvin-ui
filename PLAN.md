@@ -41,12 +41,13 @@
 
 ---
 
-## Phase 4 — Blocks & Templates (priorité basse)
+## Phase 4 — Blocks & Templates
 
-Même système que `/components` :
-- Pages de détail `/blocks/[id]` et `/templates/[id]`
-- Preview + code source de chaque block/template
-- Templates : preview only + téléchargement zip (payant via Chariow)
+- ✅ Pages de détail `/blocks/[id]` — Preview live + onglet Source (code complet)
+- ✅ Cards dans `/blocks` cliquables → lien vers la page de détail
+- ✅ `app/data/blocks.ts` — descriptions et mapping composants pour les 13 blocks
+- ✅ `LICENSE` — MIT License
+- ⬜ Pages de détail `/templates/[id]` — preview only + bouton téléchargement zip
 
 ---
 
