@@ -71,7 +71,7 @@ export const categories: Category[] = [
     items: [
       { id: 'tabs',       name: 'Tabs' },
       { id: 'breadcrumb', name: 'Breadcrumb' },
-      { id: 'pagination', name: 'Pagination' },
+      { id: 'pagination', name: 'Pagination', isNew: true },
     ],
   },
   {
@@ -89,9 +89,9 @@ export const categories: Category[] = [
     id: 'overlay',
     name: 'Overlay',
     items: [
-      { id: 'modal',    name: 'Modal' },
+      { id: 'modal',    name: 'Modal',    isNew: true },
       { id: 'tooltip',  name: 'Tooltip' },
-      { id: 'dropdown', name: 'Dropdown' },
+      { id: 'dropdown', name: 'Dropdown', isNew: true },
     ],
   },
   {
@@ -100,7 +100,7 @@ export const categories: Category[] = [
     items: [
       { id: 'card',   name: 'Card' },
       { id: 'avatar', name: 'Avatar' },
-      { id: 'table',  name: 'Table' },
+      { id: 'table',  name: 'Table',  isNew: true },
       { id: 'tag',    name: 'Tag' },
     ],
   },
@@ -382,6 +382,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Pagination',
     category: 'Navigation',
     categoryId: 'navigation',
+    isNew: true,
     description: 'Page navigator with smart ellipsis logic. Renders prev/next arrows and a configurable window of page numbers around the current page.',
     props: [
       { name: 'modelValue', type: 'number',  required: true,       description: 'Current page number (use v-model)' },
@@ -522,6 +523,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Modal',
     category: 'Overlay',
     categoryId: 'overlay',
+    isNew: true,
     description: 'Accessible dialog with GSAP open animation, backdrop blur, ESC key support, and named slots for header and footer.',
     props: [
       { name: 'modelValue', type: 'boolean', required: true,       description: 'Controls visibility (use v-model)' },
@@ -577,6 +579,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Dropdown',
     category: 'Overlay',
     categoryId: 'overlay',
+    isNew: true,
     description: 'Context menu with GSAP open animation, click-outside dismissal, dividers, danger items, and disabled states. Wraps any trigger via the default slot.',
     props: [
       { name: 'items',     type: '{ label: string; icon?: string; action?: () => void; divider?: boolean; danger?: boolean; disabled?: boolean }[]', required: true, description: 'Array of menu items — set divider: true to render a separator' },
@@ -652,6 +655,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Table',
     category: 'Data Display',
     categoryId: 'data-display',
+    isNew: true,
     description: 'Data table with named column slots, striped rows, hover highlight, and a skeleton loading state.',
     props: [
       { name: 'columns',   type: '{ key: string; label: string; width?: string; align?: "left" | "center" | "right" }[]', required: true, description: 'Column definitions — key maps to the slot name and row property' },
