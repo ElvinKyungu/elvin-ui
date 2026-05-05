@@ -106,7 +106,7 @@
         <p class="text-xs text-zinc-600">
           © {{ new Date().getFullYear() }} Elvin UI. Released under the
           <a
-            href="https://github.com/Elvinkyungu/elvin-ui/blob/main/LICENSE"
+            href="https://github.com/Elvinkyungu/elvin-ui/LICENSE"
             target="_blank"
             rel="noopener noreferrer"
             class="hover:text-zinc-400 transition-colors underline underline-offset-2"

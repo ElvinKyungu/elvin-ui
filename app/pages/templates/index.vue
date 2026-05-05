@@ -27,7 +27,12 @@ const activeCategory = ref('All')
 
 const sidebarCategories = computed(() => {
   const cats = [...new Set(templates.map(t => t.category))]
-  return cats.map(name => ({ name, count: templates.filter(t => t.category === name).length }))
+  return cats.map(name => ({
+    name,
+    items: templates
+      .filter(t => t.category === name)
+      .map(t => ({ id: t.id, name: t.name, isNew: t.isNew, href: `/templates/${t.id}` })),
+  }))
 })
 
 const filteredTemplates = computed(() =>

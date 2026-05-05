@@ -27,7 +27,12 @@ const activeCategory = ref('All')
 
 const sidebarCategories = computed(() => {
   const cats = [...new Set(blocks.map(b => b.category))]
-  return cats.map(name => ({ name, count: blocks.filter(b => b.category === name).length }))
+  return cats.map(name => ({
+    name,
+    items: blocks
+      .filter(b => b.category === name)
+      .map(b => ({ id: b.id, name: b.name, isNew: b.isNew, href: `/blocks/${b.id}` })),
+  }))
 })
 
 const filteredBlocks = computed(() =>

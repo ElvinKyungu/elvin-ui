@@ -30,7 +30,7 @@ useSeoMeta({
     <BlocksNavBar />
     <BlocksHeroSection />
     <BlocksMarqueeStrip />
-    <BlocksRecentlyAdded />
+    <!-- <BlocksRecentlyAdded /> -->
     <BlocksBentoSection />
     <BlocksSplitFeatureSection />
     <BlocksFeaturesSection />
