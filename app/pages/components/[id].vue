@@ -622,6 +622,58 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
           </div>
         </section>
 
+        <!-- EMITS TABLE -->
+        <section v-if="doc.emits?.length" class="flex flex-col gap-3">
+          <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Emits</h2>
+          <div class="rounded-xl border border-zinc-800/80 overflow-x-auto">
+            <div class="min-w-[400px]">
+              <div class="grid grid-cols-[1fr_1.2fr_2fr] px-4 py-2.5 border-b border-zinc-800/60 bg-zinc-900/60">
+                <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Event</span>
+                <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Payload</span>
+                <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Description</span>
+              </div>
+              <div
+                v-for="(emit, i) in doc.emits"
+                :key="emit.name"
+                :class="['grid grid-cols-[1fr_1.2fr_2fr] px-4 py-3.5 border-b border-zinc-800/40 last:border-0 hover:bg-zinc-800/20 transition-colors', i % 2 !== 0 && 'bg-zinc-900/20']"
+              >
+                <code class="text-[12px] font-mono font-medium text-green-400 pt-0.5">{{ emit.name }}</code>
+                <div class="flex items-start pt-0.5 pr-4">
+                  <code v-if="emit.payload" class="text-[11px] font-mono text-amber-300/80 bg-amber-500/8 px-2 py-0.5 rounded-md border border-amber-500/10">{{ emit.payload }}</code>
+                  <span v-else class="text-zinc-700 text-xs pt-0.5">—</span>
+                </div>
+                <span class="text-[13px] text-zinc-400 leading-snug pt-0.5">{{ emit.description }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLOTS TABLE -->
+        <section v-if="doc.slots?.length" class="flex flex-col gap-3">
+          <h2 class="text-xs font-semibold tracking-widest uppercase text-zinc-500">Slots</h2>
+          <div class="rounded-xl border border-zinc-800/80 overflow-x-auto">
+            <div class="min-w-[400px]">
+              <div class="grid grid-cols-[1fr_1.4fr_2fr] px-4 py-2.5 border-b border-zinc-800/60 bg-zinc-900/60">
+                <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Slot</span>
+                <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Props</span>
+                <span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Description</span>
+              </div>
+              <div
+                v-for="(slot, i) in doc.slots"
+                :key="slot.name"
+                :class="['grid grid-cols-[1fr_1.4fr_2fr] px-4 py-3.5 border-b border-zinc-800/40 last:border-0 hover:bg-zinc-800/20 transition-colors', i % 2 !== 0 && 'bg-zinc-900/20']"
+              >
+                <code class="text-[12px] font-mono font-medium text-purple-400 pt-0.5">{{ slot.name }}</code>
+                <div class="flex items-start pt-0.5 pr-4">
+                  <code v-if="slot.props" class="text-[11px] font-mono text-amber-300/80 bg-amber-500/8 px-2 py-0.5 rounded-md border border-amber-500/10 break-all leading-relaxed">{{ slot.props }}</code>
+                  <span v-else class="text-zinc-700 text-xs pt-0.5">—</span>
+                </div>
+                <span class="text-[13px] text-zinc-400 leading-snug pt-0.5">{{ slot.description }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- PREV / NEXT ──────────────────────────────────────────────── -->
         <div class="flex items-center justify-between pt-6 border-t border-zinc-800/60 mt-4">
           <NuxtLink
