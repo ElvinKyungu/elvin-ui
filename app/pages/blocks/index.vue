@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { blockDocs } from '~/data/blocks'
 
 const { public: { siteUrl } } = useRuntimeConfig()
@@ -21,9 +22,13 @@ useSeoMeta({
 
 const blocks = Object.values(blockDocs)
 
-// Resolve all block components upfront (resolveComponent must be called in setup)
+// Direct module imports — more reliable than resolveComponent in this context
+const componentModules = import.meta.glob('~/components/blocks/*.vue', { eager: true }) as Record<string, { default: any }>
 const resolvedComponents = Object.fromEntries(
-  blocks.map(b => [b.id, resolveComponent(`Blocks${b.component}`)]),
+  blocks.map(b => {
+    const key = Object.keys(componentModules).find(k => k.endsWith(`/${b.filename}.vue`))
+    return [b.id, key ? componentModules[key].default : null]
+  }),
 )
 
 const sidebarOpen = ref(false)
@@ -66,6 +71,9 @@ function animateGrid() {
 watch(filteredBlocks, () => nextTick(animateGrid))
 
 onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger)
+  nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 120))
+
   const mql = window.matchMedia('(min-width: 768px)')
   isMobile.value = !mql.matches
   sidebarOpen.value = mql.matches
@@ -275,7 +283,7 @@ onMounted(() => {
             >
               <!-- Scaled live preview -->
               <div class="aspect-video relative overflow-hidden bg-zinc-950">
-                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute inset-0 overflow-hidden pointer-events-none block-thumbnail">
                   <!-- transform creates a containing block for position:fixed children -->
                   <div
                     class="overflow-hidden"

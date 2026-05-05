@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { blockDocs } from '~/data/blocks'
 
 const route = useRoute()
@@ -24,15 +26,31 @@ useSeoMeta({
   twitterImage: `${siteUrl}/og.png`,
 })
 
-const sources = import.meta.glob('~/components/blocks/*.vue', { query: '?raw', import: 'default', eager: true })
+// Source code (raw string)
+const rawSources = import.meta.glob('~/components/blocks/*.vue', { query: '?raw', import: 'default', eager: true })
 const blockSource = computed(() => {
-  const key = Object.keys(sources).find(k => k.endsWith(`/${block.filename}.vue`))
-  return key ? (sources[key] as string) : '<!-- source not available -->'
+  const key = Object.keys(rawSources).find(k => k.endsWith(`/${block.filename}.vue`))
+  return key ? (rawSources[key] as string) : '<!-- source not available -->'
 })
 
-const blockComponent = resolveComponent(`Blocks${block.component}`)
+// Component module — direct glob import, not resolveComponent (more reliable)
+const componentModules = import.meta.glob('~/components/blocks/*.vue', { eager: true }) as Record<string, { default: any }>
+const blockComponent = shallowRef<any>(null)
 
 const activeTab = ref<'preview' | 'source'>('preview')
+
+onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger)
+
+  const key = Object.keys(componentModules).find(k => k.endsWith(`/${block.filename}.vue`))
+  if (key) blockComponent.value = componentModules[key].default
+
+  nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 100))
+})
+
+watch(activeTab, (tab) => {
+  if (tab === 'preview') nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 100))
+})
 </script>
 
 <template>
@@ -89,25 +107,27 @@ const activeTab = ref<'preview' | 'source'>('preview')
         >{{ tab }}</button>
       </div>
 
-      <!-- Preview tab -->
+      <!-- Preview -->
       <Transition mode="out-in" enter-active-class="transition-opacity duration-150" enter-from-class="opacity-0" leave-active-class="transition-opacity duration-100" leave-to-class="opacity-0">
+
         <div v-if="activeTab === 'preview'" key="preview">
-          <!-- CSS transform creates a containing block for position:fixed children -->
           <div
-            class="relative overflow-auto rounded-2xl border border-zinc-800/80 bg-zinc-950 min-h-[400px] max-h-[720px]"
+            class="relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950"
             style="transform: translate3d(0,0,0)"
           >
-            <component :is="blockComponent" />
+            <component v-if="blockComponent" :is="blockComponent" />
+            <div v-else class="flex items-center justify-center py-20">
+              <div class="w-5 h-5 rounded-full border-2 border-zinc-700 border-t-accent animate-spin" />
+            </div>
           </div>
-          <p class="text-xs text-zinc-600 mt-2 text-center">Live preview — scroll inside to see the full block</p>
         </div>
 
-        <!-- Source tab -->
+        <!-- Source -->
         <div v-else key="source">
           <UiCodeBlock :code="blockSource" lang="vue" />
         </div>
-      </Transition>
 
+      </Transition>
     </div>
 
     <div class="border-t border-zinc-800/60 relative z-10">
