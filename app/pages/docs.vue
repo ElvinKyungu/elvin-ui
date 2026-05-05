@@ -1,5 +1,20 @@
 <script setup lang="ts">
-useHead({ title: 'Docs — Elvin UI' })
+const { public: { siteUrl } } = useRuntimeConfig()
+
+useSeoMeta({
+  title: 'Docs — Elvin UI',
+  description: 'Learn how to install, use, and customise Elvin UI components in your Nuxt 4 project.',
+  ogTitle: 'Docs — Elvin UI',
+  ogDescription: 'Learn how to install, use, and customise Elvin UI components in your Nuxt 4 project.',
+  ogImage: `${siteUrl}/og.png`,
+  ogUrl: `${siteUrl}/docs`,
+  ogType: 'website',
+  ogSiteName: 'Elvin UI',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Docs — Elvin UI',
+  twitterDescription: 'Learn how to install, use, and customise Elvin UI components in your Nuxt 4 project.',
+  twitterImage: `${siteUrl}/og.png`,
+})
 
 const sections = [
   {

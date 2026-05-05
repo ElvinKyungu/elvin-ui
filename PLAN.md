@@ -24,11 +24,12 @@
 
 ---
 
-## Phase 2 — Homepage polish (priorité haute) ← PROCHAINE ÉTAPE
+## Phase 2 — Homepage polish ✅
 
-- [ ] Section "Recently added" — liste dynamique des composants `isNew`
-- [ ] Stats animées : nb composants, blocks, templates
-- [ ] Améliorer le SEO (og:image, meta description)
+- ✅ Section "Recently added" — liste dynamique des composants `isNew`
+- ✅ Stats animées : nb composants dynamique via `allItems.length` dans BentoSection
+- ✅ SEO : `useSeoMeta` sur toutes les pages (title, description, og:image, og:url, twitter card)
+- ⬜ Créer `/public/og.png` (1200×630) — image de partage social
 
 ---
 

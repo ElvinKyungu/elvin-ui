@@ -1,7 +1,22 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
 
-useHead({ title: 'Templates — Elvin UI' })
+const { public: { siteUrl } } = useRuntimeConfig()
+
+useSeoMeta({
+  title: 'Templates — Elvin UI',
+  description: 'Full-page Nuxt 4 templates — landing pages, dashboards, and SaaS starters built with Elvin UI components.',
+  ogTitle: 'Templates — Elvin UI',
+  ogDescription: 'Full-page Nuxt 4 templates — landing pages, dashboards, and SaaS starters.',
+  ogImage: `${siteUrl}/og.png`,
+  ogUrl: `${siteUrl}/templates`,
+  ogType: 'website',
+  ogSiteName: 'Elvin UI',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Templates — Elvin UI',
+  twitterDescription: 'Full-page Nuxt 4 templates — landing pages, dashboards, and SaaS starters.',
+  twitterImage: `${siteUrl}/og.png`,
+})
 
 interface Template {
   id: string

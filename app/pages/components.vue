@@ -1,7 +1,22 @@
 <script setup lang="ts">
 import { categories, allItems } from '~/data/ui-components'
 
-useHead({ title: 'Components — Elvin UI' })
+const { public: { siteUrl } } = useRuntimeConfig()
+
+useSeoMeta({
+  title: 'Components — Elvin UI',
+  description: '23 copy-paste Nuxt 4 UI components — buttons, forms, modals, tables, and more. Fully typed, zero hidden deps.',
+  ogTitle: 'Components — Elvin UI',
+  ogDescription: '23 copy-paste Nuxt 4 UI components — buttons, forms, modals, tables, and more.',
+  ogImage: `${siteUrl}/og.png`,
+  ogUrl: `${siteUrl}/components`,
+  ogType: 'website',
+  ogSiteName: 'Elvin UI',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Components — Elvin UI',
+  twitterDescription: '23 copy-paste Nuxt 4 UI components — buttons, forms, modals, tables, and more.',
+  twitterImage: `${siteUrl}/og.png`,
+})
 
 const router = useRouter()
 const route = useRoute()
