@@ -43,11 +43,6 @@ html {
   border-radius: 2px;
 }
 
-/* Force GSAP-animated elements visible inside scaled block thumbnails */
-.block-thumbnail * {
-  opacity: 1 !important;
-  transform: none !important;
-}
 
 @keyframes blink {
   0%,

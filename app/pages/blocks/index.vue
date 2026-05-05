@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { blockDocs } from '~/data/blocks'
 
 const { public: { siteUrl } } = useRuntimeConfig()
@@ -21,15 +20,6 @@ useSeoMeta({
 })
 
 const blocks = Object.values(blockDocs)
-
-// Direct module imports — more reliable than resolveComponent in this context
-const componentModules = import.meta.glob('~/components/blocks/*.vue', { eager: true }) as Record<string, { default: any }>
-const resolvedComponents = Object.fromEntries(
-  blocks.map(b => {
-    const key = Object.keys(componentModules).find(k => k.endsWith(`/${b.filename}.vue`))
-    return [b.id, key ? componentModules[key].default : null]
-  }),
-)
 
 const sidebarOpen = ref(false)
 const search = ref('')
@@ -71,9 +61,6 @@ function animateGrid() {
 watch(filteredBlocks, () => nextTick(animateGrid))
 
 onMounted(() => {
-  gsap.registerPlugin(ScrollTrigger)
-  nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 120))
-
   const mql = window.matchMedia('(min-width: 768px)')
   isMobile.value = !mql.matches
   sidebarOpen.value = mql.matches
@@ -281,20 +268,11 @@ onMounted(() => {
               :to="`/blocks/${block.id}`"
               class="group bg-zinc-900/40 border border-zinc-800/60 rounded-xl overflow-hidden hover:border-zinc-700/60 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30 transition-all duration-200"
             >
-              <!-- Scaled live preview -->
+              <!-- Wireframe preview thumbnail -->
               <div class="aspect-video relative overflow-hidden bg-zinc-950">
-                <div class="absolute inset-0 overflow-hidden pointer-events-none block-thumbnail">
-                  <!-- transform creates a containing block for position:fixed children -->
-                  <div
-                    class="overflow-hidden"
-                    style="transform: scale(0.25); transform-origin: top left; width: 400%; height: 400%;"
-                  >
-                    <component :is="resolvedComponents[block.id]" />
-                  </div>
-                </div>
-                <!-- Hover overlay -->
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                  <span class="text-xs font-medium text-white bg-zinc-900/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-zinc-700">
+                <UiBlockPreview :id="block.id" />
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-200 flex items-center justify-center">
+                  <span class="opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0 text-xs font-medium px-3 py-1.5 bg-white text-zinc-900 rounded-lg">
                     View block →
                   </span>
                 </div>
