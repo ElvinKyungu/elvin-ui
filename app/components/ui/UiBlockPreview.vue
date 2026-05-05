@@ -310,6 +310,113 @@ defineProps<{ id: string }>()
       </div>
     </div>
   </template>
+
+  <!-- CONTACT FORM -->
+  <template v-else-if="id === 'contact-form'">
+    <div class="absolute inset-0 bg-zinc-950 p-3 flex gap-2">
+      <div class="w-1/3 flex flex-col gap-2">
+        <div class="h-1.5 w-16 bg-zinc-300 rounded-full" />
+        <div v-for="i in 3" :key="i" class="flex-1 rounded-lg border border-zinc-800 bg-zinc-900/40 p-1.5 flex items-center gap-1.5">
+          <div class="w-3 h-3 rounded-sm bg-zinc-700" />
+          <div class="flex flex-col gap-0.5 flex-1">
+            <div class="h-0.5 w-8 bg-zinc-600 rounded-full" />
+            <div class="h-1 w-12 bg-zinc-700 rounded-full" />
+          </div>
+        </div>
+      </div>
+      <div class="flex-1 rounded-xl border border-zinc-800 bg-zinc-900/30 p-2 flex flex-col gap-1.5">
+        <div class="grid grid-cols-2 gap-1.5">
+          <div class="h-5 bg-zinc-800 rounded-md" />
+          <div class="h-5 bg-zinc-800 rounded-md" />
+        </div>
+        <div class="h-5 bg-zinc-800 rounded-md" />
+        <div class="flex-1 bg-zinc-800 rounded-md min-h-0" style="min-height: 28px" />
+        <div class="h-5 bg-accent/80 rounded-md" />
+      </div>
+    </div>
+  </template>
+
+  <!-- LOGIN -->
+  <template v-else-if="id === 'login'">
+    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgb(var(--color-accent)/0.08),transparent_70%)]" />
+      <div class="relative w-36 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 flex flex-col gap-2">
+        <div class="w-6 h-6 rounded-lg bg-accent mx-auto" />
+        <div class="h-1.5 w-16 bg-zinc-300 rounded-full mx-auto" />
+        <div class="grid grid-cols-2 gap-1">
+          <div class="h-4 rounded-md border border-zinc-800 bg-zinc-900" />
+          <div class="h-4 rounded-md border border-zinc-800 bg-zinc-900" />
+        </div>
+        <div class="h-4 bg-zinc-800 rounded-md" />
+        <div class="h-4 bg-zinc-800 rounded-md" />
+        <div class="h-5 bg-accent rounded-lg" />
+      </div>
+    </div>
+  </template>
+
+  <!-- SIGNUP -->
+  <template v-else-if="id === 'signup'">
+    <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgb(139,92,246,0.08),transparent_70%)]" />
+      <div class="relative w-36 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 flex flex-col gap-2">
+        <div class="w-6 h-6 rounded-lg bg-violet-500 mx-auto" />
+        <div class="h-1.5 w-20 bg-zinc-300 rounded-full mx-auto" />
+        <div class="h-4 bg-zinc-800 rounded-md" />
+        <div class="h-4 bg-zinc-800 rounded-md" />
+        <div class="h-4 bg-zinc-800 rounded-md" />
+        <div class="flex gap-0.5">
+          <div v-for="s in 4" :key="s" class="flex-1 h-1 rounded-full" :class="['bg-red-500', 'bg-zinc-800', 'bg-zinc-800', 'bg-zinc-800'][s - 1]" />
+        </div>
+        <div class="h-5 bg-violet-500 rounded-lg" />
+      </div>
+    </div>
+  </template>
+
+  <!-- TEAM -->
+  <template v-else-if="id === 'team'">
+    <div class="absolute inset-0 bg-zinc-950 p-3 flex flex-col gap-2">
+      <div class="h-1.5 w-16 bg-zinc-300 rounded-full mx-auto" />
+      <div class="grid grid-cols-4 gap-1.5 flex-1">
+        <div v-for="(c, i) in ['from-indigo-500', 'from-emerald-500', 'from-amber-500', 'from-rose-500']" :key="i" class="rounded-xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col gap-2">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-br to-zinc-800 flex items-center justify-center" :class="c">
+            <div class="w-2 h-2 bg-white/40 rounded-sm" />
+          </div>
+          <div class="flex flex-col gap-1">
+            <div class="h-1 w-full bg-zinc-300 rounded-full" />
+            <div class="h-1 w-3/4 bg-zinc-600 rounded-full" />
+          </div>
+          <div class="mt-auto flex gap-1">
+            <div v-for="j in 3" :key="j" class="w-3.5 h-3.5 rounded-md bg-zinc-800 border border-zinc-700" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- PRICING TOGGLE -->
+  <template v-else-if="id === 'pricing-toggle'">
+    <div class="absolute inset-0 bg-zinc-950 p-3 flex flex-col gap-2">
+      <div class="flex items-center justify-center gap-2">
+        <div class="h-1 w-6 bg-zinc-500 rounded-full" />
+        <div class="w-6 h-3 rounded-full bg-emerald-500/20 border border-emerald-500/30" />
+        <div class="h-1 w-8 bg-zinc-300 rounded-full" />
+      </div>
+      <div class="flex gap-1.5 flex-1">
+        <div v-for="i in [0,1,2]" :key="i" class="flex-1 rounded-xl border p-2 flex flex-col gap-1.5" :class="i === 1 ? 'border-indigo-500/30 bg-zinc-900/60' : 'border-zinc-800/60 bg-zinc-900/20'">
+          <div class="h-1.5 w-8 rounded-full" :class="i === 1 ? 'bg-indigo-400/60' : 'bg-zinc-600'" />
+          <div class="flex items-end gap-0.5">
+            <div class="h-4 w-8 rounded-md" :class="i === 1 ? 'bg-white' : 'bg-zinc-400'" />
+            <div class="h-1 w-3 bg-zinc-600 rounded-full mb-0.5" />
+          </div>
+          <div class="h-4 rounded-lg" :class="i === 1 ? 'bg-indigo-500' : 'border border-zinc-700'" />
+          <div v-for="j in 3" :key="j" class="flex items-center gap-1">
+            <div class="w-1.5 h-1.5 rounded-full" :class="i === 1 ? 'bg-indigo-500' : 'bg-zinc-700'" />
+            <div class="h-1 flex-1 rounded-full bg-zinc-800" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
 </template>
 
 <!--
