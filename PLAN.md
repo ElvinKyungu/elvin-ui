@@ -33,11 +33,11 @@
 
 ---
 
-## Phase 3 — Footer enrichi (priorité basse)
+## Phase 3 — Footer enrichi ✅
 
-Ajouter dans `FooterSection.vue` :
-- Colonnes structurées : Resources, Connect
-- Texte de license (MIT)
+- ✅ Colonnes structurées : Resources, Get started, Connect
+- ✅ Icônes sociales (GitHub, X, LinkedIn) dans la brand column
+- ✅ Texte de license MIT avec lien vers le fichier LICENSE
 
 ---
 
