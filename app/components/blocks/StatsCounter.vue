@@ -6,8 +6,8 @@ const section = useTemplateRef("section");
 
 const stats = [
   {
-    end: 50,
-    suffix: "+",
+    end: 23,
+    suffix: "",
     label: "Components",
     desc: "Copy-paste into any Nuxt 4 project",
     color: "text-indigo-400",

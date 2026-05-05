@@ -15,32 +15,16 @@
 
 ---
 
-## Phase 1 — Qualité composants (priorité haute) ← PROCHAINE ÉTAPE
+## Phase 1 — Qualité composants ✅
 
-### 1.1 Emits manquants dans les fiches
-Ajouter une section **Emits** dans `ComponentDoc` et dans `[id].vue`.
-
-Composants concernés :
-- `UiTag` → `remove`
-- `UiAlert` → `dismiss`
-- `UiModal` → `update:modelValue`
-- `UiToast` → `close`
-- `UiSelect` → `update:modelValue`
-- `UiCheckbox`, `UiToggle`, `UiButtonGroup`, `UiPagination`, `UiTabs` → `update:modelValue`
-
-### 1.2 Slots manquants dans les fiches
-- `UiModal` → `#header`, `#footer`, `default`
-- `UiCard` → `default`
-- `UiDropdown` → `default` (trigger)
-- `UiTooltip` → `default` (trigger)
-- `UiTable` → `#[key]` dynamique
-
-### 1.3 Marquer les nouveaux composants
-Vérifier et mettre à jour les flags `isNew` dans `ui-components.ts`.
+- ✅ Emits documentés pour tous les composants concernés
+- ✅ Slots documentés (Modal, Card, Dropdown, Tooltip, Table, Tag, Alert…)
+- ✅ Onglet Source dans `[id].vue` — `.vue` complet pour copy-paste
+- ⬜ 1.3 — Vérifier/mettre à jour les flags `isNew` dans `ui-components.ts`
 
 ---
 
-## Phase 2 — Homepage polish (priorité moyenne)
+## Phase 2 — Homepage polish (priorité haute) ← PROCHAINE ÉTAPE
 
 - [ ] Section "Recently added" — liste dynamique des composants `isNew`
 - [ ] Stats animées : nb composants, blocks, templates

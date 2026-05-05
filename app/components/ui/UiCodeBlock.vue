@@ -9,72 +9,194 @@ async function copy(code: string) {
   setTimeout(() => { copied.value = false }, 1800)
 }
 
-// ─── Syntax tokenizer ────────────────────────────────────────────────────────
+// ─── Colors ──────────────────────────────────────────────────────────────────
 
-const COLORS = {
-  comment:   '#6b7280',  // zinc-500
-  component: '#7dd3fc',  // sky-300  — PascalCase tags
-  tag:       '#94a3b8',  // slate-400 — lowercase HTML tags
-  attr:      '#86efac',  // green-300 — plain attributes
-  vdir:      '#818cf8',  // indigo-400 — v-model, v-for, v-if…
-  vbind:     '#67e8f9',  // cyan-300  — :prop
-  von:       '#fde047',  // yellow-300 — @event
-  string:    '#fca5a5',  // red-300   — "plain string"
-  vexpr:     '#fdba74',  // orange-300 — "expression in binding"
-  tmplExpr:  '#c084fc',  // purple-400 — {{ }}
-  punct:     '#52525b',  // zinc-600  — < > = / →
-  text:      '#d4d4d8',  // zinc-300  — text content
+const C = {
+  // shared
+  comment:   '#6b7280',
+  string:    '#fca5a5',
+  punct:     '#52525b',
+  text:      '#d4d4d8',
+  // template
+  component: '#7dd3fc',
+  tag:       '#94a3b8',
+  attr:      '#86efac',
+  vdir:      '#818cf8',
+  vbind:     '#67e8f9',
+  von:       '#fde047',
+  vexpr:     '#fdba74',
+  tmplExpr:  '#c084fc',
+  // script
+  keyword:   '#818cf8',
+  macro:     '#c084fc',
+  typeName:  '#7dd3fc',
+  number:    '#fdba74',
+  property:  '#86efac',
 }
 
 function esc(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
-
 function span(color: string, content: string) {
   return `<span style="color:${color}">${content}</span>`
 }
 
-function tokenize(code: string): string {
+// ─── JS/TS tokenizer (used for <script> bodies) ───────────────────────────────
+
+const JS_KEYWORDS = new Set([
+  'interface','type','const','let','var','function','return','if','else','for',
+  'while','do','import','from','export','default','class','extends','implements',
+  'async','await','new','typeof','keyof','in','of','true','false','null',
+  'undefined','void','never','readonly','as','satisfies','try','catch','finally',
+  'throw','switch','case','break','continue','this','super','static','abstract',
+  'enum','namespace','declare','override','public','private','protected',
+])
+
+const VUE_MACROS = new Set([
+  'defineProps','defineEmits','withDefaults','defineExpose','defineModel',
+  'ref','computed','reactive','shallowRef','shallowReactive',
+  'watch','watchEffect','watchSyncEffect',
+  'onMounted','onUnmounted','onBeforeMount','onBeforeUnmount','onUpdated',
+  'useTemplateRef','inject','provide','nextTick',
+  'useRoute','useRouter','useHead','useState','useFetch','useAsyncData',
+  'navigateTo','useRuntimeConfig','useNuxtApp',
+])
+
+function tokenizeScript(code: string): string {
   let html = ''
   let pos = 0
   const len = code.length
 
   while (pos < len) {
-    // ── HTML comment ─────────────────────────────────────────────
+    const ch = code[pos]
+
+    // Newline — preserve as-is
+    if (ch === '\n') { html += '\n'; pos++; continue }
+
+    // Single-line comment
+    if (code.startsWith('//', pos)) {
+      const end = code.indexOf('\n', pos)
+      const s = end >= 0 ? code.slice(pos, end) : code.slice(pos)
+      html += span(C.comment, esc(s))
+      pos += s.length
+      continue
+    }
+
+    // Multi-line comment
+    if (code.startsWith('/*', pos)) {
+      const end = code.indexOf('*/', pos + 2)
+      const raw = end >= 0 ? code.slice(pos, end + 2) : code.slice(pos)
+      // preserve newlines inside comment
+      html += raw.split('\n').map(line => span(C.comment, esc(line))).join('\n')
+      pos += raw.length
+      continue
+    }
+
+    // Template literal
+    if (ch === '`') {
+      let s = '`'; pos++
+      while (pos < len && code[pos] !== '`') {
+        if (code[pos] === '\\') s += code[pos++]
+        s += code[pos++]
+      }
+      if (pos < len) { s += '`'; pos++ }
+      // preserve newlines inside template literal
+      html += s.split('\n').map(line => span(C.string, esc(line))).join('\n')
+      continue
+    }
+
+    // String (single or double quote)
+    if (ch === '"' || ch === "'") {
+      let s = ch; pos++
+      while (pos < len && code[pos] !== ch && code[pos] !== '\n') {
+        if (code[pos] === '\\') s += code[pos++]
+        s += code[pos++]
+      }
+      if (pos < len && code[pos] === ch) { s += ch; pos++ }
+      html += span(C.string, esc(s))
+      continue
+    }
+
+    // Number
+    if (/[0-9]/.test(ch) && (pos === 0 || !/[A-Za-z_$]/.test(code[pos - 1]))) {
+      let s = ''
+      while (pos < len && /[0-9._xXa-fA-F]/.test(code[pos])) s += code[pos++]
+      html += span(C.number, esc(s))
+      continue
+    }
+
+    // Identifier
+    if (/[A-Za-z_$]/.test(ch)) {
+      const start = pos
+      while (pos < len && /[A-Za-z0-9_$]/.test(code[pos])) pos++
+      const word = code.slice(start, pos)
+
+      if (JS_KEYWORDS.has(word)) {
+        html += span(C.keyword, esc(word))
+      } else if (VUE_MACROS.has(word)) {
+        html += span(C.macro, esc(word))
+      } else if (/^[A-Z]/.test(word)) {
+        html += span(C.typeName, esc(word))
+      } else {
+        // peek: if followed by '(' it's a function call, else text
+        html += span(C.text, esc(word))
+      }
+      continue
+    }
+
+    // Whitespace (not newline)
+    if (/[ \t\r]/.test(ch)) { html += ch; pos++; continue }
+
+    // Everything else — punctuation / operators
+    html += span(C.punct, esc(ch))
+    pos++
+  }
+
+  return html
+}
+
+// ─── Vue template tokenizer ───────────────────────────────────────────────────
+
+function tokenizeTemplate(code: string): string {
+  let html = ''
+  let pos = 0
+  const len = code.length
+
+  while (pos < len) {
+    // HTML comment
     if (code.startsWith('<!--', pos)) {
       const end = code.indexOf('-->', pos + 4)
       const s = end >= 0 ? code.slice(pos, end + 3) : code.slice(pos)
-      html += span(COLORS.comment, esc(s))
+      html += span(C.comment, esc(s))
       pos = end >= 0 ? end + 3 : len
       continue
     }
 
-    // ── Template expression {{ }} ─────────────────────────────────
+    // Template expression {{ }}
     if (code.startsWith('{{', pos)) {
       const end = code.indexOf('}}', pos + 2)
       if (end >= 0) {
-        html += span(COLORS.tmplExpr, esc(code.slice(pos, end + 2)))
+        html += span(C.tmplExpr, esc(code.slice(pos, end + 2)))
         pos = end + 2
         continue
       }
     }
 
-    // ── Tags ─────────────────────────────────────────────────────
+    // Tags
     if (code[pos] === '<' && pos + 1 < len) {
       const next = code[pos + 1]
       if (next === '/' || /[A-Za-z]/.test(next)) {
-        pos++ // consume <
+        pos++
         const isClose = code[pos] === '/'
         if (isClose) pos++
 
-        // tag name
         const nameStart = pos
         while (pos < len && /[A-Za-z0-9.-]/.test(code[pos])) pos++
         const tagName = code.slice(nameStart, pos)
         const isPascal = /^[A-Z]/.test(tagName)
 
-        html += span(COLORS.punct, '&lt;' + (isClose ? '/' : ''))
-        html += span(isPascal ? COLORS.component : COLORS.tag, esc(tagName))
+        html += span(C.punct, '&lt;' + (isClose ? '/' : ''))
+        html += span(isPascal ? C.component : C.tag, esc(tagName))
 
         if (!isClose) {
           while (pos < len) {
@@ -91,15 +213,11 @@ function tokenize(code: string): string {
             const attrName = code.slice(attrStart, pos)
             const isVDir   = attrName.startsWith('v-')
 
-            const attrColor = isVBind ? COLORS.vbind
-              : isVOn  ? COLORS.von
-              : isVDir ? COLORS.vdir
-              : COLORS.attr
-
+            const attrColor = isVBind ? C.vbind : isVOn ? C.von : isVDir ? C.vdir : C.attr
             html += span(attrColor, esc(prefix + attrName))
 
             if (pos < len && code[pos] === '=') {
-              html += span(COLORS.punct, '=')
+              html += span(C.punct, '=')
               pos++
               if (pos < len && (code[pos] === '"' || code[pos] === "'")) {
                 const q = code[pos]
@@ -107,22 +225,52 @@ function tokenize(code: string): string {
                 pos++
                 while (pos < len && code[pos] !== q) pos++
                 pos++
-                const valColor = (isVBind || isVOn || isVDir) ? COLORS.vexpr : COLORS.string
+                const valColor = (isVBind || isVOn || isVDir) ? C.vexpr : C.string
                 html += span(valColor, esc(code.slice(valStart, pos)))
               }
             }
           }
         }
 
-        if (pos < len && code[pos] === '/') { html += span(COLORS.punct, '/'); pos++ }
-        if (pos < len && code[pos] === '>') { html += span(COLORS.punct, '&gt;'); pos++ }
+        if (pos < len && code[pos] === '/') { html += span(C.punct, '/'); pos++ }
+        if (pos < len && code[pos] === '>') { html += span(C.punct, '&gt;'); pos++ }
         continue
       }
     }
 
-    // ── Fallback: regular character ───────────────────────────────
     const ch = code[pos++]
-    html += ch === '\n' ? '\n' : `<span style="color:${COLORS.text}">${esc(ch)}</span>`
+    html += ch === '\n' ? '\n' : `<span style="color:${C.text}">${esc(ch)}</span>`
+  }
+
+  return html
+}
+
+// ─── Top-level dispatcher ─────────────────────────────────────────────────────
+
+const SCRIPT_OPEN_RE = new RegExp('<' + 'script(\\s[^>]*)?>')
+const SCRIPT_CLOSE   = '</' + 'script>'
+
+function tokenize(code: string): string {
+  const scriptOpenMatch = SCRIPT_OPEN_RE.exec(code)
+  if (!scriptOpenMatch) return tokenizeTemplate(code)
+
+  const scriptTagEnd = scriptOpenMatch.index + scriptOpenMatch[0].length
+  const scriptBodyEnd = code.indexOf(SCRIPT_CLOSE, scriptTagEnd)
+
+  let html = ''
+
+  // Before <script> tag
+  if (scriptOpenMatch.index > 0) {
+    html += tokenizeTemplate(code.slice(0, scriptOpenMatch.index))
+  }
+  // The <script ...> opening tag
+  html += tokenizeTemplate(code.slice(scriptOpenMatch.index, scriptTagEnd))
+
+  if (scriptBodyEnd >= 0) {
+    html += tokenizeScript(code.slice(scriptTagEnd, scriptBodyEnd))
+    html += tokenizeTemplate(code.slice(scriptBodyEnd))
+  } else {
+    html += tokenizeScript(code.slice(scriptTagEnd))
   }
 
   return html
