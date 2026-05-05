@@ -11,10 +11,9 @@
     <BlocksNavBar />
     <BlocksHeroSection />
     <BlocksMarqueeStrip />
-    <BlocksStatsCounter />
     <BlocksRecentlyAdded />
-    <BlocksSplitFeatureSection />
     <BlocksBentoSection />
+    <BlocksSplitFeatureSection />
     <BlocksFeaturesSection />
     <BlocksScrollRevealText />
     <BlocksPricingSection />

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { allItems } from "~/data/ui-components";
 
 const section = useTemplateRef("section");
 const displayCount = ref(0);
@@ -35,7 +36,7 @@ onMounted(() => {
     once: true,
     onEnter() {
       gsap.to(counter, {
-        val: 50,
+        val: allItems.length,
         duration: 2,
         ease: "power2.out",
         onUpdate() {
@@ -76,7 +77,7 @@ onMounted(() => {
           <div class="flex items-end gap-6 flex-wrap">
             <div>
               <span class="text-7xl md:text-8xl font-bold text-white leading-none tabular-nums">
-                {{ displayCount }}+
+                {{ displayCount }}
               </span>
               <p class="text-sm text-zinc-400 mt-2">ready-to-paste components</p>
             </div>
