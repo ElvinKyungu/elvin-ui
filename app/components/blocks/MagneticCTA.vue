@@ -147,11 +147,13 @@ onMounted(() => {
             <!-- Magnetic button -->
             <div class="cta-child flex items-center justify-center gap-4 flex-wrap">
               <div ref="btnWrap" class="inline-block">
-                <UiButton size="lg" class="shadow-lg shadow-indigo-500/20 px-10">
-                  Browse components
-                </UiButton>
+                <NuxtLink to="/components">
+                  <UiButton size="lg" class="shadow-lg shadow-indigo-500/20 px-10">
+                    Browse components
+                  </UiButton>
+                </NuxtLink>
               </div>
-              <UiButton size="lg" variant="ghost">Read the docs →</UiButton>
+              <NuxtLink to="/docs"><UiButton size="lg" variant="ghost">Read the docs →</UiButton></NuxtLink>
             </div>
           </div>
         </div>

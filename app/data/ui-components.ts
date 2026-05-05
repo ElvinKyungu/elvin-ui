@@ -6,6 +6,18 @@ export interface PropDef {
   description: string
 }
 
+export interface EmitDef {
+  name: string
+  payload?: string
+  description: string
+}
+
+export interface SlotDef {
+  name: string
+  props?: string
+  description: string
+}
+
 export interface ComponentItem {
   id: string
   name: string
@@ -26,7 +38,10 @@ export interface ComponentDoc {
   isNew?: boolean
   description: string
   props: PropDef[]
+  emits?: EmitDef[]
+  slots?: SlotDef[]
   usage: string
+  filename?: string
 }
 
 export const categories: Category[] = [
@@ -56,7 +71,7 @@ export const categories: Category[] = [
     items: [
       { id: 'tabs',       name: 'Tabs' },
       { id: 'breadcrumb', name: 'Breadcrumb' },
-      { id: 'pagination', name: 'Pagination' },
+      { id: 'pagination', name: 'Pagination', isNew: true },
     ],
   },
   {
@@ -74,9 +89,9 @@ export const categories: Category[] = [
     id: 'overlay',
     name: 'Overlay',
     items: [
-      { id: 'modal',    name: 'Modal' },
+      { id: 'modal',    name: 'Modal',    isNew: true },
       { id: 'tooltip',  name: 'Tooltip' },
-      { id: 'dropdown', name: 'Dropdown' },
+      { id: 'dropdown', name: 'Dropdown', isNew: true },
     ],
   },
   {
@@ -85,7 +100,7 @@ export const categories: Category[] = [
     items: [
       { id: 'card',   name: 'Card' },
       { id: 'avatar', name: 'Avatar' },
-      { id: 'table',  name: 'Table' },
+      { id: 'table',  name: 'Table',  isNew: true },
       { id: 'tag',    name: 'Tag' },
     ],
   },
@@ -107,6 +122,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'size',    type: "'sm' | 'md' | 'lg'",                          default: "'md'",       description: 'Size preset controlling padding and font size' },
       { name: 'disabled', type: 'boolean',                                    default: 'false',      description: 'Disables the button and prevents all interactions' },
     ],
+    slots: [
+      { name: 'default', description: 'Button label or any content (text, icon, etc.)' },
+    ],
     usage: `<UiButton variant="primary" size="md">Get started</UiButton>
 <UiButton variant="secondary">Learn more</UiButton>
 <UiButton variant="ghost" size="sm">Cancel</UiButton>
@@ -127,6 +145,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'size',    type: "'sm' | 'md' | 'lg'",                            default: "'md'",        description: 'Size preset (sm = 28px, md = 36px, lg = 44px)' },
       { name: 'disabled', type: 'boolean',                                      default: 'false',       description: 'Disables the button' },
     ],
+    slots: [
+      { name: 'default', description: 'The icon element to render inside the button' },
+    ],
     usage: `<UiIconButton label="Add item" variant="ghost">
   <Icon name="lucide:plus" class="w-4 h-4" />
 </UiIconButton>
@@ -146,6 +167,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'items',      type: '{ label: string; value: string; disabled?: boolean }[]', required: true,  description: 'Array of button items to render' },
       { name: 'modelValue', type: 'string',                                                 default: 'undefined', description: 'Currently selected value (use v-model)' },
       { name: 'variant',    type: "'default' | 'segmented'",                               default: "'default'",  description: 'Layout variant — default is joined, segmented is pill-style' },
+    ],
+    emits: [
+      { name: 'update:modelValue', payload: 'string', description: 'Fired when the selected item changes' },
     ],
     usage: `<UiButtonGroup
   v-model="view"
@@ -182,6 +206,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'error',       type: 'string',  default: 'undefined', description: 'Error message — also applies error border styling' },
       { name: 'hint',        type: 'string',  default: 'undefined', description: 'Hint text shown below the input (hidden when error is set)' },
     ],
+    emits: [
+      { name: 'update:modelValue', payload: 'string', description: 'Fired on every keystroke with the new value' },
+    ],
     usage: `<UiInput v-model="email" label="Email" type="email" placeholder="you@example.com" />
 
 <UiInput
@@ -209,6 +236,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'error',       type: 'string',  default: 'undefined', description: 'Error message' },
       { name: 'hint',        type: 'string',  default: 'undefined', description: 'Hint text (hidden when error is set)' },
     ],
+    emits: [
+      { name: 'update:modelValue', payload: 'string', description: 'Fired on every keystroke with the new value' },
+    ],
     usage: `<UiTextarea
   v-model="message"
   label="Message"
@@ -232,6 +262,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'disabled',    type: 'boolean',                                                           default: 'false',     description: 'Disables the select' },
       { name: 'error',       type: 'string',                                                            default: 'undefined', description: 'Error message' },
       { name: 'hint',        type: 'string',                                                            default: 'undefined', description: 'Hint text (hidden when error is set)' },
+    ],
+    emits: [
+      { name: 'update:modelValue', payload: 'string | number', description: 'Fired when the user selects an option' },
     ],
     usage: `<UiSelect
   v-model="plan"
@@ -257,6 +290,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'disabled',      type: 'boolean', default: 'false',     description: 'Disables the checkbox' },
       { name: 'indeterminate', type: 'boolean', default: 'false',     description: 'Shows an indeterminate (dash) state — useful for "select all" scenarios' },
     ],
+    emits: [
+      { name: 'update:modelValue', payload: 'boolean', description: 'Fired when the checkbox is toggled' },
+    ],
     usage: `<UiCheckbox v-model="accepted" label="Accept terms and conditions" />
 
 <!-- Indeterminate (select all) -->
@@ -270,12 +306,16 @@ export const componentDocs: Record<string, ComponentDoc> = {
   switch: {
     id: 'switch',
     name: 'Switch',
+    filename: 'UiToggle',
     category: 'Forms',
     categoryId: 'forms',
     isNew: true,
     description: 'Animated toggle switch with a spring-based GSAP thumb animation. Use via UiToggle component.',
     props: [
       { name: 'modelValue', type: 'boolean', default: 'false', description: 'On/off state (use v-model)' },
+    ],
+    emits: [
+      { name: 'update:modelValue', payload: 'boolean', description: 'Fired when the switch is toggled' },
     ],
     usage: `<div class="flex items-center gap-3">
   <UiToggle v-model="darkMode" />
@@ -298,6 +338,12 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'modelValue', type: 'string',                                            required: true,     description: 'Active tab id (use v-model)' },
       { name: 'tabs',       type: '{ id: string; label: string; disabled?: boolean }[]', required: true,  description: 'Array of tab definitions' },
       { name: 'variant',    type: "'underline' | 'pill'",                              default: "'underline'", description: 'Visual variant — underline uses an animated indicator, pill uses background' },
+    ],
+    emits: [
+      { name: 'update:modelValue', payload: 'string', description: 'Fired when the active tab changes' },
+    ],
+    slots: [
+      { name: 'default', description: 'Tab panel content — conditionally render based on the active tab value' },
     ],
     usage: `<UiTabs
   v-model="activeTab"
@@ -336,12 +382,16 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Pagination',
     category: 'Navigation',
     categoryId: 'navigation',
+    isNew: true,
     description: 'Page navigator with smart ellipsis logic. Renders prev/next arrows and a configurable window of page numbers around the current page.',
     props: [
       { name: 'modelValue', type: 'number',  required: true,       description: 'Current page number (use v-model)' },
       { name: 'total',      type: 'number',  required: true,       description: 'Total number of items' },
       { name: 'perPage',    type: 'number',  default: '10',        description: 'Items per page — used to calculate total pages' },
       { name: 'siblings',   type: 'number',  default: '1',         description: 'Number of page buttons shown on each side of the current page' },
+    ],
+    emits: [
+      { name: 'update:modelValue', payload: 'number', description: 'Fired when the user navigates to a different page' },
     ],
     usage: `<UiPagination v-model="page" :total="247" :per-page="20" />
 
@@ -357,6 +407,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
     description: 'Small pill label for status, category, or metadata. Uses a slot so any content can be placed inside.',
     props: [
       { name: 'variant', type: "'default' | 'indigo' | 'green' | 'red' | 'zinc'", default: "'default'", description: 'Color variant of the badge' },
+    ],
+    slots: [
+      { name: 'default', description: 'Badge content (text, icon, or both)' },
     ],
     usage: `<UiBadge>Default</UiBadge>
 <UiBadge variant="indigo">TypeScript</UiBadge>
@@ -376,6 +429,12 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'variant',     type: "'info' | 'success' | 'warning' | 'error'", default: "'info'",  description: 'Semantic variant — controls icon and color scheme' },
       { name: 'title',       type: 'string',                                    default: 'undefined', description: 'Optional bold title shown above the message' },
       { name: 'dismissible', type: 'boolean',                                   default: 'false',     description: 'Shows a close button that hides the alert on click' },
+    ],
+    emits: [
+      { name: 'dismiss', description: 'Fired after the user clicks the dismiss button and the alert hides' },
+    ],
+    slots: [
+      { name: 'default', description: 'Alert message body content' },
     ],
     usage: `<UiAlert variant="info" title="Heads up!">
   This action will affect all users in your organization.
@@ -405,6 +464,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'variant',     type: "'default' | 'success' | 'error' | 'warning'",     default: "'default'", description: 'Semantic variant — controls the icon and icon color' },
       { name: 'description', type: 'string',                                          default: 'undefined', description: 'Optional secondary line of text below the title' },
       { name: 'duration',    type: 'number',                                          default: '4000',      description: 'Auto-dismiss delay in ms. Set to 0 to disable.' },
+    ],
+    emits: [
+      { name: 'close', description: 'Fired after the toast finishes its exit animation — use it to remove it from the DOM' },
     ],
     usage: `<UiToast
   title="Changes saved"
@@ -461,11 +523,20 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Modal',
     category: 'Overlay',
     categoryId: 'overlay',
+    isNew: true,
     description: 'Accessible dialog with GSAP open animation, backdrop blur, ESC key support, and named slots for header and footer.',
     props: [
       { name: 'modelValue', type: 'boolean', required: true,       description: 'Controls visibility (use v-model)' },
       { name: 'title',      type: 'string',  default: 'undefined', description: 'Title text rendered in the header — leave empty to use the header slot' },
       { name: 'size',       type: "'sm' | 'md' | 'lg'",            default: "'md'", description: 'Max width of the panel (sm = 384px, md = 512px, lg = 672px)' },
+    ],
+    emits: [
+      { name: 'update:modelValue', payload: 'boolean', description: 'Fired when the modal is closed (ESC, backdrop click, or close button)' },
+    ],
+    slots: [
+      { name: 'default', description: 'Modal body content' },
+      { name: 'header',  description: 'Replaces the default title bar — receives no props' },
+      { name: 'footer',  description: 'Action buttons rendered at the bottom of the modal' },
     ],
     usage: `<UiButton @click="open = true">Open modal</UiButton>
 
@@ -489,6 +560,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'placement', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'", description: 'Position relative to the trigger element' },
       { name: 'delay',     type: 'number',                              default: '100',   description: 'Show delay in milliseconds' },
     ],
+    slots: [
+      { name: 'default', description: 'The trigger element — the tooltip appears when this is hovered or focused' },
+    ],
     usage: `<UiTooltip content="Copy to clipboard" placement="top">
   <UiIconButton label="Copy" variant="ghost">
     <Icon name="lucide:copy" class="w-4 h-4" />
@@ -505,10 +579,14 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Dropdown',
     category: 'Overlay',
     categoryId: 'overlay',
+    isNew: true,
     description: 'Context menu with GSAP open animation, click-outside dismissal, dividers, danger items, and disabled states. Wraps any trigger via the default slot.',
     props: [
       { name: 'items',     type: '{ label: string; icon?: string; action?: () => void; divider?: boolean; danger?: boolean; disabled?: boolean }[]', required: true, description: 'Array of menu items — set divider: true to render a separator' },
       { name: 'placement', type: "'bottom-left' | 'bottom-right'",                                                                                   default: "'bottom-left'", description: 'Alignment of the dropdown panel relative to the trigger' },
+    ],
+    slots: [
+      { name: 'default', description: 'The trigger element that opens the dropdown on click' },
     ],
     usage: `<UiDropdown
   :items="[
@@ -531,6 +609,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
     props: [
       { name: 'padding',   type: "'none' | 'sm' | 'md' | 'lg'", default: "'md'",   description: 'Inner padding (none = 0, sm = 12px, md = 20px, lg = 28px)' },
       { name: 'hoverable', type: 'boolean',                     default: 'false',  description: 'Adds a lift shadow and border highlight on hover' },
+    ],
+    slots: [
+      { name: 'default', description: 'Any content to render inside the card' },
     ],
     usage: `<UiCard>
   <h3 class="text-white font-semibold">Card title</h3>
@@ -574,6 +655,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
     name: 'Table',
     category: 'Data Display',
     categoryId: 'data-display',
+    isNew: true,
     description: 'Data table with named column slots, striped rows, hover highlight, and a skeleton loading state.',
     props: [
       { name: 'columns',   type: '{ key: string; label: string; width?: string; align?: "left" | "center" | "right" }[]', required: true, description: 'Column definitions — key maps to the slot name and row property' },
@@ -581,6 +663,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
       { name: 'loading',   type: 'boolean',                                                                                default: 'false', description: 'Shows a pulsing skeleton instead of rows' },
       { name: 'striped',   type: 'boolean',                                                                                default: 'false', description: 'Alternates row background colors' },
       { name: 'hoverable', type: 'boolean',                                                                                default: 'true',  description: 'Highlights rows on hover' },
+    ],
+    slots: [
+      { name: '#[key]', props: '{ value: unknown, row: Record<string, unknown> }', description: 'Named slot per column key — use to render custom cell content. Receives the cell value and the full row.' },
     ],
     usage: `<UiTable
   :columns="[
@@ -610,6 +695,12 @@ export const componentDocs: Record<string, ComponentDoc> = {
     props: [
       { name: 'variant',   type: "'default' | 'indigo' | 'green' | 'amber' | 'red'", default: "'default'", description: 'Color variant' },
       { name: 'removable', type: 'boolean',                                           default: 'false',     description: 'Shows a × button that emits the remove event' },
+    ],
+    emits: [
+      { name: 'remove', description: 'Fired when the user clicks the × button — use it to remove the tag from your list' },
+    ],
+    slots: [
+      { name: 'default', description: 'Tag label content' },
     ],
     usage: `<UiTag>Design</UiTag>
 <UiTag variant="indigo">Vue 3</UiTag>

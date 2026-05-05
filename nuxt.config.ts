@@ -8,6 +8,21 @@ export default defineNuxtConfig({
     "@nuxtjs/sitemap",
     "@nuxtjs/tailwindcss",
   ],
+  runtimeConfig: {
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://elvin-ui.com',
+    },
+  },
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      htmlAttrs: { lang: 'en' },
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      ],
+    },
+  },
   nitro: {
     preset: "cloudflare-module"
   },
