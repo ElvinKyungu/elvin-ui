@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -42,8 +42,8 @@ onMounted(() => {
       <!-- Header -->
       <div class="flex flex-col gap-2 text-center">
         <div class="flex items-center justify-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-          <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">FAQ</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">FAQ</span>
         </div>
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Frequently asked questions</h2>
         <p class="text-sm text-zinc-500 max-w-md mx-auto">Everything you need to know about Elvin UI. Can't find an answer? Open an issue on GitHub.</p>
@@ -64,7 +64,7 @@ onMounted(() => {
             <span class="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors">{{ faq.q }}</span>
             <span
               class="flex-shrink-0 w-5 h-5 rounded-full border border-zinc-700 flex items-center justify-center transition-all duration-300"
-              :class="openIndex === i ? 'bg-indigo-500 border-indigo-500 rotate-45' : 'group-hover:border-zinc-500'"
+              :class="openIndex === i ? 'bg-emerald-500 border-emerald-500 rotate-45' : 'group-hover:border-zinc-500'"
             >
               <svg class="w-2.5 h-2.5" :class="openIndex === i ? 'text-white' : 'text-zinc-500'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path d="M12 5v14M5 12h14" stroke-linecap="round" />

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 
 interface Props {
@@ -37,7 +37,7 @@ const toggle = () => emit('update:modelValue', !props.modelValue)
     @click="toggle"
     :class="[
       'relative w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer focus:outline-none flex-shrink-0',
-      modelValue ? 'bg-indigo-500' : 'bg-zinc-700',
+      modelValue ? 'bg-emerald-500' : 'bg-zinc-700',
     ]"
   >
     <span

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -87,7 +87,7 @@ onUnmounted(() => {
     <div class="max-w-6xl 2xl:max-w-[95rem] mx-auto">
       <div class="text-center mb-16">
         <p
-          class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-3"
+          class="text-xs text-emerald-400 font-medium tracking-widest uppercase mb-3"
         >
           Component preview
         </p>

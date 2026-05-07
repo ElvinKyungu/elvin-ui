@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 defineProps<{ id: string }>()
 </script>
 
@@ -219,12 +219,12 @@ defineProps<{ id: string }>()
         <div class="h-1.5 w-full bg-zinc-700 rounded-full" />
         <div class="h-1.5 w-5/6 bg-zinc-700/60 rounded-full" />
         <div class="flex items-center gap-1.5 mt-1">
-          <div class="w-4 h-4 rounded-full bg-indigo-500/60" />
+          <div class="w-4 h-4 rounded-full bg-emerald-500/60" />
           <div class="h-1 w-12 bg-zinc-600 rounded-full" />
         </div>
       </div>
       <div class="grid grid-cols-3 gap-1.5 flex-1">
-        <div v-for="(c, i) in ['bg-violet-500/30', 'bg-emerald-500/30', 'bg-amber-500/30']" :key="i" class="rounded-lg border border-zinc-800 bg-zinc-900/40 p-1.5 flex flex-col gap-1">
+        <div v-for="(c, i) in ['bg-emerald-500/30', 'bg-blue-500/30', 'bg-amber-500/30']" :key="i" class="rounded-lg border border-zinc-800 bg-zinc-900/40 p-1.5 flex flex-col gap-1">
           <div class="flex gap-0.5">
             <div v-for="s in 5" :key="s" class="w-1 h-1 bg-amber-400/60 rounded-sm" />
           </div>
@@ -249,7 +249,7 @@ defineProps<{ id: string }>()
         :class="active ? 'border-zinc-700 bg-zinc-900/60' : 'border-zinc-800/60 bg-zinc-900/20'"
       >
         <div class="h-1.5 rounded-full" :class="active ? 'w-28 bg-zinc-300' : 'w-20 bg-zinc-700'" />
-        <div class="w-3 h-3 rounded-full border flex items-center justify-center" :class="active ? 'border-indigo-500 bg-indigo-500' : 'border-zinc-700'">
+        <div class="w-3 h-3 rounded-full border flex items-center justify-center" :class="active ? 'border-emerald-500 bg-emerald-500' : 'border-zinc-700'">
           <div class="w-1 h-1 bg-white rounded-full" />
         </div>
       </div>
@@ -278,15 +278,15 @@ defineProps<{ id: string }>()
     <div class="absolute inset-0 bg-zinc-950 flex flex-col items-center justify-center gap-3 px-6">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgb(99,102,241,0.08),transparent_70%)]" />
       <div class="relative flex flex-col items-center gap-2 w-full max-w-[180px]">
-        <div class="h-4 px-2.5 rounded-full border border-indigo-500/20 bg-indigo-500/5 flex items-center gap-1">
-          <div class="w-1 h-1 rounded-full bg-indigo-400" />
-          <div class="h-1 w-10 bg-indigo-400/40 rounded-full" />
+        <div class="h-4 px-2.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 flex items-center gap-1">
+          <div class="w-1 h-1 rounded-full bg-emerald-400" />
+          <div class="h-1 w-10 bg-emerald-400/40 rounded-full" />
         </div>
         <div class="h-2 w-28 bg-zinc-200 rounded-full" />
         <div class="h-1.5 w-20 bg-zinc-600 rounded-full" />
         <div class="flex gap-1 w-full mt-1">
           <div class="flex-1 h-7 bg-zinc-900 border border-zinc-800 rounded-lg" />
-          <div class="h-7 w-16 bg-indigo-500 rounded-lg" />
+          <div class="h-7 w-16 bg-emerald-500 rounded-lg" />
         </div>
       </div>
     </div>
@@ -359,7 +359,7 @@ defineProps<{ id: string }>()
     <div class="absolute inset-0 bg-zinc-950 flex items-center justify-center">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgb(139,92,246,0.08),transparent_70%)]" />
       <div class="relative w-36 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 flex flex-col gap-2">
-        <div class="w-6 h-6 rounded-lg bg-violet-500 mx-auto" />
+        <div class="w-6 h-6 rounded-lg bg-emerald-500 mx-auto" />
         <div class="h-1.5 w-20 bg-zinc-300 rounded-full mx-auto" />
         <div class="h-4 bg-zinc-800 rounded-md" />
         <div class="h-4 bg-zinc-800 rounded-md" />
@@ -367,7 +367,7 @@ defineProps<{ id: string }>()
         <div class="flex gap-0.5">
           <div v-for="s in 4" :key="s" class="flex-1 h-1 rounded-full" :class="['bg-red-500', 'bg-zinc-800', 'bg-zinc-800', 'bg-zinc-800'][s - 1]" />
         </div>
-        <div class="h-5 bg-violet-500 rounded-lg" />
+        <div class="h-5 bg-emerald-500 rounded-lg" />
       </div>
     </div>
   </template>
@@ -377,7 +377,7 @@ defineProps<{ id: string }>()
     <div class="absolute inset-0 bg-zinc-950 p-3 flex flex-col gap-2">
       <div class="h-1.5 w-16 bg-zinc-300 rounded-full mx-auto" />
       <div class="grid grid-cols-4 gap-1.5 flex-1">
-        <div v-for="(c, i) in ['from-indigo-500', 'from-emerald-500', 'from-amber-500', 'from-rose-500']" :key="i" class="rounded-xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col gap-2">
+        <div v-for="(c, i) in ['from-emerald-500', 'from-blue-500', 'from-amber-500', 'from-rose-500']" :key="i" class="rounded-xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col gap-2">
           <div class="w-7 h-7 rounded-lg bg-gradient-to-br to-zinc-800 flex items-center justify-center" :class="c">
             <div class="w-2 h-2 bg-white/40 rounded-sm" />
           </div>
@@ -402,15 +402,15 @@ defineProps<{ id: string }>()
         <div class="h-1 w-8 bg-zinc-300 rounded-full" />
       </div>
       <div class="flex gap-1.5 flex-1">
-        <div v-for="i in [0,1,2]" :key="i" class="flex-1 rounded-xl border p-2 flex flex-col gap-1.5" :class="i === 1 ? 'border-indigo-500/30 bg-zinc-900/60' : 'border-zinc-800/60 bg-zinc-900/20'">
-          <div class="h-1.5 w-8 rounded-full" :class="i === 1 ? 'bg-indigo-400/60' : 'bg-zinc-600'" />
+        <div v-for="i in [0,1,2]" :key="i" class="flex-1 rounded-xl border p-2 flex flex-col gap-1.5" :class="i === 1 ? 'border-emerald-500/30 bg-zinc-900/60' : 'border-zinc-800/60 bg-zinc-900/20'">
+          <div class="h-1.5 w-8 rounded-full" :class="i === 1 ? 'bg-emerald-400/60' : 'bg-zinc-600'" />
           <div class="flex items-end gap-0.5">
             <div class="h-4 w-8 rounded-md" :class="i === 1 ? 'bg-white' : 'bg-zinc-400'" />
             <div class="h-1 w-3 bg-zinc-600 rounded-full mb-0.5" />
           </div>
-          <div class="h-4 rounded-lg" :class="i === 1 ? 'bg-indigo-500' : 'border border-zinc-700'" />
+          <div class="h-4 rounded-lg" :class="i === 1 ? 'bg-emerald-500' : 'border border-zinc-700'" />
           <div v-for="j in 3" :key="j" class="flex items-center gap-1">
-            <div class="w-1.5 h-1.5 rounded-full" :class="i === 1 ? 'bg-indigo-500' : 'bg-zinc-700'" />
+            <div class="w-1.5 h-1.5 rounded-full" :class="i === 1 ? 'bg-emerald-500' : 'bg-zinc-700'" />
             <div class="h-1 flex-1 rounded-full bg-zinc-800" />
           </div>
         </div>

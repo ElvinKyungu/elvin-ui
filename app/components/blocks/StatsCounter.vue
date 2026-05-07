@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -10,8 +10,8 @@ const stats = [
     suffix: "",
     label: "Components",
     desc: "Copy-paste into any Nuxt 4 project",
-    color: "text-indigo-400",
-    glow: "bg-indigo-500/10 border-indigo-500/20",
+    color: "text-emerald-400",
+    glow: "bg-emerald-500/10 border-emerald-500/20",
     icon: "lucide:layers",
   },
   {
@@ -37,8 +37,8 @@ const stats = [
     suffix: " file",
     label: "Per component",
     desc: "Self-contained, drop-in ready",
-    color: "text-violet-400",
-    glow: "bg-violet-500/10 border-violet-500/20",
+    color: "text-emerald-400",
+    glow: "bg-emerald-500/10 border-emerald-500/20",
     icon: "lucide:file-code",
   },
 ];

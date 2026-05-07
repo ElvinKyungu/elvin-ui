@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 
 interface Option {
@@ -71,7 +71,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
         :class="[
           'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm bg-zinc-900 border outline-none transition-all duration-200',
           open
-            ? 'border-indigo-500/60 ring-2 ring-indigo-500/20 text-white'
+            ? 'border-emerald-500/60 ring-2 ring-emerald-500/20 text-white'
             : error
               ? 'border-red-500/60 text-white'
               : 'border-zinc-700 hover:border-zinc-600',
@@ -108,7 +108,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
             :class="[
               'w-full flex items-center gap-2.5 px-3 py-2 text-sm text-left transition-colors duration-100',
               opt.value === modelValue
-                ? 'bg-indigo-500/15 text-indigo-300'
+                ? 'bg-emerald-500/15 text-emerald-300'
                 : 'text-zinc-300 hover:bg-zinc-800 hover:text-white',
               opt.disabled && 'opacity-40 cursor-not-allowed pointer-events-none',
             ]"
@@ -116,7 +116,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
             <span class="w-4 h-4 flex-shrink-0 flex items-center justify-center">
               <svg
                 v-if="opt.value === modelValue"
-                class="w-3.5 h-3.5 text-indigo-400"
+                class="w-3.5 h-3.5 text-emerald-400"
                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
               >
                 <path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />

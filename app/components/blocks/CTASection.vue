@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -30,12 +30,12 @@ onMounted(() => {
         >
           <!-- Inner glow -->
           <div
-            class="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-indigo-600/10 rounded-full blur-[80px] pointer-events-none"
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-emerald-600/10 rounded-full blur-[80px] pointer-events-none"
           />
 
           <div class="relative z-10">
             <p
-              class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-4"
+              class="text-xs text-emerald-400 font-medium tracking-widest uppercase mb-4"
             >
               Get started
             </p>

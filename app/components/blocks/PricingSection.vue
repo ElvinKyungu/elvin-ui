@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -81,7 +81,7 @@ onMounted(() => {
     <div class="max-w-5xl mx-auto">
 
       <div class="text-center mb-14">
-        <p class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-3">Pricing</p>
+        <p class="text-xs text-emerald-400 font-medium tracking-widest uppercase mb-3">Pricing</p>
         <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">
           Simple, transparent pricing.
         </h2>
@@ -97,7 +97,7 @@ onMounted(() => {
           <!-- Featured card has gradient border -->
           <div
             :class="plan.featured
-              ? 'p-px rounded-2xl bg-gradient-to-b from-indigo-500/60 to-indigo-500/0'
+              ? 'p-px rounded-2xl bg-gradient-to-b from-emerald-500/60 to-emerald-500/0'
               : ''
             "
           >
@@ -111,7 +111,7 @@ onMounted(() => {
             >
               <!-- Badge -->
               <div v-if="plan.badge" class="inline-flex">
-                <span class="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/25">
+                <span class="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
                   {{ plan.badge }}
                 </span>
               </div>
@@ -143,7 +143,7 @@ onMounted(() => {
                   :key="feature"
                   class="flex items-center gap-2.5 text-sm text-zinc-300"
                 >
-                  <Icon name="lucide:check" class="w-3.5 h-3.5 text-indigo-400 flex-shrink-0" />
+                  <Icon name="lucide:check" class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                   {{ feature }}
                 </li>
                 <li

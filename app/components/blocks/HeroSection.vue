@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 
 const badge = useTemplateRef("badge");
@@ -39,7 +39,7 @@ onMounted(() => {
   >
     <!-- Glow -->
     <div
-      class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-indigo-600/30 rounded-full blur-[140px] pointer-events-none"
+      class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-emerald-600/30 rounded-full blur-[140px] pointer-events-none"
     />
 
     <div
@@ -50,7 +50,7 @@ onMounted(() => {
         ref="badge"
         class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-700/80 bg-zinc-900/80 text-xs text-zinc-400 mb-8 backdrop-blur-sm"
       >
-        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
         Open source · Nuxt 4 · Copy-paste ready
       </div>
 

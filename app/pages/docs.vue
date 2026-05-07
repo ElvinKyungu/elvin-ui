@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 const { public: { siteUrl } } = useRuntimeConfig()
 
 useSeoMeta({
@@ -88,7 +88,7 @@ function scrollTo(id: string) {
           <!-- INTRODUCTION -->
           <section id="introduction" class="flex flex-col gap-6 scroll-mt-20">
             <div class="flex flex-col gap-2">
-              <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Getting started</span>
+              <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Getting started</span>
               <h1 class="text-3xl font-bold text-white tracking-tight">Introduction</h1>
               <p class="text-zinc-400 leading-relaxed">
                 Elvin UI is a collection of production-ready components and blocks built for <span class="text-zinc-200 font-medium">Nuxt 4</span>.
@@ -99,7 +99,7 @@ function scrollTo(id: string) {
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="flex flex-col gap-2 p-4 rounded-xl border border-zinc-800 bg-zinc-900/40">
-                <Icon name="lucide:layers" class="w-5 h-5 text-indigo-400" />
+                <Icon name="lucide:layers" class="w-5 h-5 text-emerald-400" />
                 <p class="text-sm font-medium text-white">23 Components</p>
                 <p class="text-xs text-zinc-500">Buttons, forms, overlays, data display and more.</p>
               </div>
@@ -119,7 +119,7 @@ function scrollTo(id: string) {
               <p class="text-sm font-semibold text-white">Tech stack</p>
               <ul class="flex flex-col gap-1.5">
                 <li v-for="item in ['Nuxt 4', 'Vue 3 (Composition API)', 'TypeScript (strict)', 'TailwindCSS', 'GSAP']" :key="item" class="flex items-center gap-2 text-sm text-zinc-400">
-                  <span class="w-1 h-1 rounded-full bg-indigo-400 shrink-0" />
+                  <span class="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
                   {{ item }}
                 </li>
               </ul>
@@ -131,7 +131,7 @@ function scrollTo(id: string) {
           <!-- INSTALLATION -->
           <section id="installation" class="flex flex-col gap-6 scroll-mt-20">
             <div class="flex flex-col gap-2">
-              <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Setup</span>
+              <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Setup</span>
               <h2 class="text-2xl font-bold text-white tracking-tight">Installation</h2>
               <p class="text-zinc-400 leading-relaxed">
                 Elvin UI is not an npm package. You copy components directly into your Nuxt 4 project.
@@ -162,7 +162,7 @@ cd my-app" />
               <div class="flex flex-col gap-2">
                 <p class="text-sm font-medium text-zinc-300">4. Copy a component</p>
                 <p class="text-sm text-zinc-500">
-                  Browse the <NuxtLink to="/components" class="text-indigo-400 hover:text-indigo-300 transition-colors">Components</NuxtLink> page,
+                  Browse the <NuxtLink to="/components" class="text-emerald-400 hover:text-emerald-300 transition-colors">Components</NuxtLink> page,
                   click on a component, copy the code and paste it into <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">app/components/ui/</code>.
                 </p>
               </div>
@@ -174,7 +174,7 @@ cd my-app" />
           <!-- THEMING -->
           <section id="theming" class="flex flex-col gap-6 scroll-mt-20">
             <div class="flex flex-col gap-2">
-              <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Customisation</span>
+              <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Customisation</span>
               <h2 class="text-2xl font-bold text-white tracking-tight">Theming</h2>
               <p class="text-zinc-400 leading-relaxed">
                 The entire colour palette is driven by a single CSS variable. Changing the accent colour rethemes the whole project.
@@ -184,8 +184,8 @@ cd my-app" />
             <UiCodeBlock lang="vue" code="/* assets/main.css */
 :root {
   /* Accent — change here to retheme the entire project */
-  --color-accent: 99 102 241;    /* indigo-500  */
-  --color-accent-dim: 67 56 202; /* indigo-700  */
+  --color-accent: 66 184 131;    /* Vue green / #42b883  */
+  --color-accent-dim: 45 158 107; /* Vue green dim */
 }" />
 
             <p class="text-sm text-zinc-500">
@@ -201,7 +201,7 @@ cd my-app" />
           <!-- CONTRIBUTING -->
           <section id="contributing" class="flex flex-col gap-6 scroll-mt-20">
             <div class="flex flex-col gap-2">
-              <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Open source</span>
+              <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Open source</span>
               <h2 class="text-2xl font-bold text-white tracking-tight">Contributing</h2>
               <p class="text-zinc-400 leading-relaxed">
                 Elvin UI is open source. Want to add a component or fix a bug? Here's the structure to follow.
@@ -213,7 +213,7 @@ cd my-app" />
                 <p class="text-sm font-semibold text-white">Component structure</p>
                 <ol class="flex flex-col gap-1.5 mt-1">
                   <li v-for="(step, i) in ['TypeScript props with withDefaults', 'Composition API logic', 'Template', 'GSAP animations (optional)']" :key="i" class="flex items-start gap-2 text-sm text-zinc-400">
-                    <span class="text-[10px] font-bold text-indigo-400 mt-0.5 shrink-0">{{ i + 1 }}.</span>
+                    <span class="text-[10px] font-bold text-emerald-400 mt-0.5 shrink-0">{{ i + 1 }}.</span>
                     {{ step }}
                   </li>
                 </ol>

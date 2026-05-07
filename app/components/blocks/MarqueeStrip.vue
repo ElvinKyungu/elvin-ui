@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 
 const track1 = useTemplateRef("track1");
@@ -57,7 +57,7 @@ onUnmounted(() => {
         :key="i"
         class="px-4 py-1.5 rounded-full border border-zinc-800/40 text-sm text-zinc-600 font-mono flex-shrink-0 flex items-center gap-2"
       >
-        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500/50 flex-shrink-0" />
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/50 flex-shrink-0" />
         {{ item }}
       </span>
     </div>

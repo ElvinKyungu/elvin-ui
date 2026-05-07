@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 interface Props {
   src?: string
   name?: string
@@ -18,7 +18,7 @@ const initials = computed(() => {
 })
 
 const colorMap = {
-  indigo: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+  emerald: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
   green:  'bg-green-500/20 text-green-400 border-green-500/30',
   amber:  'bg-amber-500/20 text-amber-400 border-amber-500/30',
   red:    'bg-red-500/20 text-red-400 border-red-500/30',

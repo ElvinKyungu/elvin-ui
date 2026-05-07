@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 interface Props {
   value: number
   size?: 'sm' | 'md' | 'lg'
@@ -41,7 +41,7 @@ const clamped = computed(() => Math.min(100, Math.max(0, props.value)))
         :class="[
           'h-full rounded-full transition-all duration-500 ease-out',
           {
-            'bg-indigo-500': variant === 'default',
+            'bg-emerald-500': variant === 'default',
             'bg-green-500': variant === 'success',
             'bg-amber-500': variant === 'warning',
             'bg-red-500': variant === 'danger',

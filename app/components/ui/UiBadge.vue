@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 interface Props {
   variant?: "default" | "indigo" | "green" | "red" | "zinc";
 }
@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
       {
         'bg-zinc-800 text-zinc-300 border border-zinc-700':
           variant === 'default',
-        'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20':
+        'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20':
           variant === 'indigo',
         'bg-green-500/10 text-green-400 border border-green-500/20':
           variant === 'green',

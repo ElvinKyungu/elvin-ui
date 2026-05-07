@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 interface Props {
   modelValue?: string
   label?: string
@@ -29,10 +29,10 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       :class="[
         'w-full px-3 py-2 rounded-lg text-sm bg-zinc-900 text-white placeholder-zinc-500 border outline-none transition-all duration-200',
-        'focus:ring-2 focus:ring-indigo-500/30',
+        'focus:ring-2 focus:ring-emerald-500/30',
         error
           ? 'border-red-500/60 focus:border-red-500'
-          : 'border-zinc-700 focus:border-indigo-500/60',
+          : 'border-zinc-700 focus:border-emerald-500/60',
         disabled && 'opacity-40 cursor-not-allowed',
       ]"
     />

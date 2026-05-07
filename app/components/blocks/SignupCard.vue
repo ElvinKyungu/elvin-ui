@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 
 const card = useTemplateRef('card')
@@ -49,7 +49,7 @@ onMounted(() => {
 <template>
   <section class="py-24 px-6 bg-zinc-950 flex items-center justify-center relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-600/5 rounded-full blur-3xl" />
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-600/5 rounded-full blur-3xl" />
     </div>
 
     <div ref="card" class="relative w-full max-w-sm">
@@ -73,7 +73,7 @@ onMounted(() => {
         <!-- Form -->
         <div v-else key="form" class="flex flex-col gap-6 p-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-sm">
           <div class="flex flex-col items-center gap-3 text-center">
-            <div class="w-10 h-10 rounded-xl bg-violet-500 flex items-center justify-center">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke-linecap="round" /><circle cx="9" cy="7" r="4" />
                 <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round" />
@@ -94,7 +94,7 @@ onMounted(() => {
                 type="text"
                 placeholder="Vander Otis"
                 class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
-                :class="errors.name ? 'border-red-500/60' : 'border-zinc-800 focus:border-violet-500/50'"
+                :class="errors.name ? 'border-red-500/60' : 'border-zinc-800 focus:border-emerald-500/50'"
               />
               <p v-if="errors.name" class="text-xs text-red-400">{{ errors.name }}</p>
             </div>
@@ -107,7 +107,7 @@ onMounted(() => {
                 type="email"
                 placeholder="you@company.com"
                 class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
-                :class="errors.email ? 'border-red-500/60' : 'border-zinc-800 focus:border-violet-500/50'"
+                :class="errors.email ? 'border-red-500/60' : 'border-zinc-800 focus:border-emerald-500/50'"
               />
               <p v-if="errors.email" class="text-xs text-red-400">{{ errors.email }}</p>
             </div>
@@ -121,7 +121,7 @@ onMounted(() => {
                   :type="showPassword ? 'text' : 'password'"
                   placeholder="Min. 8 characters"
                   class="w-full px-3.5 py-2.5 pr-10 rounded-lg bg-zinc-900 border text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
-                  :class="errors.password ? 'border-red-500/60' : 'border-zinc-800 focus:border-violet-500/50'"
+                  :class="errors.password ? 'border-red-500/60' : 'border-zinc-800 focus:border-emerald-500/50'"
                 />
                 <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors">
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -149,12 +149,12 @@ onMounted(() => {
                 type="button"
                 @click="form.agree = !form.agree"
                 class="mt-0.5 w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 flex-shrink-0"
-                :class="form.agree ? 'bg-violet-500 border-violet-500' : errors.agree ? 'border-red-500/60' : 'border-zinc-700 hover:border-zinc-500'"
+                :class="form.agree ? 'bg-emerald-500 border-emerald-500' : errors.agree ? 'border-red-500/60' : 'border-zinc-700 hover:border-zinc-500'"
               >
                 <svg v-if="form.agree" class="w-2.5 h-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m20 6-11 11-5-5" stroke-linecap="round" stroke-linejoin="round" /></svg>
               </button>
               <span class="text-xs text-zinc-500 leading-relaxed">
-                I agree to the <a href="#" class="text-violet-400 hover:text-violet-300">Terms of Service</a> and <a href="#" class="text-violet-400 hover:text-violet-300">Privacy Policy</a>
+                I agree to the <a href="#" class="text-emerald-400 hover:text-emerald-300">Terms of Service</a> and <a href="#" class="text-emerald-400 hover:text-emerald-300">Privacy Policy</a>
               </span>
             </label>
             <p v-if="errors.agree" class="text-xs text-red-400 -mt-2">{{ errors.agree }}</p>
@@ -162,7 +162,7 @@ onMounted(() => {
             <button
               type="submit"
               :disabled="status === 'loading'"
-              class="py-3 rounded-xl bg-violet-500 hover:bg-violet-400 text-white text-sm font-semibold transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60"
+              class="py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60"
             >
               <svg v-if="status === 'loading'" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10" class="opacity-25" /><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round" />
@@ -173,7 +173,7 @@ onMounted(() => {
 
           <p class="text-center text-xs text-zinc-600">
             Already have an account?
-            <a href="#" class="text-violet-400 hover:text-violet-300 transition-colors font-medium">Sign in</a>
+            <a href="#" class="text-emerald-400 hover:text-emerald-300 transition-colors font-medium">Sign in</a>
           </p>
         </div>
       </Transition>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 defineProps<{ id: string }>()
 
 const checkboxStates = ref([true, true, false, false])
@@ -294,7 +294,7 @@ const tableRows = [
       <UiCard hoverable class="flex-1">
         <p class="text-sm font-semibold text-white">Analytics</p>
         <p class="text-xs text-zinc-500 mt-1">Track your performance metrics in real time.</p>
-        <p class="text-2xl font-bold text-indigo-400 mt-3">+24.3%</p>
+        <p class="text-2xl font-bold text-emerald-400 mt-3">+24.3%</p>
       </UiCard>
       <UiCard hoverable class="flex-1">
         <p class="text-sm font-semibold text-white">Revenue</p>

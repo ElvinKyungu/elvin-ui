@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { allItems } from '~/data/ui-components'
@@ -37,8 +37,8 @@ onMounted(() => {
       <div class="flex items-end justify-between">
         <div class="flex flex-col gap-2">
           <div class="flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-            <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">What's new</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">What's new</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Recently added</h2>
         </div>
@@ -61,8 +61,8 @@ onMounted(() => {
           :to="`/components/${item.id}`"
           class="new-card group flex items-center gap-4 p-4 rounded-xl border border-zinc-800/80 bg-zinc-900/30 hover:border-zinc-700/80 hover:bg-zinc-900/60 transition-all duration-200"
         >
-          <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
-            <Icon name="lucide:box" class="w-4 h-4 text-indigo-400" />
+          <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+            <Icon name="lucide:box" class="w-4 h-4 text-emerald-400" />
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -114,20 +114,20 @@ onMounted(() => {
           <!-- Animated orbs -->
           <div
             ref="orb1"
-            class="absolute top-[-60px] left-1/4 w-64 h-64 bg-indigo-600/20 rounded-full blur-[90px] pointer-events-none"
+            class="absolute top-[-60px] left-1/4 w-64 h-64 bg-emerald-600/20 rounded-full blur-[90px] pointer-events-none"
           />
           <div
             ref="orb2"
-            class="absolute bottom-[-40px] right-1/4 w-72 h-72 bg-violet-600/15 rounded-full blur-[100px] pointer-events-none"
+            class="absolute bottom-[-40px] right-1/4 w-72 h-72 bg-emerald-600/15 rounded-full blur-[100px] pointer-events-none"
           />
           <div
             ref="orb3"
-            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-40 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-40 bg-emerald-500/10 rounded-full blur-[80px] pointer-events-none"
           />
 
           <div class="relative z-10">
             <p
-              class="cta-child text-xs text-indigo-400 font-medium tracking-widest uppercase mb-5"
+              class="cta-child text-xs text-emerald-400 font-medium tracking-widest uppercase mb-5"
             >
               Get started
             </p>
@@ -148,7 +148,7 @@ onMounted(() => {
             <div class="cta-child flex items-center justify-center gap-4 flex-wrap">
               <div ref="btnWrap" class="inline-block">
                 <NuxtLink to="/components">
-                  <UiButton size="lg" class="shadow-lg shadow-indigo-500/20 px-10">
+                  <UiButton size="lg" class="shadow-lg shadow-emerald-500/20 px-10">
                     Browse components
                   </UiButton>
                 </NuxtLink>

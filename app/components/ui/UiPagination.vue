@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 interface Props {
   modelValue: number
   total: number
@@ -70,7 +70,7 @@ function go(page: number | '...') {
       :class="[
         'w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-150',
         page === modelValue
-          ? 'bg-indigo-500 text-white border border-indigo-500'
+          ? 'bg-emerald-500 text-white border border-emerald-500'
           : page === '...'
             ? 'text-zinc-600 cursor-default'
             : 'border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800',

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 
 const card = useTemplateRef('card')
@@ -37,14 +37,14 @@ onMounted(() => {
 <template>
   <section class="py-24 px-6 bg-zinc-950 flex items-center justify-center relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[400px] bg-indigo-600/6 rounded-full blur-3xl" />
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[400px] bg-emerald-600/6 rounded-full blur-3xl" />
     </div>
 
     <div ref="card" class="relative w-full max-w-sm flex flex-col gap-6 p-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-sm">
 
       <!-- Logo & heading -->
       <div class="flex flex-col items-center gap-4 text-center">
-        <div class="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center">
           <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -96,21 +96,21 @@ onMounted(() => {
             v-model="email"
             type="email"
             placeholder="you@company.com"
-            class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 focus:border-indigo-500/50 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
+            class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 focus:border-emerald-500/50 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
           />
         </div>
 
         <div class="flex flex-col gap-1.5">
           <div class="flex items-center justify-between">
             <label class="text-xs font-semibold text-zinc-400">Password</label>
-            <button type="button" class="text-xs text-indigo-400 hover:text-indigo-300 transition-colors">Forgot password?</button>
+            <button type="button" class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Forgot password?</button>
           </div>
           <div class="relative">
             <input
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
               placeholder="••••••••"
-              class="w-full px-3.5 py-2.5 pr-10 rounded-lg bg-zinc-900 border border-zinc-800 focus:border-indigo-500/50 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
+              class="w-full px-3.5 py-2.5 pr-10 rounded-lg bg-zinc-900 border border-zinc-800 focus:border-emerald-500/50 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
             />
             <button
               type="button"
@@ -135,7 +135,7 @@ onMounted(() => {
             type="button"
             @click="remember = !remember"
             class="w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 flex-shrink-0"
-            :class="remember ? 'bg-indigo-500 border-indigo-500' : 'border-zinc-700 hover:border-zinc-500'"
+            :class="remember ? 'bg-emerald-500 border-emerald-500' : 'border-zinc-700 hover:border-zinc-500'"
           >
             <svg v-if="remember" class="w-2.5 h-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m20 6-11 11-5-5" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </button>
@@ -145,7 +145,7 @@ onMounted(() => {
         <button
           type="submit"
           :disabled="status === 'loading'"
-          class="py-3 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-semibold transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60"
+          class="py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60"
         >
           <svg v-if="status === 'loading'" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10" class="opacity-25" /><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round" />
@@ -156,7 +156,7 @@ onMounted(() => {
 
       <p class="text-center text-xs text-zinc-600">
         Don't have an account?
-        <a href="#" class="text-indigo-400 hover:text-indigo-300 transition-colors font-medium">Create one free</a>
+        <a href="#" class="text-emerald-400 hover:text-emerald-300 transition-colors font-medium">Create one free</a>
       </p>
 
     </div>

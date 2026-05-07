@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -17,7 +17,7 @@ const cards = [
     title: 'Pixel Perfect',
     description: 'Every component is designed with precision. Consistent spacing, thoughtful typography, and a cohesive design language throughout.',
     glow: '#8B5CF6',
-    border: 'hover:border-violet-500/30',
+    border: 'hover:border-emerald-500/30',
   },
   {
     icon: '🔒',
@@ -45,7 +45,7 @@ const cards = [
     title: 'Animated',
     description: 'GSAP micro-interactions that feel alive. Scroll reveals, hover effects, and entrance animations — all performance-first.',
     glow: '#6366F1',
-    border: 'hover:border-indigo-500/30',
+    border: 'hover:border-emerald-500/30',
   },
 ]
 
@@ -87,8 +87,8 @@ onMounted(() => {
       <!-- Header -->
       <div class="flex flex-col gap-2 text-center">
         <div class="flex items-center justify-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-          <span class="text-xs font-semibold text-violet-400 uppercase tracking-widest">Why Elvin UI</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Why Elvin UI</span>
         </div>
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Built different</h2>
         <p class="text-sm text-zinc-500 max-w-md mx-auto">Hover over the cards to see the glow effect.</p>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -83,7 +83,7 @@ onUnmounted(() => {
         <!-- Left: Text -->
         <div ref="textCol">
           <p
-            class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-4"
+            class="text-xs text-emerald-400 font-medium tracking-widest uppercase mb-4"
           >
             Built for speed
           </p>
@@ -105,9 +105,9 @@ onUnmounted(() => {
               class="flex items-center gap-3"
             >
               <span
-                class="w-5 h-5 rounded-full bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center flex-shrink-0"
+                class="w-5 h-5 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center flex-shrink-0"
               >
-                <Icon name="lucide:check" class="w-3 h-3 text-indigo-400" />
+                <Icon name="lucide:check" class="w-3 h-3 text-emerald-400" />
               </span>
               <span class="text-sm text-zinc-300">{{ feature }}</span>
             </li>
@@ -142,7 +142,7 @@ onUnmounted(() => {
           <pre
             ref="codeContainer"
             class="p-6 text-sm font-mono leading-loose min-h-[220px] select-none overflow-hidden"
-          ><span class="token text-[#e06c75]">&lt;UiButton</span><span class="token text-[#abb2bf]">&#10;  variant=</span><span class="token text-[#98c379]">"primary"</span><span class="token text-[#abb2bf]">&#10;  size=</span><span class="token text-[#98c379]">"md"</span><span class="token text-[#e06c75]">&#10;&gt;</span><span class="token text-[#f8f8f2]">&#10;  Get started &#8594;&#10;</span><span class="token text-[#e06c75]">&lt;/UiButton&gt;</span><span class="cursor-blink text-indigo-400"> ▋</span></pre>
+          ><span class="token text-[#e06c75]">&lt;UiButton</span><span class="token text-[#abb2bf]">&#10;  variant=</span><span class="token text-[#98c379]">"primary"</span><span class="token text-[#abb2bf]">&#10;  size=</span><span class="token text-[#98c379]">"md"</span><span class="token text-[#e06c75]">&#10;&gt;</span><span class="token text-[#f8f8f2]">&#10;  Get started &#8594;&#10;</span><span class="token text-[#e06c75]">&lt;/UiButton&gt;</span><span class="cursor-blink text-emerald-400"> ▋</span></pre>
         </div>
       </div>
     </div>

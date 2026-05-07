@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { allItems, componentDocs } from '~/data/ui-components'
 
 const route = useRoute()
@@ -128,7 +128,7 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
           <div class="flex items-center gap-2">
             <NuxtLink
               :to="`/components?cat=${doc.categoryId}`"
-              class="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+              class="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
             >{{ doc.category }}</NuxtLink>
             <span class="text-zinc-700">·</span>
             <span v-if="item?.isNew" class="text-[10px] px-1.5 py-0.5 bg-accent/15 text-accent border border-accent/20 rounded font-semibold uppercase tracking-wide">New</span>
@@ -425,7 +425,7 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
                       <UiProgress :value="100" variant="success" size="sm" label="Upload complete" show-value />
                       <UiProgress :value="55" variant="warning" label="CPU usage" show-value />
                       <UiProgress :value="30" variant="danger" size="lg" label="Memory critical" show-value />
-                      <input type="range" v-model="progressVal" min="0" max="100" class="w-full accent-indigo-500" />
+                      <input type="range" v-model="progressVal" min="0" max="100" class="w-full accent-emerald-500" />
                     </div>
                   </template>
 
@@ -598,7 +598,7 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
             >
               <!-- Prop name -->
               <div class="flex items-start gap-1.5 pt-0.5">
-                <code class="text-[12px] font-mono font-medium text-indigo-400">{{ prop.name }}</code>
+                <code class="text-[12px] font-mono font-medium text-emerald-400">{{ prop.name }}</code>
                 <span v-if="prop.required" class="text-[9px] mt-0.5 px-1 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded font-bold uppercase leading-none">req</span>
               </div>
 
@@ -663,7 +663,7 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
                 :key="slot.name"
                 :class="['grid grid-cols-[1fr_1.4fr_2fr] px-4 py-3.5 border-b border-zinc-800/40 last:border-0 hover:bg-zinc-800/20 transition-colors', i % 2 !== 0 && 'bg-zinc-900/20']"
               >
-                <code class="text-[12px] font-mono font-medium text-purple-400 pt-0.5">{{ slot.name }}</code>
+                <code class="text-[12px] font-mono font-medium text-emerald-400 pt-0.5">{{ slot.name }}</code>
                 <div class="flex items-start pt-0.5 pr-4">
                   <code v-if="slot.props" class="text-[11px] font-mono text-amber-300/80 bg-amber-500/8 px-2 py-0.5 rounded-md border border-amber-500/10 break-all leading-relaxed">{{ slot.props }}</code>
                   <span v-else class="text-zinc-700 text-xs pt-0.5">—</span>

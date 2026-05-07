@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 interface Props {
   size?: 'sm' | 'md' | 'lg'
   variant?: 'primary' | 'white' | 'muted'
@@ -20,7 +20,7 @@ withDefaults(defineProps<Props>(), {
         'w-4 h-4': size === 'sm',
         'w-6 h-6': size === 'md',
         'w-9 h-9': size === 'lg',
-        'border-indigo-500/30 border-t-indigo-500': variant === 'primary',
+        'border-emerald-500/30 border-t-emerald-500': variant === 'primary',
         'border-white/30 border-t-white': variant === 'white',
         'border-zinc-700 border-t-zinc-400': variant === 'muted',
       },

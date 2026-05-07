@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 
 interface Tab {
@@ -61,7 +61,7 @@ onMounted(() => nextTick(moveIndicator))
           tab.disabled && 'opacity-40 cursor-not-allowed pointer-events-none',
         ]"
       >{{ tab.label }}</button>
-      <div ref="indicatorEl" class="absolute bottom-0 h-0.5 bg-indigo-500 rounded-full" />
+      <div ref="indicatorEl" class="absolute bottom-0 h-0.5 bg-emerald-500 rounded-full" />
     </div>
     <div class="pt-4">
       <slot />

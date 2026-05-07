@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 interface Props {
   variant?: 'default' | 'indigo' | 'green' | 'amber' | 'red'
   removable?: boolean
@@ -13,7 +13,7 @@ defineEmits<{ remove: [] }>()
 
 const styles = {
   default: 'bg-zinc-800 text-zinc-300 border-zinc-700',
-  indigo:  'bg-indigo-500/10 text-indigo-400 border-indigo-500/25',
+  emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25',
   green:   'bg-green-500/10 text-green-400 border-green-500/25',
   amber:   'bg-amber-500/10 text-amber-400 border-amber-500/25',
   red:     'bg-red-500/10 text-red-400 border-red-500/25',

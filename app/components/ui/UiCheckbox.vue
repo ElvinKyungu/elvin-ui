@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 
 interface Props {
@@ -44,7 +44,7 @@ watch(() => props.modelValue, (val) => {
         :class="[
           'w-4 h-4 rounded border flex items-center justify-center transition-all duration-150',
           modelValue || indeterminate
-            ? 'bg-indigo-500 border-indigo-500'
+            ? 'bg-emerald-500 border-emerald-500'
             : 'bg-zinc-900 border-zinc-600 hover:border-zinc-400',
         ]"
       >

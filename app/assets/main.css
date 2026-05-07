@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 /* ─── Design tokens ────────────────────────────────────────────────────────── */
 :root {
   /* Accent — change here to retheme the entire project */
-  --color-accent: 99 102 241;       /* indigo-500  */
-  --color-accent-dim: 67 56 202;    /* indigo-700  */
+  --color-accent: 66 184 131;       /* Vue green / #42b883  */
+  --color-accent-dim: 45 158 107;   /* Vue green dim / #2d9e6b */
 
   /* Backgrounds */
   --color-bg: #09090b;              /* zinc-950    */
@@ -27,7 +27,7 @@ html {
 }
 
 ::selection {
-  background: #6366f1;
+  background: #42b883;
   color: white;
 }
 

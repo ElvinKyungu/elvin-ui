@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -22,7 +22,7 @@ const testimonials = [
     role: "Lead Developer",
     company: "Vercel",
     avatar: "GD",
-    color: "from-violet-500 to-purple-600",
+    color: "from-emerald-500 to-emerald-600",
   },
   {
     quote: "The GSAP micro-interactions are exactly what I was spending days building from scratch. It's insane value.",
@@ -75,10 +75,10 @@ onMounted(() => {
       <!-- Featured quote -->
       <div class="testi-card relative rounded-2xl border border-zinc-800/60 bg-zinc-900/30 overflow-hidden">
         <!-- Ambient glows -->
-        <div class="absolute -top-20 -left-20 w-80 h-80 bg-indigo-600/12 rounded-full blur-3xl pointer-events-none" />
-        <div class="absolute -bottom-16 -right-16 w-64 h-64 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div class="absolute -top-20 -left-20 w-80 h-80 bg-emerald-600/12 rounded-full blur-3xl pointer-events-none" />
+        <div class="absolute -bottom-16 -right-16 w-64 h-64 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
         <!-- Top border highlight -->
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
 
         <div class="relative grid grid-cols-1 lg:grid-cols-5 gap-0">
 
@@ -100,7 +100,7 @@ onMounted(() => {
             </div>
 
             <!-- Big decorative quote mark -->
-            <svg class="w-10 h-10 text-indigo-500/30 -mb-4" viewBox="0 0 48 48" fill="currentColor">
+            <svg class="w-10 h-10 text-emerald-500/30 -mb-4" viewBox="0 0 48 48" fill="currentColor">
               <path d="M0 24C0 10.745 10.745 0 24 0v8C15.163 8 8 15.163 8 24v4h10v20H0V24zm28 0C28 10.745 38.745 0 52 0v8C43.163 8 36 15.163 36 24v4h10v20H28V24z" transform="scale(0.9)" />
             </svg>
 
@@ -112,8 +112,8 @@ onMounted(() => {
             <!-- Author -->
             <div class="flex items-center gap-4 pt-2">
               <div class="relative flex-shrink-0">
-                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 blur-[2px] scale-110 opacity-60" />
-                <div class="relative w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-sm font-black">
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-500 blur-[2px] scale-110 opacity-60" />
+                <div class="relative w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white text-sm font-black">
                   {{ featured.avatar }}
                 </div>
               </div>
@@ -131,7 +131,7 @@ onMounted(() => {
               <!-- Big stat -->
               <div class="flex flex-col items-center gap-2">
                 <div class="relative">
-                  <div class="absolute inset-0 bg-indigo-500/20 blur-2xl rounded-full scale-150" />
+                  <div class="absolute inset-0 bg-emerald-500/20 blur-2xl rounded-full scale-150" />
                   <p class="relative text-7xl font-black text-white tracking-tighter tabular-nums">{{ featured.metric.value }}</p>
                 </div>
                 <p class="text-sm font-semibold text-zinc-400 uppercase tracking-widest">{{ featured.metric.label }}</p>

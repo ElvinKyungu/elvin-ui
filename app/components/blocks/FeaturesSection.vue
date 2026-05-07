@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -52,7 +52,7 @@ onMounted(() => {
     <div class="max-w-6xl 2xl:max-w-[95rem] mx-auto">
       <div class="text-center mb-16">
         <p
-          class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-3"
+          class="text-xs text-emerald-400 font-medium tracking-widest uppercase mb-3"
         >
           Why Elvin UI
         </p>
@@ -69,9 +69,9 @@ onMounted(() => {
           class="feature-card group p-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/30 hover:bg-zinc-900/70 hover:border-zinc-700 transition-all duration-300"
         >
           <div
-            class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-5 group-hover:bg-indigo-500/20 transition-colors duration-300"
+            class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-5 group-hover:bg-emerald-500/20 transition-colors duration-300"
           >
-            <Icon :name="feature.icon" class="w-5 h-5 text-indigo-400" />
+            <Icon :name="feature.icon" class="w-5 h-5 text-emerald-400" />
           </div>
           <h3 class="text-base font-semibold text-white mb-2">
             {{ feature.title }}

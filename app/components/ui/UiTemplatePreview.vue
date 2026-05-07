@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 defineProps<{ id: string }>()
 </script>
 
@@ -281,12 +281,12 @@ defineProps<{ id: string }>()
           <div class="flex gap-2 ml-auto"><div class="h-1 w-5 bg-zinc-700 rounded-full" /><div class="h-1 w-5 bg-zinc-700 rounded-full" /><div class="h-1 w-5 bg-zinc-700 rounded-full" /></div>
         </div>
         <div class="flex-1 relative overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-zinc-950 to-pink-500/10" />
+          <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-zinc-950 to-pink-500/10" />
           <div class="absolute inset-0 flex flex-col items-center justify-center gap-1.5 px-4">
-            <div class="h-1 w-8 bg-violet-400/60 rounded-full" />
+            <div class="h-1 w-8 bg-emerald-400/60 rounded-full" />
             <div class="h-3 w-32 bg-zinc-100 rounded-full" />
             <div class="h-1.5 w-24 bg-zinc-500 rounded-full" />
-            <div class="flex gap-1.5 mt-1"><div class="h-4 w-12 bg-violet-500 rounded-md" /><div class="h-4 w-12 border border-zinc-700 rounded-md" /></div>
+            <div class="flex gap-1.5 mt-1"><div class="h-4 w-12 bg-emerald-500 rounded-md" /><div class="h-4 w-12 border border-zinc-700 rounded-md" /></div>
           </div>
         </div>
         <div class="h-8 border-t border-zinc-800/60 flex items-center justify-center gap-2">

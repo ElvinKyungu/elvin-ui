@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -44,22 +44,22 @@ onMounted(() => {
 <template>
   <section ref="section" class="py-24 px-6 bg-zinc-950 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-indigo-600/8 rounded-full blur-3xl" />
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-600/8 rounded-full blur-3xl" />
     </div>
 
     <div class="max-w-2xl mx-auto flex flex-col items-center gap-8 text-center relative z-10">
 
       <!-- Badge -->
-      <div class="nl-enter flex items-center gap-2 px-3 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/5">
-        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-        <span class="text-xs font-semibold text-indigo-400 tracking-wide">Stay in the loop</span>
+      <div class="nl-enter flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Stay in the loop</span>
       </div>
 
       <!-- Headline -->
       <div class="nl-enter flex flex-col gap-3">
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
           New components,<br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">every week.</span>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-400">every week.</span>
         </h2>
         <p class="text-sm text-zinc-500 max-w-sm mx-auto leading-relaxed">
           Get notified when new blocks, templates, and components drop. No spam — unsubscribe anytime.
@@ -85,13 +85,13 @@ onMounted(() => {
                 @keydown.enter="submit"
                 :disabled="status === 'loading'"
                 class="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border text-sm text-white placeholder-zinc-600 focus:outline-none focus:bg-zinc-900 transition-all duration-200 disabled:opacity-60"
-                :class="status === 'error' ? 'border-red-500/60 focus:border-red-500/80' : 'border-zinc-800 focus:border-indigo-500/50'"
+                :class="status === 'error' ? 'border-red-500/60 focus:border-red-500/80' : 'border-zinc-800 focus:border-emerald-500/50'"
               />
             </div>
             <button
               @click="submit"
               :disabled="status === 'loading'"
-              class="px-5 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-400 active:bg-indigo-600 text-white text-sm font-semibold transition-all duration-150 disabled:opacity-60 flex items-center justify-center gap-2 flex-shrink-0 whitespace-nowrap"
+              class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-white text-sm font-semibold transition-all duration-150 disabled:opacity-60 flex items-center justify-center gap-2 flex-shrink-0 whitespace-nowrap"
             >
               <svg v-if="status === 'loading'" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10" class="opacity-25" />
@@ -130,7 +130,7 @@ onMounted(() => {
       <div class="nl-enter flex items-center gap-2.5 text-xs text-zinc-600">
         <div class="flex -space-x-1.5">
           <div
-            v-for="(c, i) in ['bg-indigo-500', 'bg-violet-500', 'bg-emerald-500', 'bg-amber-500']"
+            v-for="(c, i) in ['bg-emerald-500', 'bg-blue-500', 'bg-amber-500', 'bg-rose-500']"
             :key="i"
             class="w-5 h-5 rounded-full border-2 border-zinc-950 flex items-center justify-center text-[7px] font-bold text-white"
             :class="c"

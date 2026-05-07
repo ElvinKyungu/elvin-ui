@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -39,7 +39,7 @@ onMounted(() => {
   <section ref="section" class="py-28 px-6">
     <div class="max-w-4xl mx-auto text-center">
       <p
-        class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-10"
+        class="text-xs text-emerald-400 font-medium tracking-widest uppercase mb-10"
       >
         Our philosophy
       </p>

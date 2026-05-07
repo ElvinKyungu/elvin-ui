@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { allItems } from "~/data/ui-components";
@@ -53,7 +53,7 @@ onMounted(() => {
     <div class="max-w-6xl 2xl:max-w-[95rem] mx-auto">
 
       <div class="text-center mb-16">
-        <p class="text-xs text-indigo-400 font-medium tracking-widest uppercase mb-3">
+        <p class="text-xs text-emerald-400 font-medium tracking-widest uppercase mb-3">
           The numbers
         </p>
         <h2 class="text-3xl md:text-4xl font-bold text-white">
@@ -69,7 +69,7 @@ onMounted(() => {
           class="bento-card md:col-span-2 rounded-2xl border border-zinc-800/80 bg-zinc-900/30 p-8 flex flex-col justify-between min-h-[200px] relative overflow-hidden"
         >
           <div
-            class="absolute -top-10 -right-10 w-48 h-48 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"
+            class="absolute -top-10 -right-10 w-48 h-48 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none"
           />
           <p class="text-xs text-zinc-500 font-mono uppercase tracking-widest mb-6">
             Component library
@@ -133,12 +133,12 @@ onMounted(() => {
           class="bento-card md:col-span-2 rounded-2xl border border-zinc-800/80 bg-zinc-900/30 p-8 flex flex-col justify-between min-h-[200px] relative overflow-hidden"
         >
           <div
-            class="absolute -bottom-8 -left-8 w-40 h-40 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"
+            class="absolute -bottom-8 -left-8 w-40 h-40 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"
           />
           <div
-            class="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-6"
+            class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-6"
           >
-            <Icon name="lucide:clipboard-copy" class="w-5 h-5 text-violet-400" />
+            <Icon name="lucide:clipboard-copy" class="w-5 h-5 text-emerald-400" />
           </div>
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>

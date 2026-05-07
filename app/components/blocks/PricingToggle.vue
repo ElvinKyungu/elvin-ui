@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -110,12 +110,12 @@ watch(annual, () => {
           :key="plan.name"
           class="price-card relative flex flex-col gap-6 p-6 rounded-2xl border transition-all duration-300"
           :class="plan.featured
-            ? 'bg-zinc-900/60 border-indigo-500/30 shadow-[0_0_40px_rgba(99,102,241,0.1)]'
+            ? 'bg-zinc-900/60 border-emerald-500/30 shadow-[0_0_40px_rgba(66,184,131,0.1)]'
             : 'bg-zinc-900/20 border-zinc-800/60 hover:border-zinc-700/60'"
         >
           <!-- Featured badge -->
           <div v-if="plan.featured" class="absolute -top-3 left-1/2 -translate-x-1/2">
-            <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-indigo-500 text-white rounded-full">Most popular</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-emerald-500 text-white rounded-full">Most popular</span>
           </div>
 
           <!-- Plan header -->
@@ -135,14 +135,14 @@ watch(annual, () => {
           <button
             class="w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-150"
             :class="plan.featured
-              ? 'bg-indigo-500 hover:bg-indigo-400 text-white'
+              ? 'bg-emerald-500 hover:bg-emerald-400 text-white'
               : 'border border-zinc-700 hover:border-zinc-600 text-zinc-300 hover:text-white'"
           >{{ plan.cta }}</button>
 
           <!-- Features -->
           <div class="flex flex-col gap-2.5 pt-2 border-t border-zinc-800/60">
             <div v-for="feature in plan.features" :key="feature" class="flex items-center gap-2.5">
-              <svg class="w-3.5 h-3.5 flex-shrink-0" :class="plan.featured ? 'text-indigo-400' : 'text-zinc-600'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <svg class="w-3.5 h-3.5 flex-shrink-0" :class="plan.featured ? 'text-emerald-400' : 'text-zinc-600'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path d="m20 6-11 11-5-5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               <span class="text-xs text-zinc-400">{{ feature }}</span>

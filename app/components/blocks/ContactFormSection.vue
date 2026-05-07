@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -59,8 +59,8 @@ onMounted(() => {
       <!-- Header -->
       <div class="flex flex-col gap-2 text-center">
         <div class="flex items-center justify-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-          <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Contact</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Contact</span>
         </div>
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Get in touch</h2>
         <p class="text-sm text-zinc-500 max-w-md mx-auto">Have a question or want to work together? Drop us a message and we'll get back to you within 24 hours.</p>
@@ -88,7 +88,7 @@ onMounted(() => {
             </div>
           </div>
 
-          <div class="p-5 rounded-xl bg-indigo-500/5 border border-indigo-500/15 flex flex-col gap-2">
+          <div class="p-5 rounded-xl bg-emerald-500/5 border border-emerald-500/15 flex flex-col gap-2">
             <p class="text-sm font-semibold text-white">Response time</p>
             <p class="text-xs text-zinc-500 leading-relaxed">We typically respond within 24 hours on business days. For urgent matters, reach out via Discord.</p>
           </div>
@@ -109,7 +109,7 @@ onMounted(() => {
                 <p class="text-lg font-semibold text-white">Message sent!</p>
                 <p class="text-sm text-zinc-500">Thanks for reaching out. We'll be in touch soon.</p>
               </div>
-              <button @click="reset" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">Send another message →</button>
+              <button @click="reset" class="text-sm text-emerald-400 hover:text-emerald-300 transition-colors">Send another message →</button>
             </div>
 
             <form v-else key="form" @submit.prevent="submit" class="flex flex-col gap-5 p-6 rounded-2xl border border-zinc-800/60 bg-zinc-900/30">
@@ -121,7 +121,7 @@ onMounted(() => {
                     type="text"
                     placeholder="Elvin Code"
                     class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
-                    :class="errors.name ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500/50'"
+                    :class="errors.name ? 'border-red-500/60' : 'border-zinc-800 focus:border-emerald-500/50'"
                   />
                   <p v-if="errors.name" class="text-xs text-red-400">{{ errors.name }}</p>
                 </div>
@@ -132,7 +132,7 @@ onMounted(() => {
                     type="email"
                     placeholder="you@company.com"
                     class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
-                    :class="errors.email ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500/50'"
+                    :class="errors.email ? 'border-red-500/60' : 'border-zinc-800 focus:border-emerald-500/50'"
                   />
                   <p v-if="errors.email" class="text-xs text-red-400">{{ errors.email }}</p>
                 </div>
@@ -145,7 +145,7 @@ onMounted(() => {
                   type="text"
                   placeholder="How can we help?"
                   class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors"
-                  :class="errors.subject ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500/50'"
+                  :class="errors.subject ? 'border-red-500/60' : 'border-zinc-800 focus:border-emerald-500/50'"
                 />
                 <p v-if="errors.subject" class="text-xs text-red-400">{{ errors.subject }}</p>
               </div>
@@ -157,7 +157,7 @@ onMounted(() => {
                   rows="5"
                   placeholder="Tell us about your project..."
                   class="px-3.5 py-2.5 rounded-lg bg-zinc-900 border text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors resize-none"
-                  :class="errors.message ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500/50'"
+                  :class="errors.message ? 'border-red-500/60' : 'border-zinc-800 focus:border-emerald-500/50'"
                 />
                 <p v-if="errors.message" class="text-xs text-red-400">{{ errors.message }}</p>
               </div>
@@ -165,7 +165,7 @@ onMounted(() => {
               <button
                 type="submit"
                 :disabled="status === 'loading'"
-                class="w-full py-3 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-semibold transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60"
+                class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <svg v-if="status === 'loading'" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10" class="opacity-25" /><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round" />
