@@ -1,24 +1,34 @@
-Create a new Elvin UI component: $ARGUMENTS
+Create a complete new Elvin UI component: $ARGUMENTS
 
-Follow the exact component anatomy from CLAUDE.md:
+## Step 1 — Create the component file
 
-1. Props interface with TypeScript + `withDefaults`
-2. Logic with Composition API
-3. GSAP micro-interactions in `onMounted` (only if it adds value)
-4. Template with Tailwind conditional classes
-5. Usage example in a comment at the bottom
+Path: `app/components/ui/Ui[Name].vue`
 
-Naming rules:
+Follow the exact anatomy from CLAUDE.md:
+1. Props TypeScript interface + `withDefaults` (no `any`, strict mode)
+2. Composition API logic with `useTemplateRef`
+3. Template — TailwindCSS only, conditional class binding, variants + sizes
+4. GSAP micro-interactions in `onMounted` + cleanup in `onUnmounted` (only if they add real value)
+5. Usage comment at the bottom: `<!-- USAGE: <UiXxx variant="primary" size="md" /> -->`
 
-- UI component → `Ui` prefix → `UiButton.vue`
-- Block component → descriptive → `HeroSection.vue`
+Required variants (if applicable): primary, secondary, ghost, danger
+Required sizes (if applicable): sm, md, lg
+Accent color: emerald- (never indigo-, violet-, purple-)
+SSR-safe: no window/document outside onMounted
 
-File location:
+## Step 2 — Register in data file
 
-- Atomic → `app/components/ui/`
-- Section/block → `app/components/blocks/`
+Read `app/data/ui-components.ts` to understand the full structure and existing entries.
+Add a new entry that matches the exact same shape as existing ones:
+- id, name, description, category, isNew: true
+- props array with: name, type, default, description for each prop
+- A realistic code usage example
 
-Variants required: primary, secondary, ghost, danger (if applicable)
-Sizes required: sm, md, lg (if applicable)
+## Step 3 — Add preview template
 
-Return the full component ready to use. Also tell me the exact path where to save it.
+Read `app/pages/components/[id].vue` and find the section where component previews are defined.
+Add a new preview block for this component showing all variants and sizes in action.
+The preview must be visually complete — not a placeholder.
+
+## Final step
+Confirm the 3 file paths that were created/modified.

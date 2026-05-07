@@ -13,7 +13,9 @@
       "Bash(Select-Object -ExpandProperty Name)",
       "Bash(New-Item -ItemType Directory -Force -Path \"D:\\\\elvin-ui\\\\app\\\\pages\\\\components\")",
       "Bash(Out-Null)",
-      "Bash(Remove-Item *)"
+      "Bash(Remove-Item *)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }
