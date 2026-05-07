@@ -566,7 +566,7 @@ const nextItem = computed(() => currentIndex.value < allItems.length - 1 ? allIt
             <div v-else class="flex flex-col gap-3">
               <div class="flex items-center gap-2 text-xs text-zinc-500 px-1">
                 <Icon name="lucide:info" class="w-3.5 h-3.5 shrink-0" />
-                Copie ce fichier dans <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded">components/ui/{{ componentFilename }}.vue</code>
+                Copy this file into <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded">components/ui/{{ componentFilename }}.vue</code>
               </div>
               <UiCodeBlock :code="componentSource" />
             </div>

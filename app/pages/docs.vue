@@ -134,25 +134,25 @@ function scrollTo(id: string) {
               <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Setup</span>
               <h2 class="text-2xl font-bold text-white tracking-tight">Installation</h2>
               <p class="text-zinc-400 leading-relaxed">
-                Elvin UI n'est pas un package npm. Tu copies les composants directement dans ton projet Nuxt 4.
-                Voici comment préparer ton projet pour recevoir les composants.
+                Elvin UI is not an npm package. You copy components directly into your Nuxt 4 project.
+                Here's how to set up your project to receive components.
               </p>
             </div>
 
             <div class="flex flex-col gap-4">
               <div class="flex flex-col gap-2">
-                <p class="text-sm font-medium text-zinc-300">1. Créer un projet Nuxt 4</p>
+                <p class="text-sm font-medium text-zinc-300">1. Create a Nuxt 4 project</p>
                 <UiCodeBlock lang="bash" code="npx nuxi@latest init my-app
 cd my-app" />
               </div>
 
               <div class="flex flex-col gap-2">
-                <p class="text-sm font-medium text-zinc-300">2. Installer les dépendances</p>
+                <p class="text-sm font-medium text-zinc-300">2. Install dependencies</p>
                 <UiCodeBlock lang="bash" code="npm install gsap @nuxt/icon" />
               </div>
 
               <div class="flex flex-col gap-2">
-                <p class="text-sm font-medium text-zinc-300">3. Configurer nuxt.config.ts</p>
+                <p class="text-sm font-medium text-zinc-300">3. Configure nuxt.config.ts</p>
                 <UiCodeBlock lang="vue" code="export default defineNuxtConfig({
   modules: ['@nuxt/icon'],
   css: ['~/assets/main.css'],
@@ -160,10 +160,10 @@ cd my-app" />
               </div>
 
               <div class="flex flex-col gap-2">
-                <p class="text-sm font-medium text-zinc-300">4. Copier un composant</p>
+                <p class="text-sm font-medium text-zinc-300">4. Copy a component</p>
                 <p class="text-sm text-zinc-500">
-                  Parcours la page <NuxtLink to="/components" class="text-indigo-400 hover:text-indigo-300 transition-colors">Components</NuxtLink>,
-                  clique sur un composant, copie le code et colle-le dans <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">app/components/ui/</code>.
+                  Browse the <NuxtLink to="/components" class="text-indigo-400 hover:text-indigo-300 transition-colors">Components</NuxtLink> page,
+                  click on a component, copy the code and paste it into <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">app/components/ui/</code>.
                 </p>
               </div>
             </div>
@@ -177,7 +177,7 @@ cd my-app" />
               <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Customisation</span>
               <h2 class="text-2xl font-bold text-white tracking-tight">Theming</h2>
               <p class="text-zinc-400 leading-relaxed">
-                Toute la palette de couleurs est pilotée par une seule variable CSS. Changer l'accent color recolore l'ensemble du projet.
+                The entire colour palette is driven by a single CSS variable. Changing the accent colour rethemes the whole project.
               </p>
             </div>
 
@@ -189,10 +189,10 @@ cd my-app" />
 }" />
 
             <p class="text-sm text-zinc-500">
-              Les classes Tailwind <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">bg-accent</code>,
-              <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">text-accent</code> et
+              The Tailwind classes <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">bg-accent</code>,
+              <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">text-accent</code> and
               <code class="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">border-accent</code>
-              utilisent cette variable automatiquement.
+              consume this variable automatically.
             </p>
           </section>
 
@@ -204,15 +204,15 @@ cd my-app" />
               <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Open source</span>
               <h2 class="text-2xl font-bold text-white tracking-tight">Contributing</h2>
               <p class="text-zinc-400 leading-relaxed">
-                Elvin UI est open source. Tu veux ajouter un composant ou corriger un bug ? Voici la structure à respecter.
+                Elvin UI is open source. Want to add a component or fix a bug? Here's the structure to follow.
               </p>
             </div>
 
             <div class="flex flex-col gap-3">
               <div class="flex flex-col gap-2 p-4 rounded-xl border border-zinc-800 bg-zinc-900/40">
-                <p class="text-sm font-semibold text-white">Structure d'un composant</p>
+                <p class="text-sm font-semibold text-white">Component structure</p>
                 <ol class="flex flex-col gap-1.5 mt-1">
-                  <li v-for="(step, i) in ['Props TypeScript avec withDefaults', 'Logique Composition API', 'Template', 'Animations GSAP (optionnel)']" :key="i" class="flex items-start gap-2 text-sm text-zinc-400">
+                  <li v-for="(step, i) in ['TypeScript props with withDefaults', 'Composition API logic', 'Template', 'GSAP animations (optional)']" :key="i" class="flex items-start gap-2 text-sm text-zinc-400">
                     <span class="text-[10px] font-bold text-indigo-400 mt-0.5 shrink-0">{{ i + 1 }}.</span>
                     {{ step }}
                   </li>
@@ -220,9 +220,9 @@ cd my-app" />
               </div>
 
               <div class="flex flex-col gap-2 p-4 rounded-xl border border-zinc-800 bg-zinc-900/40">
-                <p class="text-sm font-semibold text-white">Checklist avant PR</p>
+                <p class="text-sm font-semibold text-white">Pre-PR checklist</p>
                 <ul class="flex flex-col gap-1.5 mt-1">
-                  <li v-for="item in ['Composant dans app/components/ui/UiXxx.vue', 'Entrée dans app/data/ui-components.ts (props + usage)', 'Template preview dans pages/components/[id].vue', 'Testé sur mobile']" :key="item" class="flex items-start gap-2 text-sm text-zinc-400">
+                  <li v-for="item in ['Component in app/components/ui/UiXxx.vue', 'Entry in app/data/ui-components.ts (props + usage)', 'Preview template in pages/components/[id].vue', 'Tested on mobile']" :key="item" class="flex items-start gap-2 text-sm text-zinc-400">
                     <Icon name="lucide:check" class="w-3.5 h-3.5 text-green-400 mt-0.5 shrink-0" />
                     {{ item }}
                   </li>
