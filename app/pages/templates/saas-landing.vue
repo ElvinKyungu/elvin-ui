@@ -105,27 +105,27 @@ const features = [
 const testimonials = [
   {
     quote: "Elvin UI cut our design-to-code time in half. The components are gorgeous and everything just works in Nuxt 4 without any tweaking.",
-    name: 'Sofia Andersson',
+    name: 'Gabriel Delattre',
     role: 'Senior Engineer',
     company: 'Stripe',
-    grad: 'from-violet-500 to-indigo-600',
-    initials: 'SA',
+    grad: 'from-emerald-500 to-teal-500',
+    initials: 'GD',
   },
   {
     quote: "I've tried every Tailwind component library. Elvin UI is the first one that actually feels premium—the GSAP animations are chef's kiss.",
-    name: 'Marcus Chen',
+    name: 'Vander Otis',
     role: 'Staff Frontend Engineer',
     company: 'Linear',
-    grad: 'from-emerald-500 to-teal-600',
-    initials: 'MC',
+    grad: 'from-blue-500 to-blue-600',
+    initials: 'VO',
   },
   {
     quote: "We shipped our SaaS landing page in two days using Elvin UI blocks. Would have taken two weeks otherwise. Absolute game changer.",
-    name: 'Priya Nambiar',
+    name: 'Kevin Maginot',
     role: 'Founding Engineer',
     company: 'Resend',
-    grad: 'from-rose-500 to-pink-600',
-    initials: 'PN',
+    grad: 'from-amber-500 to-amber-600',
+    initials: 'KM',
   },
 ]
 

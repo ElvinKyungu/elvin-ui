@@ -32,27 +32,27 @@ const relatedProducts = [
 
 const reviews = [
   {
-    name: 'Marcus T.',
+    name: 'Gabriel D.',
     date: 'April 14, 2025',
     rating: 5,
-    avatar: 'MT',
-    grad: 'from-emerald-500 to-teal-600',
+    avatar: 'GD',
+    grad: 'from-emerald-500 to-teal-500',
     text: 'These are hands-down the best headphones I\'ve ever owned. The noise cancellation is absolutely incredible — I tested them on a packed subway and couldn\'t hear a thing. The sound quality is pristine, and the spatial audio makes movies feel like a theater experience.',
   },
   {
-    name: 'Priya L.',
+    name: 'Vander O.',
     date: 'March 28, 2025',
     rating: 5,
-    avatar: 'PL',
-    grad: 'from-violet-500 to-purple-600',
+    avatar: 'VO',
+    grad: 'from-blue-500 to-blue-600',
     text: 'Worth every single penny. I was skeptical about the price but after using them for a week I completely get it. Battery lasts all day, the fit is comfortable even after hours, and they pair seamlessly with all my Apple devices.',
   },
   {
-    name: 'James K.',
+    name: 'Kevin M.',
     date: 'February 9, 2025',
     rating: 4,
-    avatar: 'JK',
-    grad: 'from-blue-500 to-cyan-600',
+    avatar: 'KM',
+    grad: 'from-amber-500 to-amber-600',
     text: 'Fantastic headphones overall. The build quality feels premium and the sound profile is very balanced. Only minor gripe is they\'re a little bulky for commuting but that\'s a small trade-off for the audio quality you get.',
   },
 ]

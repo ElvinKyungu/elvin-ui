@@ -26,16 +26,16 @@ interface Deal {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const contacts: Contact[] = [
-  { id:1,  name:'Sarah Chen',       company:'Stripe',       email:'sarah@stripe.com',          stage:'Customer', value:'$24,000', lastContact:'Today',       initials:'SC', color:'from-blue-500 to-blue-600' },
-  { id:2,  name:'Marcus Williams',  company:'Vercel',        email:'m.williams@vercel.com',     stage:'Prospect', value:'$8,500',  lastContact:'Yesterday',   initials:'MW', color:'from-purple-500 to-purple-600' },
-  { id:3,  name:'Elena Rodriguez',  company:'GitHub',        email:'elena.r@github.com',        stage:'Lead',     value:'$3,200',  lastContact:'2 days ago',  initials:'ER', color:'from-rose-500 to-rose-600' },
-  { id:4,  name:'David Kim',        company:'Linear',        email:'david@linear.app',          stage:'Customer', value:'$48,000', lastContact:'3 days ago',  initials:'DK', color:'from-amber-500 to-amber-600' },
-  { id:5,  name:'Priya Patel',      company:'Notion',        email:'priya@notion.so',           stage:'Customer', value:'$18,000', lastContact:'1 week ago',  initials:'PP', color:'from-emerald-500 to-teal-500' },
-  { id:6,  name:'Tom Bradley',      company:'Figma',         email:'tom@figma.com',             stage:'Prospect', value:'$12,000', lastContact:'1 week ago',  initials:'TB', color:'from-cyan-500 to-blue-500' },
-  { id:7,  name:'Aisha Johnson',    company:'Shopify',       email:'aisha@shopify.com',         stage:'Lead',     value:'$5,600',  lastContact:'2 weeks ago', initials:'AJ', color:'from-orange-500 to-red-500' },
-  { id:8,  name:'Luca Ferreira',    company:'Tailwind',      email:'luca@tailwindcss.com',      stage:'Customer', value:'$32,000', lastContact:'3 weeks ago', initials:'LF', color:'from-teal-500 to-emerald-600' },
-  { id:9,  name:'Yuki Tanaka',      company:'PlanetScale',   email:'yuki@planetscale.com',      stage:'Churned',  value:'$0',      lastContact:'1 month ago', initials:'YT', color:'from-zinc-400 to-zinc-600' },
-  { id:10, name:'Noah Garcia',      company:'Supabase',      email:'noah@supabase.io',          stage:'Lead',     value:'$4,100',  lastContact:'5 min ago',   initials:'NG', color:'from-green-500 to-emerald-500' },
+  { id:1,  name:'Gabriel Delattre', company:'Stripe',       email:'gabriel@stripe.com',        stage:'Customer', value:'$24,000', lastContact:'Today',       initials:'GD', color:'from-emerald-500 to-teal-500' },
+  { id:2,  name:'Vander Otis',      company:'Vercel',        email:'vander@vercel.com',         stage:'Prospect', value:'$8,500',  lastContact:'Yesterday',   initials:'VO', color:'from-blue-500 to-blue-600' },
+  { id:3,  name:'Kevin Maginot',    company:'GitHub',        email:'kevin@github.com',          stage:'Lead',     value:'$3,200',  lastContact:'2 days ago',  initials:'KM', color:'from-amber-500 to-amber-600' },
+  { id:4,  name:'Eric Ampire',      company:'Linear',        email:'eric@linear.app',           stage:'Customer', value:'$48,000', lastContact:'3 days ago',  initials:'EA', color:'from-rose-500 to-rose-600' },
+  { id:5,  name:'Antfu',            company:'Nuxt Labs',     email:'antfu@nuxt.com',            stage:'Customer', value:'$18,000', lastContact:'1 week ago',  initials:'AF', color:'from-zinc-400 to-zinc-600' },
+  { id:6,  name:'Elvin Kyungu',     company:'Elvin UI',      email:'elvin@elvinui.com',         stage:'Prospect', value:'$12,000', lastContact:'1 week ago',  initials:'EK', color:'from-emerald-500 to-teal-600' },
+  { id:7,  name:'Alice Martin',     company:'Shopify',       email:'alice@shopify.com',         stage:'Lead',     value:'$5,600',  lastContact:'2 weeks ago', initials:'AM', color:'from-purple-500 to-purple-600' },
+  { id:8,  name:'Tom K',            company:'Tailwind CSS',  email:'tom@tailwindcss.com',       stage:'Customer', value:'$32,000', lastContact:'3 weeks ago', initials:'TK', color:'from-cyan-500 to-blue-500' },
+  { id:9,  name:'Sara López',       company:'PlanetScale',   email:'sara@planetscale.com',      stage:'Churned',  value:'$0',      lastContact:'1 month ago', initials:'SL', color:'from-pink-500 to-rose-500' },
+  { id:10, name:'Bob Chen',         company:'Supabase',      email:'bob@supabase.io',           stage:'Lead',     value:'$4,100',  lastContact:'5 min ago',   initials:'BC', color:'from-indigo-500 to-blue-600' },
 ]
 
 const pipelineColumns = [
