@@ -15,7 +15,10 @@
       "Bash(Out-Null)",
       "Bash(Remove-Item *)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(Select-String -Path \"D:\\\\elvin-ui\\\\app\\\\pages\\\\templates\\\\ecommerce-product.vue\" -Pattern \"definePageMeta|showLightbox|showCart|showShare|addToCart|switchTab|changeImage|gsap\")",
+      "Bash(Measure-Object)",
+      "Bash(Select-Object -ExpandProperty Count)"
     ]
   }
 }

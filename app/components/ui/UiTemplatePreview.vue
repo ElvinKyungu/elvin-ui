@@ -300,28 +300,44 @@ defineProps<{ id: string }>()
 
   <!-- E-commerce Store -->
   <template v-else-if="id === 'ecommerce-store'">
-    <div class="absolute inset-0 bg-white flex flex-col">
-      <div class="h-6 border-b border-zinc-200 flex items-center px-3 gap-2 shrink-0">
-        <div class="flex gap-1"><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /></div>
-        <div class="flex-1 h-2 bg-zinc-200 rounded-full mx-4" />
+    <div class="absolute inset-0 bg-[#080808] flex flex-col">
+      <div class="h-6 border-b border-zinc-800 flex items-center px-3 gap-2 shrink-0">
+        <div class="flex gap-1"><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /></div>
+        <div class="flex-1 h-2 bg-zinc-800 rounded-full mx-4" />
       </div>
       <div class="flex-1 flex flex-col">
-        <div class="h-5 border-b border-zinc-200 flex items-center px-3 gap-2">
-          <div class="w-2 h-2 bg-zinc-800 rounded-[2px]" />
-          <div class="flex gap-2 ml-auto"><div class="h-1 w-5 bg-zinc-300 rounded-full" /><div class="h-1 w-5 bg-zinc-300 rounded-full" /><div class="h-1 w-5 bg-zinc-300 rounded-full" /></div>
-          <div class="h-3 w-3 bg-zinc-700 rounded-sm ml-1" />
-        </div>
-        <div class="flex-1 p-2 flex flex-col gap-1.5">
-          <div class="flex gap-1.5">
-            <div class="h-4 w-8 bg-zinc-800 rounded-md text-[5px] flex items-center justify-center text-white font-medium">All</div>
-            <div v-for="cat in ['Tops','Pants','Shoes','Bags']" :key="cat" class="h-4 w-8 bg-zinc-100 border border-zinc-200 rounded-md" />
+        <div class="h-5 border-b border-zinc-800/60 flex items-center px-3 gap-2">
+          <div class="w-2 h-2 bg-zinc-100 rounded-[2px]" />
+          <div class="flex-1 h-2 bg-zinc-800/80 rounded-full mx-2 max-w-[50px]" />
+          <div class="flex gap-1.5 ml-auto">
+            <div class="w-3 h-3 rounded-md bg-zinc-800 border border-zinc-700" />
+            <div class="w-3 h-3 rounded-md bg-zinc-800 border border-zinc-700" />
+            <div class="w-3 h-3 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600" />
           </div>
-          <div class="grid grid-cols-3 gap-1.5 flex-1">
-            <div v-for="i in 6" :key="i" class="bg-zinc-100 rounded-lg overflow-hidden flex flex-col">
-              <div class="flex-1 bg-zinc-200" />
-              <div class="p-1">
-                <div class="h-1 w-full bg-zinc-400 rounded-full mb-0.5" />
-                <div class="h-1 w-8 bg-zinc-300 rounded-full" />
+        </div>
+        <div class="flex flex-1 gap-0 overflow-hidden">
+          <div class="w-12 border-r border-zinc-800/60 p-1.5 flex flex-col gap-1 shrink-0">
+            <div class="h-1 w-8 bg-zinc-600 rounded-full" />
+            <div v-for="i in 4" :key="i" class="flex items-center gap-0.5">
+              <div class="w-1 h-1 rounded-full" :class="i === 1 ? 'bg-accent' : 'bg-zinc-700'" />
+              <div class="h-0.5 flex-1 rounded-full" :class="i === 1 ? 'bg-accent/40' : 'bg-zinc-800'" />
+            </div>
+          </div>
+          <div class="flex-1 p-1.5 flex flex-col gap-1.5">
+            <div class="flex gap-1 items-center">
+              <div class="h-1 w-10 bg-zinc-500 rounded-full" />
+              <div class="ml-auto h-2 w-10 bg-zinc-800 border border-zinc-700 rounded-md" />
+            </div>
+            <div class="grid grid-cols-3 gap-1 flex-1">
+              <div v-for="i in 6" :key="i" class="bg-zinc-900 border border-zinc-800/60 rounded-lg overflow-hidden flex flex-col">
+                <div class="flex-1 bg-gradient-to-br" :class="[['from-zinc-700 to-zinc-900','from-blue-900/40 to-zinc-900','from-emerald-900/30 to-zinc-900','from-zinc-700 to-zinc-800','from-amber-900/30 to-zinc-900','from-purple-900/30 to-zinc-900'][i-1]]" />
+                <div class="p-1">
+                  <div class="h-0.5 w-full bg-zinc-600 rounded-full mb-0.5" />
+                  <div class="flex justify-between items-center">
+                    <div class="h-1 w-5 bg-zinc-400 rounded-full" />
+                    <div class="h-1 w-3 bg-accent/60 rounded-full" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -332,28 +348,44 @@ defineProps<{ id: string }>()
 
   <!-- Product Page -->
   <template v-else-if="id === 'ecommerce-product'">
-    <div class="absolute inset-0 bg-white flex flex-col">
-      <div class="h-6 border-b border-zinc-200 flex items-center px-3 gap-2 shrink-0">
-        <div class="flex gap-1"><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /></div>
-        <div class="flex-1 h-2 bg-zinc-200 rounded-full mx-4" />
+    <div class="absolute inset-0 bg-[#080808] flex flex-col">
+      <div class="h-6 border-b border-zinc-800 flex items-center px-3 gap-2 shrink-0">
+        <div class="flex gap-1"><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /></div>
+        <div class="flex-1 h-2 bg-zinc-800 rounded-full mx-4" />
+      </div>
+      <div class="h-3.5 border-b border-zinc-800/60 flex items-center px-3 gap-1">
+        <div class="h-0.5 w-4 bg-zinc-700 rounded-full" />
+        <div class="h-0.5 w-1 bg-zinc-700 rounded-full" />
+        <div class="h-0.5 w-4 bg-zinc-700 rounded-full" />
+        <div class="h-0.5 w-1 bg-zinc-700 rounded-full" />
+        <div class="h-0.5 w-8 bg-zinc-500 rounded-full" />
       </div>
       <div class="flex-1 flex gap-2 p-2">
-        <div class="flex-1 flex flex-col gap-1.5">
-          <div class="flex-1 bg-zinc-100 rounded-lg" />
+        <div class="flex-1 flex flex-col gap-1">
+          <div class="flex-1 bg-gradient-to-br from-zinc-700 to-zinc-900 rounded-xl border border-zinc-800/60" />
           <div class="flex gap-1">
-            <div v-for="i in 3" :key="i" class="w-6 h-6 bg-zinc-200 rounded-md" />
+            <div v-for="i in 4" :key="i" class="h-5 flex-1 bg-gradient-to-br rounded-md border border-zinc-800" :class="[['from-zinc-700 to-zinc-900','from-zinc-600 to-zinc-800','from-zinc-700 to-zinc-950','from-emerald-900/30 to-zinc-900'][i-1], i === 1 ? 'ring-1 ring-accent' : '']" />
           </div>
         </div>
-        <div class="flex-1 flex flex-col gap-1.5 py-1">
-          <div class="h-1 w-8 bg-zinc-300 rounded-full" />
-          <div class="h-2 w-full bg-zinc-800 rounded-full" />
-          <div class="h-1.5 w-12 bg-zinc-500 rounded-full" />
+        <div class="flex-1 flex flex-col gap-1.5 py-0.5">
+          <div class="h-1 w-8 bg-zinc-800 border border-zinc-700 rounded-md px-1" />
+          <div class="h-2 w-full bg-zinc-200 rounded-full" />
+          <div class="h-1 w-10 bg-zinc-600 rounded-full" />
           <div class="flex gap-1 mt-0.5">
-            <div v-for="c in ['bg-zinc-800','bg-zinc-400','bg-zinc-200']" :key="c" class="w-3 h-3 rounded-full border-2 border-white shadow-sm" :class="c" />
+            <div v-for="c in ['bg-zinc-400','bg-zinc-600','bg-blue-400']" :key="c" class="w-2.5 h-2.5 rounded-full border border-zinc-700" :class="c" />
+          </div>
+          <div class="flex items-center gap-1 mt-0.5">
+            <div class="w-5 h-5 bg-zinc-900 border border-zinc-700 rounded-lg flex items-center justify-center">
+              <div class="w-1.5 h-0.5 bg-zinc-500 rounded-full" />
+            </div>
+            <div class="h-2 w-5 bg-zinc-800 border border-zinc-700 rounded text-[4px] text-zinc-400 flex items-center justify-center">1</div>
+            <div class="w-5 h-5 bg-zinc-900 border border-zinc-700 rounded-lg flex items-center justify-center">
+              <div class="w-1.5 h-0.5 bg-accent rounded-full" />
+            </div>
           </div>
           <div class="mt-auto flex flex-col gap-1">
-            <div class="h-4 w-full bg-zinc-800 rounded-md" />
-            <div class="h-4 w-full border border-zinc-300 rounded-md" />
+            <div class="h-4 w-full bg-accent rounded-lg" />
+            <div class="h-3 w-full border border-zinc-700 rounded-lg" />
           </div>
         </div>
       </div>
@@ -362,34 +394,51 @@ defineProps<{ id: string }>()
 
   <!-- Checkout -->
   <template v-else-if="id === 'ecommerce-checkout'">
-    <div class="absolute inset-0 bg-white flex flex-col">
-      <div class="h-6 border-b border-zinc-200 flex items-center px-3 gap-2 shrink-0">
-        <div class="flex gap-1"><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-300" /></div>
-        <div class="flex-1 h-2 bg-zinc-200 rounded-full mx-4" />
+    <div class="absolute inset-0 bg-[#080808] flex flex-col">
+      <div class="h-6 border-b border-zinc-800 flex items-center px-3 gap-2 shrink-0">
+        <div class="flex gap-1"><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /><div class="w-1.5 h-1.5 rounded-full bg-zinc-700" /></div>
+        <div class="flex-1 h-2 bg-zinc-800 rounded-full mx-4" />
+      </div>
+      <div class="h-5 border-b border-zinc-800/60 flex items-center justify-center gap-2 px-3 shrink-0">
+        <div class="flex items-center gap-1.5">
+          <div class="w-3 h-3 rounded-full bg-accent flex items-center justify-center"><div class="w-1 h-1 bg-white rounded-full" /></div>
+          <div class="h-0.5 w-5 bg-accent/50 rounded-full" />
+          <div class="w-3 h-3 rounded-full bg-zinc-700 border border-zinc-600" />
+          <div class="h-0.5 w-5 bg-zinc-800 rounded-full" />
+          <div class="w-3 h-3 rounded-full bg-zinc-800 border border-zinc-700" />
+        </div>
       </div>
       <div class="flex-1 flex gap-2 p-2">
         <div class="flex-[1.4] flex flex-col gap-1.5">
-          <div class="h-1.5 w-16 bg-zinc-700 rounded-full" />
+          <div class="h-1.5 w-14 bg-zinc-300 rounded-full" />
           <div class="space-y-1">
-            <div v-for="i in 3" :key="i" class="h-4 bg-zinc-100 border border-zinc-200 rounded-md" />
+            <div v-for="i in 3" :key="i" class="h-4 bg-zinc-900 border border-zinc-700 rounded-lg" />
           </div>
           <div class="grid grid-cols-2 gap-1">
-            <div class="h-4 bg-zinc-100 border border-zinc-200 rounded-md" />
-            <div class="h-4 bg-zinc-100 border border-zinc-200 rounded-md" />
+            <div class="h-4 bg-zinc-900 border border-zinc-700 rounded-lg" />
+            <div class="h-4 bg-zinc-900 border border-zinc-700 rounded-lg" />
           </div>
-          <div class="mt-auto h-4 bg-zinc-800 rounded-md" />
+          <div class="mt-auto h-4 bg-accent rounded-lg" />
         </div>
-        <div class="flex-1 bg-zinc-50 border border-zinc-200 rounded-lg p-1.5 flex flex-col gap-1">
-          <div class="h-1.5 w-12 bg-zinc-500 rounded-full" />
+        <div class="flex-1 bg-zinc-900/50 border border-zinc-800 rounded-xl p-1.5 flex flex-col gap-1">
+          <div class="h-1 w-10 bg-zinc-400 rounded-full" />
           <div v-for="i in 2" :key="i" class="flex gap-1 items-center">
-            <div class="w-4 h-4 bg-zinc-200 rounded-md" />
+            <div class="w-4 h-4 rounded-md bg-gradient-to-br flex-shrink-0" :class="i === 1 ? 'from-zinc-700 to-zinc-900' : 'from-blue-900/40 to-zinc-900'" />
             <div class="flex-1 space-y-0.5">
-              <div class="h-1 w-full bg-zinc-400 rounded-full" />
-              <div class="h-1 w-8 bg-zinc-300 rounded-full" />
+              <div class="h-0.5 w-full bg-zinc-600 rounded-full" />
+              <div class="h-0.5 w-8 bg-zinc-700 rounded-full" />
             </div>
+            <div class="h-1 w-4 bg-zinc-400 rounded-full shrink-0" />
           </div>
-          <div class="border-t border-zinc-200 pt-1 mt-auto">
-            <div class="flex justify-between"><div class="h-1 w-8 bg-zinc-400 rounded-full" /><div class="h-1 w-6 bg-zinc-600 rounded-full" /></div>
+          <div class="border-t border-zinc-800 pt-1 mt-auto space-y-0.5">
+            <div v-for="i in 2" :key="i" class="flex justify-between">
+              <div class="h-0.5 w-6 bg-zinc-700 rounded-full" />
+              <div class="h-0.5 w-4 bg-zinc-600 rounded-full" />
+            </div>
+            <div class="flex justify-between mt-0.5">
+              <div class="h-1 w-6 bg-zinc-300 rounded-full" />
+              <div class="h-1 w-5 bg-zinc-200 rounded-full" />
+            </div>
           </div>
         </div>
       </div>
