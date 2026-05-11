@@ -95,7 +95,30 @@ function animateProjects() {
   )
 }
 
-watch(activeFilter, () => nextTick(animateProjects))
+// ─── 3D tilt for project cards ─────────────────────────────────────────────────
+function applyCardTilt() {
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', (e: Event) => {
+      const me = e as MouseEvent
+      const rect = (card as HTMLElement).getBoundingClientRect()
+      const x = (me.clientX - rect.left) / rect.width - 0.5
+      const y = (me.clientY - rect.top) / rect.height - 0.5
+      gsap.to(card, {
+        rotateY: x * 14,
+        rotateX: -y * 10,
+        duration: 0.35,
+        ease: 'power2.out',
+        transformPerspective: 700,
+      })
+    })
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' })
+    })
+  })
+}
+
+// Re-apply tilt + animate cards whenever the filter changes
+watch(activeFilter, () => nextTick(() => { animateProjects(); applyCardTilt() }))
 
 // ─── GSAP ──────────────────────────────────────────────────────────────────────
 onMounted(() => {
@@ -104,21 +127,32 @@ onMounted(() => {
   // Start role cycling
   roleInterval = setInterval(cycleRole, 2800)
 
-  // Hero stagger
+  // Hero secondary items stagger (availability badge, role, paragraph, CTA)
   const heroChildren = document.querySelectorAll('.hero-item')
   gsap.fromTo(heroChildren,
     { opacity: 0, y: 36 },
     { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out' }
   )
 
-  // Orb animation
-  const orb = document.querySelector('.hero-orb') as HTMLElement
-  if (orb) {
-    gsap.to(orb, { rotation: 360, duration: 12, repeat: -1, ease: 'none' })
-    gsap.fromTo(orb, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.2, delay: 0.3, ease: 'power3.out' })
+  // Cinematic clip-path-style reveal for "Alex" and "Rivera" name lines
+  gsap.fromTo('.hero-name-line',
+    { y: '110%', skewX: -5 },
+    { y: '0%', skewX: 0, duration: 0.8, stagger: 0.15, ease: 'power4.out', delay: 0.2 }
+  )
+
+  // Multi-layer orb: outer ring rotates clockwise
+  gsap.to('.orb-outer', { rotation: 360, duration: 8, repeat: -1, ease: 'none' })
+  // Inner glow pulses in and out independently
+  gsap.to('.orb-inner', { scale: 1.05, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' })
+  // Tech badges counter-rotate so labels stay upright while orbiting
+  gsap.to('.tech-badge', { rotation: -360, duration: 8, repeat: -1, ease: 'none', transformOrigin: 'center center' })
+  // Orb entrance fade-in
+  const orbWrapper = document.querySelector('.hero-orb') as HTMLElement
+  if (orbWrapper) {
+    gsap.fromTo(orbWrapper, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.2, delay: 0.3, ease: 'power3.out' })
   }
 
-  // Section reveals
+  // Section reveals on scroll
   document.querySelectorAll<HTMLElement>('.reveal').forEach(el => {
     gsap.fromTo(el,
       { opacity: 0, y: 36 },
@@ -126,7 +160,7 @@ onMounted(() => {
     )
   })
 
-  // Stats count-up
+  // Stats odometer count-up with power4.out for dramatic deceleration
   const statsSection = document.querySelector('.stats-section')
   if (statsSection) {
     ScrollTrigger.create({
@@ -134,7 +168,7 @@ onMounted(() => {
       start: 'top 80%',
       onEnter: () => {
         statsDisplay.forEach((stat, i) => {
-          gsap.to(stat, { current: stat.target, duration: 1.5, delay: i * 0.15, ease: 'power2.out',
+          gsap.to(stat, { current: stat.target, duration: 2, delay: i * 0.2, ease: 'power4.out',
             onUpdate() { stat.current = Math.round(stat.current) }
           })
         })
@@ -142,12 +176,33 @@ onMounted(() => {
     })
   }
 
-  // Initial projects animation
-  nextTick(animateProjects)
+  // Skill pills wave stagger on scroll into view
+  gsap.fromTo('.skill-pill',
+    { opacity: 0, scale: 0.7, y: 20 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.4, stagger: { each: 0.06, from: 'start' }, ease: 'back.out(2)',
+      scrollTrigger: { trigger: '.skills-section', start: 'top 80%', once: true } }
+  )
+
+  // Contact form input focus animations: border highlight + subtle lift
+  document.querySelectorAll('.form-input').forEach(input => {
+    input.addEventListener('focus', () => {
+      gsap.to(input, { borderColor: '#6366f1', duration: 0.25, ease: 'power2.out' })
+      gsap.to(input, { scale: 1.01, duration: 0.2, ease: 'power2.out' })
+    })
+    input.addEventListener('blur', () => {
+      gsap.to(input, { scale: 1, duration: 0.2, ease: 'power2.out' })
+    })
+  })
+
+  // Initial project cards entrance + 3D tilt listeners
+  nextTick(() => { animateProjects(); applyCardTilt() })
 })
 
 onUnmounted(() => {
   if (roleInterval) clearInterval(roleInterval)
+  // Kill all tweens and ScrollTrigger instances to prevent memory leaks
+  gsap.killTweensOf('.hero-name-line, .hero-item, .orb-outer, .orb-inner, .tech-badge, .skill-pill, .form-input')
+  ScrollTrigger.getAll().forEach(t => t.kill())
 })
 </script>
 
@@ -204,14 +259,15 @@ onUnmounted(() => {
             <span class="text-sm text-emerald-400 font-medium">Available for work</span>
           </div>
           <h1 class="hero-item text-5xl md:text-7xl font-black tracking-tight leading-[1.05] mb-4">
-            Alex<br>Rivera
+            <div class="overflow-hidden"><span class="hero-name-line block">Alex</span></div>
+            <div class="overflow-hidden"><span class="hero-name-line block">Rivera</span></div>
           </h1>
           <div class="hero-item h-10 mb-4 overflow-hidden flex items-center">
+            <!-- Role cycling: blur + slide transition via GSAP hooks for cinematic feel -->
             <Transition
-              enter-active-class="transition-all duration-300"
-              enter-from-class="opacity-0 translate-y-4"
-              leave-active-class="transition-all duration-200"
-              leave-to-class="opacity-0 -translate-y-4"
+              :css="false"
+              @enter="(el, done) => gsap.fromTo(el, {opacity:0, y:16, filter:'blur(8px)'}, {opacity:1, y:0, filter:'blur(0px)', duration:0.35, ease:'power3.out', onComplete:done})"
+              @leave="(el, done) => gsap.to(el, {opacity:0, y:-12, filter:'blur(4px)', duration:0.25, ease:'power2.in', onComplete:done})"
             >
               <span :key="currentRole" v-if="roleVisible" class="text-xl md:text-2xl font-semibold bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
                 {{ currentRole }}
@@ -237,17 +293,18 @@ onUnmounted(() => {
         <!-- Right — animated orb + tech stack -->
         <div class="hidden lg:flex items-center justify-center">
           <div class="relative w-72 h-72">
-            <!-- Rotating orb -->
-            <div class="hero-orb absolute inset-4 rounded-full border border-indigo-500/20" style="background: conic-gradient(from 0deg, transparent 70%, #6366f133 80%, transparent 90%);" />
-            <div class="absolute inset-8 rounded-full bg-gradient-to-br from-indigo-600/20 to-violet-600/20 border border-indigo-500/20 flex items-center justify-center">
+            <!-- Rotating orb outer ring -->
+            <div class="hero-orb orb-outer absolute inset-4 rounded-full border border-indigo-500/20" style="background: conic-gradient(from 0deg, transparent 70%, #6366f133 80%, transparent 90%);" />
+            <!-- Orb inner glow — pulses independently -->
+            <div class="orb-inner absolute inset-8 rounded-full bg-gradient-to-br from-indigo-600/20 to-violet-600/20 border border-indigo-500/20 flex items-center justify-center">
               <div class="text-center">
                 <div class="text-3xl font-black">AR</div>
                 <div class="text-xs text-zinc-500 mt-1">Portfolio</div>
               </div>
             </div>
-            <!-- Tech badges -->
+            <!-- Tech badges orbit the orb; counter-rotated to stay upright -->
             <div v-for="(badge, i) in ['Vue 3','Nuxt 4','GSAP','TypeScript','Tailwind','Figma']" :key="badge"
-              class="absolute text-xs font-semibold px-2.5 py-1 bg-zinc-900 border border-zinc-700 rounded-full text-zinc-300"
+              class="tech-badge absolute text-xs font-semibold px-2.5 py-1 bg-zinc-900 border border-zinc-700 rounded-full text-zinc-300"
               :style="`
                 top: ${50 + 48 * Math.sin(i * Math.PI / 3 - Math.PI / 6)}%;
                 left: ${50 + 48 * Math.cos(i * Math.PI / 3 - Math.PI / 6)}%;
@@ -291,7 +348,8 @@ onUnmounted(() => {
           <div
             v-for="project in filteredProjects"
             :key="project.name"
-            class="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-600 transition-all duration-300"
+            class="project-card group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-600 transition-all duration-300"
+            style="transform-style: preserve-3d"
           >
             <div :class="`bg-gradient-to-br ${project.gradient} h-40 relative overflow-hidden`">
               <div class="absolute top-4 right-4 w-16 h-16 rounded-full bg-white/10 blur-xl" />
@@ -366,7 +424,7 @@ onUnmounted(() => {
           <p class="text-xs font-semibold text-indigo-400 uppercase tracking-widest mb-2">Skills</p>
           <h2 class="text-4xl font-black tracking-tight">What I work with</h2>
         </div>
-        <div class="reveal grid sm:grid-cols-3 gap-6">
+        <div class="skills-section reveal grid sm:grid-cols-3 gap-6">
           <div
             v-for="group in skillGroups"
             :key="group.label"
@@ -380,7 +438,7 @@ onUnmounted(() => {
               <span
                 v-for="skill in group.items"
                 :key="skill"
-                class="text-xs px-2.5 py-1 bg-zinc-800 border border-zinc-700 rounded-full text-zinc-300 hover:border-zinc-500 transition-colors cursor-default"
+                class="skill-pill text-xs px-2.5 py-1 bg-zinc-800 border border-zinc-700 rounded-full text-zinc-300 hover:border-zinc-500 transition-colors cursor-default"
               >
                 {{ skill }}
               </span>
@@ -417,7 +475,7 @@ onUnmounted(() => {
                     v-model="form.name"
                     type="text"
                     placeholder="Your name"
-                    :class="['w-full bg-zinc-900 border rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors', formErrors.name ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500']"
+                    :class="['form-input w-full bg-zinc-900 border rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors', formErrors.name ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500']"
                   />
                   <p v-if="formErrors.name" class="text-xs text-red-400 mt-1">{{ formErrors.name }}</p>
                 </div>
@@ -427,7 +485,7 @@ onUnmounted(() => {
                     v-model="form.email"
                     type="email"
                     placeholder="you@example.com"
-                    :class="['w-full bg-zinc-900 border rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors', formErrors.email ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500']"
+                    :class="['form-input w-full bg-zinc-900 border rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors', formErrors.email ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500']"
                   />
                   <p v-if="formErrors.email" class="text-xs text-red-400 mt-1">{{ formErrors.email }}</p>
                 </div>
@@ -438,7 +496,7 @@ onUnmounted(() => {
                   v-model="form.subject"
                   type="text"
                   placeholder="Project inquiry, collaboration..."
-                  class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                  class="form-input w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors"
                 />
               </div>
               <div>
@@ -447,7 +505,7 @@ onUnmounted(() => {
                   v-model="form.message"
                   rows="5"
                   placeholder="Tell me about your project..."
-                  :class="['w-full bg-zinc-900 border rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors resize-none', formErrors.message ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500']"
+                  :class="['form-input w-full bg-zinc-900 border rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none transition-colors resize-none', formErrors.message ? 'border-red-500/60' : 'border-zinc-800 focus:border-indigo-500']"
                 />
                 <p v-if="formErrors.message" class="text-xs text-red-400 mt-1">{{ formErrors.message }}</p>
               </div>

@@ -6,6 +6,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 const mobileOpen = ref(false)
 
+// ─── Template refs ────────────────────────────────────────────────────────────
+const blob1       = useTemplateRef<HTMLElement>('blob1')
+const blob2       = useTemplateRef<HTMLElement>('blob2')
+const magneticBtn = useTemplateRef<HTMLElement>('magneticBtn')
+const magneticInner = useTemplateRef<HTMLElement>('magneticInner')
+
+// ─── Animated stats counters ─────────────────────────────────────────────────
+const statsCounters = reactive({ projects: 0, years: 0, satisfaction: 0 })
+
 // ─── Contact form ─────────────────────────────────────────────────────────────
 const contactName    = ref('')
 const contactEmail   = ref('')
@@ -51,9 +60,9 @@ const services = [
 ]
 
 const team = [
-  { name: 'Elara Voss',    role: 'Creative Director',   initials: 'EV', gradient: 'from-violet-500 to-fuchsia-500' },
-  { name: 'Marcus Chen',   role: 'Lead Developer',      initials: 'MC', gradient: 'from-blue-500 to-cyan-500' },
-  { name: 'Sofia Laurent', role: 'Brand Strategist',    initials: 'SL', gradient: 'from-rose-500 to-pink-500' },
+  { name: 'Vander Otis',    role: 'Creative Director',   initials: 'VO', gradient: 'from-violet-500 to-fuchsia-500' },
+  { name: 'Gabriel Delattre', role: 'Lead Developer',    initials: 'GD', gradient: 'from-blue-500 to-cyan-500' },
+  { name: 'Alice Martin',   role: 'Brand Strategist',    initials: 'AM', gradient: 'from-rose-500 to-pink-500' },
 ]
 
 const stats = [
@@ -66,48 +75,134 @@ const stats = [
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger)
 
-  // Hero entrance
-  gsap.fromTo('.hero-title', { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
-  gsap.fromTo('.hero-sub',   { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1, delay: 0.2, ease: 'power3.out' })
-  gsap.fromTo('.hero-ctas',  { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, delay: 0.4, ease: 'power3.out' })
+  // Hero letter-by-letter reveal — each .hero-letter span springs up from below with rotateX
+  gsap.fromTo('.hero-letter',
+    { opacity: 0, y: 60, rotateX: -90 },
+    { opacity: 1, y: 0, rotateX: 0, duration: 0.6, stagger: 0.04, ease: 'back.out(1.7)', transformOrigin: 'bottom center' }
+  )
 
-  // Section reveals
+  // Hero supporting elements entrance — staggered after letters
+  gsap.fromTo('.hero-sub',  { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.9, delay: 0.5, ease: 'power3.out' })
+  gsap.fromTo('.hero-ctas', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, delay: 0.7, ease: 'power3.out' })
+
+  // Blob parallax — blobs drift at different speeds as the page scrolls for depth
+  if (blob1.value) {
+    gsap.to(blob1.value, {
+      y: -80, ease: 'none',
+      scrollTrigger: { scrub: 1.5, start: 'top top', end: 'bottom top' },
+    })
+  }
+  if (blob2.value) {
+    gsap.to(blob2.value, {
+      y: 60, ease: 'none',
+      scrollTrigger: { scrub: 2, start: 'top top', end: 'bottom top' },
+    })
+  }
+
+  // Clip-path section reveals — text content sweeps in from the right edge
   document.querySelectorAll<HTMLElement>('.reveal').forEach(el => {
     gsap.fromTo(el,
-      { opacity: 0, y: 40 },
+      { clipPath: 'inset(0 100% 0 0)', opacity: 1 },
       {
-        opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 85%' },
+        clipPath: 'inset(0 0% 0 0)', duration: 0.8, ease: 'power3.inOut',
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true },
       }
     )
   })
 
-  // Work cards stagger
+  // Work cards stagger scroll reveal
   gsap.fromTo('.work-card',
     { opacity: 0, y: 50 },
     {
       opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power2.out',
-      scrollTrigger: { trigger: '.work-grid', start: 'top 80%' },
+      scrollTrigger: { trigger: '.work-grid', start: 'top 75%', once: true },
     }
   )
+
+  // Work card 3D tilt on mousemove — perspective tilt follows cursor position within card
+  document.querySelectorAll<HTMLElement>('.work-card').forEach(card => {
+    card.addEventListener('mousemove', (e: MouseEvent) => {
+      const rect = card.getBoundingClientRect()
+      const x = (e.clientX - rect.left) / rect.width - 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5
+      gsap.to(card, { rotateY: x * 12, rotateX: -y * 12, duration: 0.3, ease: 'power2.out', transformPerspective: 600 })
+    })
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' })
+    })
+  })
 
   // Service cards stagger
   gsap.fromTo('.service-card',
     { opacity: 0, y: 40 },
     {
       opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out',
-      scrollTrigger: { trigger: '.services-grid', start: 'top 80%' },
+      scrollTrigger: { trigger: '.services-grid', start: 'top 75%', once: true },
     }
   )
 
-  // Team cards
+  // Service card glow border — fade in the glow overlay on hover, reverse on leave
+  document.querySelectorAll<HTMLElement>('.service-card').forEach(card => {
+    const glow = card.querySelector<HTMLElement>('.glow-border')
+    if (!glow) return
+    card.addEventListener('mouseenter', () => {
+      gsap.to(glow, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+    })
+    card.addEventListener('mouseleave', () => {
+      gsap.to(glow, { opacity: 0, duration: 0.3, ease: 'power2.out' })
+    })
+  })
+
+  // Team cards spring scale on scroll into view
   gsap.fromTo('.team-card',
     { opacity: 0, scale: 0.92 },
     {
       opacity: 1, scale: 1, duration: 0.5, stagger: 0.12, ease: 'back.out(1.4)',
-      scrollTrigger: { trigger: '.team-grid', start: 'top 80%' },
+      scrollTrigger: { trigger: '.team-grid', start: 'top 75%', once: true },
     }
   )
+
+  // Stats counter animation — numbers count up when stats row scrolls into view
+  const statsEl = document.querySelector('.stats-row')
+  if (statsEl) {
+    ScrollTrigger.create({
+      trigger: statsEl,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        gsap.to(statsCounters, { projects: 120, duration: 1.6, ease: 'power2.out', onUpdate: () => { statsCounters.projects = Math.round(statsCounters.projects) } })
+        gsap.to(statsCounters, { years: 8, duration: 1.4, ease: 'power2.out', onUpdate: () => { statsCounters.years = Math.round(statsCounters.years) } })
+        gsap.to(statsCounters, { satisfaction: 98, duration: 1.8, ease: 'power2.out', onUpdate: () => { statsCounters.satisfaction = Math.round(statsCounters.satisfaction) } })
+      },
+    })
+  }
+
+  // Magnetic CTA button — button inner drifts toward cursor and snaps back elastically
+  if (magneticBtn.value && magneticInner.value) {
+    const btn = magneticInner.value
+    magneticBtn.value.addEventListener('mousemove', (e: MouseEvent) => {
+      const rect = (magneticBtn.value as HTMLElement).getBoundingClientRect()
+      const dx = e.clientX - rect.left - rect.width / 2
+      const dy = e.clientY - rect.top - rect.height / 2
+      gsap.to(btn, { x: dx * 0.3, y: dy * 0.3, duration: 0.25, ease: 'power2.out' })
+    })
+    magneticBtn.value.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' })
+    })
+  }
+})
+
+onUnmounted(() => {
+  ScrollTrigger.getAll().forEach(t => t.kill())
+  document.querySelectorAll<HTMLElement>('.work-card').forEach(card => {
+    gsap.killTweensOf(card)
+  })
+  document.querySelectorAll<HTMLElement>('.service-card').forEach(card => {
+    gsap.killTweensOf(card)
+  })
+  if (blob1.value)        gsap.killTweensOf(blob1.value)
+  if (blob2.value)        gsap.killTweensOf(blob2.value)
+  if (magneticInner.value) gsap.killTweensOf(magneticInner.value)
 })
 </script>
 
@@ -155,8 +250,8 @@ onMounted(() => {
     <section class="relative min-h-screen flex items-center pt-16 overflow-hidden">
       <!-- Background elements -->
       <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-violet-600/20 blur-[120px]" />
-        <div class="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-fuchsia-600/15 blur-[100px]" />
+        <div ref="blob1" class="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-violet-600/20 blur-[120px]" />
+        <div ref="blob2" class="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-fuchsia-600/15 blur-[100px]" />
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_0.5px,transparent_0.5px),linear-gradient(to_bottom,#ffffff08_0.5px,transparent_0.5px)] bg-[size:80px_80px]" />
       </div>
 
@@ -166,10 +261,18 @@ onMounted(() => {
             <span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
             Available for new projects
           </div>
-          <h1 class="hero-title text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight mb-8">
+          <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight mb-8" style="perspective: 600px">
             We Build<br>
-            <span class="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">Digital</span><br>
-            Experiences
+            <span class="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent inline-flex flex-wrap">
+              <template v-for="(letter, i) in 'Digital'" :key="'d'+i">
+                <span class="hero-letter inline-block" style="display:inline-block">{{ letter }}</span>
+              </template>
+            </span><br>
+            <span class="inline-flex flex-wrap">
+              <template v-for="(letter, i) in 'Experiences'" :key="'e'+i">
+                <span class="hero-letter inline-block" style="display:inline-block">{{ letter === ' ' ? ' ' : letter }}</span>
+              </template>
+            </span>
           </h1>
           <p class="hero-sub text-lg md:text-xl text-zinc-400 max-w-xl mb-10 leading-relaxed">
             A boutique creative studio crafting brands, products, and digital experiences
@@ -180,17 +283,28 @@ onMounted(() => {
               See our work
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <a href="#contact" class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-700 text-zinc-300 font-semibold rounded-full hover:border-zinc-500 hover:text-white transition-colors">
-              Get in touch
-            </a>
+            <!-- Magnetic wrapper — tracks cursor and pulls button inner toward pointer -->
+            <div ref="magneticBtn" class="relative inline-flex">
+              <a ref="magneticInner" href="#contact" class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-700 text-zinc-300 font-semibold rounded-full hover:border-zinc-500 hover:text-white transition-colors">
+                Get in touch
+              </a>
+            </div>
           </div>
         </div>
 
-        <!-- Stats row -->
-        <div class="mt-20 flex flex-wrap gap-12">
-          <div v-for="stat in stats" :key="stat.label" class="hero-sub">
-            <div class="text-3xl font-black text-white">{{ stat.value }}</div>
-            <div class="text-sm text-zinc-500 mt-0.5">{{ stat.label }}</div>
+        <!-- Stats row — numbers count up on scroll into view -->
+        <div class="stats-row mt-20 flex flex-wrap gap-12">
+          <div class="hero-sub">
+            <div class="text-3xl font-black text-white">{{ statsCounters.projects }}+</div>
+            <div class="text-sm text-zinc-500 mt-0.5">Projects shipped</div>
+          </div>
+          <div class="hero-sub">
+            <div class="text-3xl font-black text-white">{{ statsCounters.years }}yrs</div>
+            <div class="text-sm text-zinc-500 mt-0.5">In the industry</div>
+          </div>
+          <div class="hero-sub">
+            <div class="text-3xl font-black text-white">{{ statsCounters.satisfaction }}%</div>
+            <div class="text-sm text-zinc-500 mt-0.5">Client satisfaction</div>
           </div>
         </div>
       </div>
@@ -215,6 +329,7 @@ onMounted(() => {
             v-for="(work, i) in works"
             :key="work.client"
             class="work-card group relative rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all duration-300 cursor-pointer"
+            style="transform-style: preserve-3d"
           >
             <!-- Cover -->
             <div :class="`bg-gradient-to-br ${work.gradient} h-52 w-full relative overflow-hidden`">
@@ -255,8 +370,10 @@ onMounted(() => {
           <div
             v-for="svc in services"
             :key="svc.title"
-            class="service-card group p-7 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-violet-500/40 hover:bg-zinc-900/80 transition-all duration-300"
+            class="service-card group relative p-7 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-violet-500/40 hover:bg-zinc-900/80 transition-all duration-300 overflow-hidden"
           >
+            <!-- Glow border sweep — animated on hover via GSAP -->
+            <div class="glow-border absolute inset-0 rounded-2xl pointer-events-none opacity-0" style="background: linear-gradient(135deg, rgba(139,92,246,0.18) 0%, rgba(217,70,239,0.12) 100%); box-shadow: inset 0 0 0 1.5px rgba(139,92,246,0.45)" />
             <div class="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-5 group-hover:bg-violet-500/20 transition-colors">
               <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
                 <path :d="svc.icon" stroke-linecap="round" stroke-linejoin="round"/>

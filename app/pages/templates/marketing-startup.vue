@@ -65,27 +65,27 @@ const features = [
 const testimonials = [
   {
     quote: 'NOVA cut our deployment time from 45 minutes to under 60 seconds. The team was shocked. We\'ve never looked back.',
-    name: 'Elara Voss',
+    name: 'Eric Ampire',
     role: 'CTO',
     company: 'Luminary',
-    initials: 'EV',
-    gradient: 'from-violet-500 to-fuchsia-500',
+    initials: 'EA',
+    gradient: 'from-rose-500 to-rose-600',
   },
   {
     quote: 'The real-time collaboration alone is worth it. Our design and engineering teams finally work in the same world.',
-    name: 'Marcus Chen',
+    name: 'Gabriel Delattre',
     role: 'Head of Product',
     company: 'Orbit',
-    initials: 'MC',
-    gradient: 'from-blue-500 to-cyan-500',
+    initials: 'GD',
+    gradient: 'from-emerald-500 to-teal-500',
   },
   {
     quote: 'We migrated 3 products to NOVA in a single weekend. The DX is genuinely unlike anything else on the market.',
-    name: 'Sofia Laurent',
+    name: 'Alice Martin',
     role: 'Lead Engineer',
     company: 'Apex',
-    initials: 'SL',
-    gradient: 'from-emerald-500 to-teal-500',
+    initials: 'AM',
+    gradient: 'from-purple-500 to-purple-600',
   },
 ]
 
@@ -96,27 +96,70 @@ const pricingPro  = ['Unlimited projects', 'Up to 20 members', 'Priority support
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger)
 
-  // Hero stagger
-  const heroItems = document.querySelectorAll('.hero-item')
-  gsap.fromTo(heroItems,
-    { opacity: 0, y: 32 },
-    { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }
+  // Hero cinematic blur-fade stagger — each hero item blurs in from below
+  gsap.fromTo('.hero-item',
+    { opacity: 0, y: 24, filter: 'blur(12px)' },
+    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, stagger: 0.15, ease: 'power3.out' }
   )
 
-  // Floating mockup
+  // Floating mockup — organic physics float with subtle rotation and lateral drift
   const mockup = document.querySelector('.hero-mockup') as HTMLElement
   if (mockup) {
     gsap.fromTo(mockup, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 1, delay: 0.5, ease: 'power3.out' })
-    gsap.to(mockup, { y: -10, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' })
+    gsap.to(mockup, { y: -14, rotation: 1.5, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' })
+    gsap.to(mockup, { x: 6, duration: 4, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0.5 })
+    // Badge floats independently for a layered parallax feel
+    const badge = mockup.querySelector('.absolute') as HTMLElement
+    if (badge) {
+      gsap.to(badge, { y: -5, duration: 2, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1 })
+    }
   }
 
-  // Section reveals
-  document.querySelectorAll<HTMLElement>('.reveal').forEach(el => {
+  // Feature rows — alternating directional slide: even from left, odd from right
+  document.querySelectorAll('.reveal').forEach((el, i) => {
     gsap.fromTo(el,
-      { opacity: 0, y: 36 },
-      { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 85%' } }
+      { opacity: 0, x: i % 2 === 0 ? -60 : 60 },
+      { opacity: 1, x: 0, duration: 0.75, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 82%', once: true } }
     )
   })
+
+  // Testimonial cards — spring scale-in on scroll reveal
+  gsap.fromTo('.testimonial-card',
+    { opacity: 0, scale: 0.88, y: 20 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'back.out(1.5)',
+      scrollTrigger: { trigger: '.testimonials-grid', start: 'top 82%', once: true } }
+  )
+
+  // Pricing cards — hover lift + elastic snap-back
+  document.querySelectorAll('.pricing-card').forEach(card => {
+    card.addEventListener('mouseenter', () => gsap.to(card, { y: -8, scale: 1.02, duration: 0.3, ease: 'power2.out' }))
+    card.addEventListener('mouseleave', () => gsap.to(card, { y: 0, scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.5)' }))
+  })
+
+  // CTA section — ambient pulsing glow to draw attention
+  const ctaSection = document.querySelector('.cta-section') as HTMLElement
+  if (ctaSection) {
+    gsap.to(ctaSection, { boxShadow: '0 0 60px #10b98130', duration: 1.5, repeat: -1, yoyo: true, ease: 'sine.inOut' })
+  }
+
+  // Logo marquee — continuous infinite horizontal scroll
+  const marquee = document.querySelector('.marquee-inner') as HTMLElement
+  if (marquee) {
+    gsap.to(marquee, { x: '-50%', duration: 15, repeat: -1, ease: 'none' })
+  }
+})
+
+onUnmounted(() => {
+  ScrollTrigger.getAll().forEach(t => t.kill())
+  gsap.killTweensOf('.hero-item')
+  gsap.killTweensOf('.testimonial-card')
+  gsap.killTweensOf('.pricing-card')
+  const mockup = document.querySelector('.hero-mockup') as HTMLElement
+  if (mockup) gsap.killTweensOf(mockup)
+  const ctaSection = document.querySelector('.cta-section') as HTMLElement
+  if (ctaSection) gsap.killTweensOf(ctaSection)
+  const marquee = document.querySelector('.marquee-inner') as HTMLElement
+  if (marquee) gsap.killTweensOf(marquee)
 })
 </script>
 
@@ -335,8 +378,8 @@ onMounted(() => {
           <h2 class="text-4xl font-bold tracking-tight">Loved by builders</h2>
           <p class="text-zinc-400 mt-3">Don't take our word for it.</p>
         </div>
-        <div class="grid md:grid-cols-3 gap-6">
-          <div v-for="t in testimonials" :key="t.name" class="reveal p-6 bg-zinc-900 border border-zinc-800 rounded-2xl hover:border-zinc-700 transition-colors">
+        <div class="testimonials-grid grid md:grid-cols-3 gap-6">
+          <div v-for="t in testimonials" :key="t.name" class="testimonial-card p-6 bg-zinc-900 border border-zinc-800 rounded-2xl hover:border-zinc-700 transition-colors">
             <p class="text-sm text-zinc-300 leading-relaxed mb-6">"{{ t.quote }}"</p>
             <div class="flex items-center gap-3">
               <div :class="`w-9 h-9 rounded-full bg-gradient-to-br ${t.gradient} flex items-center justify-center text-sm font-bold`">{{ t.initials }}</div>
@@ -350,6 +393,13 @@ onMounted(() => {
       </div>
     </section>
 
+    <!-- ─── Logo marquee — infinite horizontal scroll of tech stack logos ── -->
+    <div class="py-12 overflow-hidden border-y border-zinc-800/60 bg-zinc-900/20">
+      <div class="marquee-inner flex gap-12 items-center whitespace-nowrap" style="width: 200%">
+        <span v-for="logo in ['Vue.js','Nuxt 4','Supabase','Vercel','TypeScript','TailwindCSS','Vue.js','Nuxt 4','Supabase','Vercel','TypeScript','TailwindCSS']" :key="logo+'_dup'" class="text-zinc-600 font-bold text-sm tracking-widest uppercase">{{ logo }}</span>
+      </div>
+    </div>
+
     <!-- ─── Pricing teaser ────────────────────────────────────────────────── -->
     <section id="pricing" class="py-24">
       <div class="max-w-3xl mx-auto px-6">
@@ -359,7 +409,7 @@ onMounted(() => {
         </div>
         <div class="reveal grid sm:grid-cols-2 gap-5">
           <!-- Free -->
-          <div class="p-6 bg-zinc-900 border border-zinc-800 rounded-2xl flex flex-col">
+          <div class="pricing-card p-6 bg-zinc-900 border border-zinc-800 rounded-2xl flex flex-col">
             <div class="mb-4">
               <h3 class="text-lg font-bold mb-1">Free</h3>
               <div class="text-3xl font-black">$0<span class="text-sm font-normal text-zinc-500">/mo</span></div>
@@ -375,7 +425,7 @@ onMounted(() => {
             </button>
           </div>
           <!-- Pro -->
-          <div class="p-6 bg-gradient-to-b from-emerald-950/60 to-zinc-900 border border-emerald-500/30 rounded-2xl flex flex-col relative overflow-hidden">
+          <div class="pricing-card p-6 bg-gradient-to-b from-emerald-950/60 to-zinc-900 border border-emerald-500/30 rounded-2xl flex flex-col relative overflow-hidden">
             <div class="absolute top-3 right-3 px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold rounded-full">Popular</div>
             <div class="mb-4">
               <h3 class="text-lg font-bold mb-1">Pro</h3>
@@ -398,7 +448,7 @@ onMounted(() => {
     <!-- ─── Magnetic CTA ──────────────────────────────────────────────────── -->
     <section class="py-24">
       <div class="max-w-3xl mx-auto px-6">
-        <div class="reveal relative p-10 md:p-14 rounded-3xl bg-zinc-900 text-center overflow-hidden" style="background: linear-gradient(135deg, #09090b, #0d1f18);">
+        <div class="cta-section reveal relative p-10 md:p-14 rounded-3xl bg-zinc-900 text-center overflow-hidden" style="background: linear-gradient(135deg, #09090b, #0d1f18);">
           <div class="absolute inset-0 rounded-3xl border border-emerald-500/20 pointer-events-none" />
           <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-emerald-500/10 blur-3xl pointer-events-none" />
           <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-4 relative">Ready to ship?</h2>

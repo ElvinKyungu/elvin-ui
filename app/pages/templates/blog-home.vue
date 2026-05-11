@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Article {
@@ -24,9 +25,9 @@ const articles: Article[] = [
     title: 'Why Developer Experience Is the New Competitive Advantage',
     excerpt: 'The companies winning in 2025 aren\'t just building better products — they\'re building better tooling for the people who build those products.',
     category: 'Product',
-    author: 'Marcus Chen',
-    authorInitials: 'MC',
-    authorGradient: 'from-blue-500 to-cyan-500',
+    author: 'Gabriel Delattre',
+    authorInitials: 'GD',
+    authorGradient: 'from-emerald-500 to-teal-500',
     date: 'May 8, 2025',
     readTime: '8 min read',
     gradient: 'from-indigo-600 to-purple-600',
@@ -37,9 +38,9 @@ const articles: Article[] = [
     title: 'The Future of Design Systems in 2025',
     excerpt: 'Design systems are evolving beyond component libraries. Here\'s where the smartest teams are taking them next.',
     category: 'Design',
-    author: 'Sofia Laurent',
-    authorInitials: 'SL',
-    authorGradient: 'from-rose-500 to-pink-500',
+    author: 'Alice Martin',
+    authorInitials: 'AM',
+    authorGradient: 'from-purple-500 to-purple-600',
     date: 'May 6, 2025',
     readTime: '6 min read',
     gradient: 'from-rose-600 to-pink-600',
@@ -61,9 +62,9 @@ const articles: Article[] = [
     title: 'How We Grew to 100k Users Without a Marketing Budget',
     excerpt: 'The full story of how a side project turned into a product people genuinely love — told by the founder who lived it.',
     category: 'Product',
-    author: 'Elara Voss',
-    authorInitials: 'EV',
-    authorGradient: 'from-violet-500 to-fuchsia-500',
+    author: 'Vander Otis',
+    authorInitials: 'VO',
+    authorGradient: 'from-blue-500 to-cyan-500',
     date: 'May 2, 2025',
     readTime: '7 min read',
     gradient: 'from-violet-600 to-fuchsia-600',
@@ -73,9 +74,9 @@ const articles: Article[] = [
     title: 'AI-Powered Copywriting Workflows That Actually Work',
     excerpt: 'After testing every major AI writing tool, here\'s what actually speeds up content production without killing your voice.',
     category: 'AI',
-    author: 'Alex Rivera',
-    authorInitials: 'AR',
-    authorGradient: 'from-amber-500 to-orange-500',
+    author: 'Elvin Kyungu',
+    authorInitials: 'EK',
+    authorGradient: 'from-emerald-500 to-teal-600',
     date: 'Apr 30, 2025',
     readTime: '5 min read',
     gradient: 'from-amber-600 to-orange-600',
@@ -85,9 +86,9 @@ const articles: Article[] = [
     title: 'The Psychology of Color in UI Design',
     excerpt: 'Color isn\'t decoration — it\'s communication. A deep dive into how color choices shape user behavior and brand perception.',
     category: 'Design',
-    author: 'Sofia Laurent',
-    authorInitials: 'SL',
-    authorGradient: 'from-rose-500 to-pink-500',
+    author: 'Alice Martin',
+    authorInitials: 'AM',
+    authorGradient: 'from-purple-500 to-purple-600',
     date: 'Apr 28, 2025',
     readTime: '9 min read',
     gradient: 'from-sky-600 to-blue-600',
@@ -113,6 +114,8 @@ const activeCategory = ref('All')
 const email          = ref('')
 const subscribed     = ref(false)
 const mobileOpen     = ref(false)
+// Scroll-aware navbar: becomes true after 20 px to trigger stronger glass effect
+const scrolled       = ref(false)
 
 const featuredArticle = computed(() => articles.find(a => a.featured)!)
 const regularArticles = computed(() => {
@@ -124,29 +127,96 @@ const regularArticles = computed(() => {
 // ─── Grid ref ─────────────────────────────────────────────────────────────────
 const gridEl = useTemplateRef<HTMLElement>('gridEl')
 
+// Clip-path wipe-up reveal: each card uncovers from top edge — more dramatic than a plain fade
 function animateGrid() {
   if (!gridEl.value) return
   const cards = Array.from(gridEl.value.children) as HTMLElement[]
   gsap.killTweensOf(cards)
   gsap.fromTo(cards,
-    { opacity: 0, y: 28 },
-    { opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'power2.out', clearProps: 'transform,opacity' },
+    { clipPath: 'inset(0 0 100% 0)', opacity: 1, y: 0 },
+    { clipPath: 'inset(0 0 0% 0)', duration: 0.55, stagger: 0.08, ease: 'power3.out', clearProps: 'clipPath' },
   )
 }
 
-watch(activeCategory, () => nextTick(animateGrid))
+// Spring-bounce the newly active filter pill, then re-reveal the grid with clip-path
+watch(activeCategory, () => {
+  nextTick(() => {
+    const activeBtn = document.querySelector('.filter-active') as HTMLElement
+    if (activeBtn) gsap.fromTo(activeBtn, { scale: 0.9 }, { scale: 1, duration: 0.3, ease: 'back.out(2)' })
+    animateGrid()
+  })
+})
 
 // ─── Newsletter ───────────────────────────────────────────────────────────────
+// On subscribe: fire 12 colored dots from screen center as a burst of confetti
 function subscribe() {
   if (!email.value) return
   subscribed.value = true
   email.value = ''
+  nextTick(() => {
+    const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+    for (let i = 0; i < 12; i++) {
+      const dot = document.createElement('div')
+      dot.style.cssText = `position:fixed;width:8px;height:8px;border-radius:50%;background:${colors[i % 6]};top:50%;left:50%;pointer-events:none;z-index:9999;`
+      document.body.appendChild(dot)
+      gsap.fromTo(dot,
+        { x: 0, y: 0, opacity: 1, scale: 1 },
+        {
+          x: (Math.random() - 0.5) * 200,
+          y: (Math.random() - 0.5) * 200,
+          opacity: 0,
+          scale: 0,
+          duration: 0.8 + Math.random() * 0.5,
+          ease: 'power2.out',
+          onComplete: () => dot.remove(),
+        },
+      )
+    }
+  })
 }
 
 // ─── GSAP entrance ────────────────────────────────────────────────────────────
 onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger)
+
+  // Scroll-aware navbar: passive listener updates scrolled ref for CSS class swap
+  window.addEventListener('scroll', () => { scrolled.value = window.scrollY > 20 }, { passive: true })
+
+  // Featured card mount entrance: fade + lift in from below
   gsap.fromTo('.featured-card', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.1 })
+
+  // Featured cover parallax: background moves at 0.5x scroll speed for depth
+  const featured = document.querySelector('.featured-cover') as HTMLElement
+  if (featured) {
+    gsap.to(featured, {
+      y: 60,
+      ease: 'none',
+      scrollTrigger: { trigger: '.featured-card', start: 'top bottom', end: 'bottom top', scrub: 1 },
+    })
+  }
+
+  // 3D tilt on article cards: rotates toward cursor position on mousemove
+  document.querySelectorAll('.article-card').forEach(card => {
+    card.addEventListener('mousemove', (e: Event) => {
+      const mouseEvent = e as MouseEvent
+      const rect = (card as HTMLElement).getBoundingClientRect()
+      const x = (mouseEvent.clientX - rect.left) / rect.width - 0.5
+      const y = (mouseEvent.clientY - rect.top) / rect.height - 0.5
+      gsap.to(card, { rotateY: x * 8, rotateX: -y * 8, duration: 0.3, ease: 'power2.out', transformPerspective: 800 })
+    })
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' })
+    })
+  })
+
   nextTick(animateGrid)
+})
+
+onUnmounted(() => {
+  gsap.killTweensOf('.featured-card')
+  gsap.killTweensOf('.featured-cover')
+  gsap.killTweensOf('.article-card')
+  ScrollTrigger.getAll().forEach(t => t.kill())
 })
 </script>
 
@@ -154,7 +224,11 @@ onMounted(() => {
   <div class="min-h-screen bg-zinc-950 text-white">
 
     <!-- ─── Navbar ─────────────────────────────────────────────────────────── -->
-    <nav class="sticky top-0 z-40 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/60">
+    <!-- Scroll-aware navbar: stronger glass + shadow after 20 px scroll -->
+    <nav :class="[
+      'sticky top-0 z-40 backdrop-blur-md border-b border-zinc-800/60 transition-all duration-300',
+      scrolled ? 'bg-zinc-950/95 shadow-lg shadow-black/20' : 'bg-zinc-950/60'
+    ]">
       <div class="max-w-6xl mx-auto px-6 h-15 flex items-center justify-between gap-4" style="height:56px">
         <span class="text-lg font-black tracking-tight">SIGNAL<span class="text-indigo-400">.</span></span>
 
@@ -196,7 +270,7 @@ onMounted(() => {
 
       <!-- ─── Featured post ────────────────────────────────────────────────── -->
       <div class="featured-card group relative rounded-2xl overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-all duration-300 mb-14 cursor-pointer">
-        <div :class="`bg-gradient-to-br ${featuredArticle.gradient} h-56 md:h-72 w-full relative overflow-hidden`">
+        <div :class="`featured-cover bg-gradient-to-br ${featuredArticle.gradient} h-56 md:h-72 w-full relative overflow-hidden`">
           <!-- Abstract pattern -->
           <div class="absolute top-6 right-8 w-40 h-40 rounded-full bg-white/10 blur-2xl" />
           <div class="absolute bottom-4 left-8 w-24 h-24 rounded-full bg-white/10 blur-xl" />
@@ -237,7 +311,7 @@ onMounted(() => {
           :class="[
             'px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200',
             activeCategory === cat
-              ? 'bg-indigo-500 text-white'
+              ? 'bg-indigo-500 text-white filter-active'
               : 'bg-zinc-900 border border-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-white'
           ]"
         >
@@ -254,7 +328,7 @@ onMounted(() => {
         <div
           v-for="article in regularArticles"
           :key="article.id"
-          class="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-700 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 cursor-pointer flex flex-col"
+          class="article-card group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-700 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 cursor-pointer flex flex-col"
         >
           <!-- Cover -->
           <div :class="`bg-gradient-to-br ${article.gradient} h-36 relative overflow-hidden flex-shrink-0`">

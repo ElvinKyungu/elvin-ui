@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 // ─── Reading progress ─────────────────────────────────────────────────────────
 const readingProgress = ref(0)
@@ -36,9 +37,14 @@ const reactions = reactive([
   { emoji: '💡', label: 'Insightful', count: 45, active: false },
 ])
 
-function toggleReaction(r: typeof reactions[0]) {
+// Spring bounce reaction: elastic scale on click with rotation for delight
+function toggleReaction(r: typeof reactions[0], el: HTMLElement) {
   r.active = !r.active
   r.count += r.active ? 1 : -1
+  gsap.fromTo(el,
+    { scale: 0.8, rotate: r.active ? -10 : 10 },
+    { scale: 1, rotate: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' }
+  )
 }
 
 // ─── Comment form ─────────────────────────────────────────────────────────────
@@ -52,9 +58,9 @@ function submitComment() {
 }
 
 const comments = [
-  { name: 'Elara Voss', initials: 'EV', gradient: 'from-violet-500 to-fuchsia-500', time: '2h ago', text: 'This is exactly what I\'ve been thinking about for months. The Stripe example is spot on — their SDK documentation sets the bar for the whole industry.', likes: 24 },
+  { name: 'Vander Otis', initials: 'VO', gradient: 'from-blue-500 to-cyan-500', time: '2h ago', text: 'This is exactly what I\'ve been thinking about for months. The Stripe example is spot on — their SDK documentation sets the bar for the whole industry.', likes: 24 },
   { name: 'Kevin Maginot', initials: 'KM', gradient: 'from-emerald-500 to-teal-500', time: '5h ago', text: 'Great article! I\'d add that internal DX matters just as much as external. The teams that invest in internal tooling ship 2-3x faster.', likes: 18 },
-  { name: 'Alex Rivera', initials: 'AR', gradient: 'from-amber-500 to-orange-500', time: '1d ago', text: 'The point about onboarding time as a DX metric is underrated. Most companies only look at API uptime and ignore how long it takes new devs to ship their first feature.', likes: 31 },
+  { name: 'Elvin Kyungu', initials: 'EK', gradient: 'from-emerald-500 to-teal-600', time: '1d ago', text: 'The point about onboarding time as a DX metric is underrated. Most companies only look at API uptime and ignore how long it takes new devs to ship their first feature.', likes: 31 },
 ]
 
 const likedComments = reactive(new Set<number>())
@@ -78,11 +84,51 @@ const related = [
 // ─── IntersectionObserver for TOC ─────────────────────────────────────────────
 let observer: IntersectionObserver | null = null
 
+// Animate TOC active item sliding in from left when it changes
+watch(activeTocId, () => {
+  const activeBtn = document.querySelector('.toc-active') as HTMLElement
+  if (activeBtn) {
+    gsap.fromTo(activeBtn, { x: -4, opacity: 0.7 }, { x: 0, opacity: 1, duration: 0.25, ease: 'power2.out' })
+  }
+})
+
 onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger)
+
   window.addEventListener('scroll', updateProgress, { passive: true })
 
-  // GSAP entrance
-  gsap.fromTo('.post-hero', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+  // Progress bar shimmer: continuous left-to-right sweep for visual momentum
+  const shimmer = document.querySelector('.progress-shimmer') as HTMLElement
+  if (shimmer) gsap.to(shimmer, { x: '100%', duration: 1.5, repeat: -1, ease: 'none', delay: 0.5 })
+
+  // Cinematic article hero entrance: stagger metadata → headline → body → author
+  const tl = gsap.timeline({ delay: 0.1 })
+  tl.fromTo('.post-hero .text-xs', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
+    .fromTo('.post-hero h1', { opacity: 0, y: 40, skewX: -2 }, { opacity: 1, y: 0, skewX: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
+    .fromTo('.post-hero p', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
+    .fromTo('.post-hero .flex.items-center.gap-3', { opacity: 0 }, { opacity: 1, duration: 0.5 }, '-=0.2')
+
+  // Hero cover ambient glow pulse: subtle breathing effect on the gradient background
+  const heroCover = document.querySelector('.post-hero-cover') as HTMLElement
+  if (heroCover) {
+    gsap.to(heroCover, { opacity: 0.85, duration: 2, repeat: -1, yoyo: true, ease: 'sine.inOut' })
+  }
+
+  // Article sections slide in alternating left/right on scroll for spatial reading rhythm
+  document.querySelectorAll('article section').forEach((section, i) => {
+    gsap.fromTo(section,
+      { opacity: 0, x: i % 2 === 0 ? -20 : 20 },
+      { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: section, start: 'top 88%', once: true } }
+    )
+  })
+
+  // Related posts stagger reveal with scale spring on scroll entry
+  gsap.fromTo('.related-post',
+    { opacity: 0, y: 30, scale: 0.95 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.3)',
+      scrollTrigger: { trigger: '.related-posts-section', start: 'top 85%', once: true } }
+  )
 
   // TOC active tracking
   const sections = tocItems.map(t => document.getElementById(t.id)).filter(Boolean) as HTMLElement[]
@@ -97,6 +143,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', updateProgress)
   observer?.disconnect()
+  ScrollTrigger.getAll().forEach(t => t.kill())
 })
 </script>
 
@@ -106,9 +153,12 @@ onUnmounted(() => {
     <!-- ─── Reading progress ──────────────────────────────────────────────── -->
     <div class="fixed top-0 left-0 right-0 z-[60] h-0.5 bg-zinc-800">
       <div
-        class="h-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-[width] duration-100"
+        class="h-full bg-gradient-to-r from-indigo-500 via-violet-400 to-indigo-500 bg-[length:200%_100%] transition-[width] duration-100 relative overflow-hidden"
         :style="`width: ${readingProgress}%`"
-      />
+      >
+        <!-- Shimmer sweep driven by GSAP for a dynamic gradient feel -->
+        <div class="progress-shimmer absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full" />
+      </div>
     </div>
 
     <!-- ─── Navbar ─────────────────────────────────────────────────────────── -->
@@ -150,17 +200,17 @@ onUnmounted(() => {
         The companies winning in 2025 aren't just building better products — they're building better tooling for the people who build those products.
       </p>
       <div class="flex items-center gap-3 pb-8 border-b border-zinc-800/60">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center font-bold text-sm">MC</div>
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center font-bold text-sm">GD</div>
         <div>
-          <div class="text-sm font-semibold">Marcus Chen</div>
-          <div class="text-xs text-zinc-500">Head of Product at Orbit · 48 articles</div>
+          <div class="text-sm font-semibold">Gabriel Delattre</div>
+          <div class="text-xs text-zinc-500">Lead Developer at Elvin UI · 48 articles</div>
         </div>
       </div>
     </div>
 
     <!-- ─── Hero cover ───────────────────────────────────────────────────── -->
     <div class="max-w-3xl mx-auto px-6 mb-12">
-      <div class="bg-gradient-to-br from-indigo-700 to-violet-700 rounded-2xl h-56 md:h-72 relative overflow-hidden">
+      <div class="post-hero-cover bg-gradient-to-br from-indigo-700 to-violet-700 rounded-2xl h-56 md:h-72 relative overflow-hidden">
         <div class="absolute top-6 right-10 w-32 h-32 rounded-full bg-white/10 blur-2xl" />
         <div class="absolute bottom-4 left-8 w-20 h-20 rounded-full bg-white/10 blur-xl" />
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_0.5px,transparent_0.5px),linear-gradient(to_bottom,#ffffff08_0.5px,transparent_0.5px)] bg-[size:40px_40px]" />
@@ -282,7 +332,7 @@ onUnmounted(() => {
               <button
                 v-for="r in reactions"
                 :key="r.label"
-                @click="toggleReaction(r)"
+                @click="(e) => toggleReaction(r, e.currentTarget as HTMLElement)"
                 :class="[
                   'flex items-center gap-2 px-3 py-2 rounded-xl border text-sm transition-all duration-200',
                   r.active
@@ -298,18 +348,18 @@ onUnmounted(() => {
 
           <!-- Author card -->
           <div class="border border-zinc-800 rounded-2xl p-6 mb-10 flex gap-5">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-lg font-bold flex-shrink-0">MC</div>
+            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-lg font-bold flex-shrink-0">GD</div>
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold">Marcus Chen</span>
+                <span class="font-bold">Gabriel Delattre</span>
                 <span class="text-xs text-zinc-600">48 articles</span>
               </div>
               <p class="text-sm text-zinc-400 leading-relaxed mb-3">
-                Head of Product at Orbit. I write about developer tools, product strategy, and the intersection of design and engineering. Previously at Stripe and Vercel.
+                Lead Developer at Elvin UI. I write about developer tools, component architecture, and the craft of building delightful developer experiences. Previously at Stripe and Vercel.
               </p>
               <a href="#" class="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                Follow @marcuschen
+                Follow @gabrieldelattre
               </a>
             </div>
           </div>
@@ -363,6 +413,7 @@ onUnmounted(() => {
           <div class="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
             <p class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Contents</p>
             <nav class="space-y-1">
+              <!-- toc-active class added dynamically so GSAP can target the active item for slide animation -->
               <button
                 v-for="item in tocItems"
                 :key="item.id"
@@ -370,7 +421,7 @@ onUnmounted(() => {
                 :class="[
                   'w-full text-left text-xs px-2 py-1.5 rounded-md transition-all duration-150',
                   activeTocId === item.id
-                    ? 'text-indigo-400 bg-indigo-500/10'
+                    ? 'text-indigo-400 bg-indigo-500/10 toc-active'
                     : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50'
                 ]"
               >
@@ -391,11 +442,11 @@ onUnmounted(() => {
         </aside>
       </div>
 
-      <!-- Related posts -->
-      <div class="max-w-2xl mt-16 pt-12 border-t border-zinc-800/60">
+      <!-- Related posts — stagger scroll reveal via ScrollTrigger targeting .related-posts-section -->
+      <div class="related-posts-section max-w-2xl mt-16 pt-12 border-t border-zinc-800/60">
         <h3 class="font-bold text-xl mb-6">More articles</h3>
         <div class="grid sm:grid-cols-3 gap-4">
-          <div v-for="post in related" :key="post.title" class="group bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+          <div v-for="post in related" :key="post.title" class="related-post group bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
             <div :class="`bg-gradient-to-br ${post.gradient} h-24`" />
             <div class="p-4">
               <span class="text-xs text-zinc-600 mb-1.5 block">{{ post.category }} · {{ post.readTime }}</span>
@@ -415,3 +466,10 @@ onUnmounted(() => {
     </footer>
   </div>
 </template>
+
+<style scoped>
+/* progress-shimmer starts off-screen left; GSAP drives it to the right in a loop */
+.progress-shimmer {
+  transform: translateX(-100%);
+}
+</style>
