@@ -62,7 +62,7 @@ const services = [
 const team = [
   { name: 'Vander Otis',    role: 'Creative Director',   initials: 'VO', gradient: 'from-violet-500 to-fuchsia-500' },
   { name: 'Gabriel Delattre', role: 'Lead Developer',    initials: 'GD', gradient: 'from-blue-500 to-cyan-500' },
-  { name: 'Alice Martin',   role: 'Brand Strategist',    initials: 'AM', gradient: 'from-rose-500 to-pink-500' },
+  { name: 'Sara López',     role: 'Brand Strategist',    initials: 'SL', gradient: 'from-rose-500 to-pink-500' },
 ]
 
 const stats = [

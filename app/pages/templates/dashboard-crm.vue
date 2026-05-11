@@ -33,9 +33,9 @@ const contacts: Contact[] = [
   { id:5,  name:'Antfu',            company:'Nuxt Labs',     email:'antfu@nuxt.com',            stage:'Customer', value:'$18,000', lastContact:'1 week ago',  initials:'AF', color:'from-zinc-400 to-zinc-600' },
   { id:6,  name:'Elvin Kyungu',     company:'Elvin UI',      email:'elvin@elvinui.com',         stage:'Prospect', value:'$12,000', lastContact:'1 week ago',  initials:'EK', color:'from-emerald-500 to-teal-600' },
   { id:7,  name:'Alice Martin',     company:'Shopify',       email:'alice@shopify.com',         stage:'Lead',     value:'$5,600',  lastContact:'2 weeks ago', initials:'AM', color:'from-purple-500 to-purple-600' },
-  { id:8,  name:'Tom K',            company:'Tailwind CSS',  email:'tom@tailwindcss.com',       stage:'Customer', value:'$32,000', lastContact:'3 weeks ago', initials:'TK', color:'from-cyan-500 to-blue-500' },
+  { id:8,  name:'Raphaël Kim',       company:'Tailwind CSS',  email:'raphael@tailwindcss.com',   stage:'Customer', value:'$32,000', lastContact:'3 weeks ago', initials:'RK', color:'from-cyan-500 to-blue-500' },
   { id:9,  name:'Sara López',       company:'PlanetScale',   email:'sara@planetscale.com',      stage:'Churned',  value:'$0',      lastContact:'1 month ago', initials:'SL', color:'from-pink-500 to-rose-500' },
-  { id:10, name:'Bob Chen',         company:'Supabase',      email:'bob@supabase.io',           stage:'Lead',     value:'$4,100',  lastContact:'5 min ago',   initials:'BC', color:'from-indigo-500 to-blue-600' },
+  { id:10, name:'Yuki Tanaka',      company:'Supabase',      email:'yuki@supabase.io',          stage:'Lead',     value:'$4,100',  lastContact:'5 min ago',   initials:'YT', color:'from-indigo-500 to-blue-600' },
 ]
 
 const pipelineColumns = [

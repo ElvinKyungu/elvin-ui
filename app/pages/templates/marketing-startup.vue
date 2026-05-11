@@ -81,10 +81,10 @@ const testimonials = [
   },
   {
     quote: 'We migrated 3 products to NOVA in a single weekend. The DX is genuinely unlike anything else on the market.',
-    name: 'Alice Martin',
+    name: 'Sara López',
     role: 'Lead Engineer',
     company: 'Apex',
-    initials: 'AM',
+    initials: 'SL',
     gradient: 'from-purple-500 to-purple-600',
   },
 ]
