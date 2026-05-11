@@ -144,6 +144,9 @@ function onKeyDown(e: KeyboardEvent) {
   }
 }
 
+// ─── Mobile sidebar ──────────────────────────────────────────────────────────
+const mobileSidebarOpen = ref(false)
+
 // ─── GSAP ─────────────────────────────────────────────────────────────────────
 const searchInput = useTemplateRef<HTMLInputElement>('searchInput')
 
@@ -200,24 +203,67 @@ watch(showSearch, (val) => {
 <template>
   <div class="h-screen flex flex-col bg-[#080808] text-white overflow-hidden" style="font-family:Inter,system-ui,sans-serif">
 
+    <!-- Mobile sidebar drawer -->
+    <Transition enter-active-class="transition-opacity duration-200" leave-active-class="transition-opacity duration-200" enter-from-class="opacity-0" leave-to-class="opacity-0">
+      <div v-if="mobileSidebarOpen" class="fixed inset-0 z-50 lg:hidden">
+        <div class="absolute inset-0 bg-black/70" @click="mobileSidebarOpen = false" />
+        <aside class="absolute inset-y-0 left-0 w-72 bg-zinc-950 border-r border-zinc-800/60 flex flex-col overflow-y-auto">
+          <div class="flex items-center justify-between h-14 px-4 border-b border-zinc-800/60 shrink-0">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-md bg-emerald-500 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <span class="text-sm font-bold">ElvinUI <span class="text-zinc-500 font-normal">Docs</span></span>
+            </div>
+            <button @click="mobileSidebarOpen = false" class="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <nav class="px-3 py-5 flex flex-col gap-0.5">
+            <div v-for="(section, si) in navSections" :key="si" class="mb-1">
+              <button @click="section.open.value = !section.open.value" class="w-full flex items-center justify-between px-3 py-1.5 text-left mb-1">
+                <span class="text-[11px] font-bold text-zinc-500 uppercase tracking-widest">{{ section.title }}</span>
+                <svg :class="['w-3.5 h-3.5 text-zinc-600 transition-transform duration-200', section.open.value ? 'rotate-180' : '']" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div v-if="section.open.value" class="flex flex-col gap-0.5 pl-0.5">
+                <button v-for="item in section.items" :key="item"
+                  @click="activeDoc = item; mobileSidebarOpen = false"
+                  :class="['w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors', activeDoc === item ? 'text-emerald-400 bg-emerald-500/10' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60']">
+                  {{ item }}
+                </button>
+              </div>
+            </div>
+          </nav>
+        </aside>
+      </div>
+    </Transition>
+
     <!-- ─── Top Nav ──────────────────────────────────────────────────────────── -->
-    <header class="h-14 flex items-center shrink-0 border-b border-zinc-800/60 bg-[#080808]/90 backdrop-blur-xl px-5 z-40">
+    <header class="h-14 flex items-center shrink-0 border-b border-zinc-800/60 bg-[#080808]/90 backdrop-blur-xl px-4 z-40">
+      <!-- Hamburger (mobile) -->
+      <button @click="mobileSidebarOpen = true" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors mr-3 shrink-0">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 mr-8 shrink-0">
+      <a href="/" class="flex items-center gap-2 mr-4 lg:mr-8 shrink-0">
         <div class="w-6 h-6 rounded-md bg-emerald-500 flex items-center justify-center shadow shadow-emerald-500/30">
           <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         </div>
-        <span class="text-sm font-bold tracking-tight">ElvinUI <span class="text-zinc-500 font-normal">Docs</span></span>
+        <span class="text-sm font-bold tracking-tight hidden sm:block">ElvinUI <span class="text-zinc-500 font-normal">Docs</span></span>
       </a>
 
-      <!-- Search trigger -->
+      <!-- Search trigger — icon only on mobile, full bar on desktop -->
+      <button @click="showSearch = true" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>
+      </button>
       <button
         @click="showSearch = true"
-        class="flex items-center gap-3 flex-1 max-w-sm bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-zinc-500 hover:border-zinc-700 hover:text-zinc-400 transition-all group"
+        class="hidden lg:flex items-center gap-3 flex-1 max-w-sm bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-zinc-500 hover:border-zinc-700 hover:text-zinc-400 transition-all group"
       >
         <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>
         <span class="flex-1 text-left text-xs">Search docs...</span>
-        <span class="hidden sm:flex items-center gap-0.5 text-[10px] font-mono text-zinc-600 bg-zinc-800 border border-zinc-700 rounded-md px-1.5 py-0.5 group-hover:text-zinc-500 transition-colors">⌘K</span>
+        <span class="flex items-center gap-0.5 text-[10px] font-mono text-zinc-600 bg-zinc-800 border border-zinc-700 rounded-md px-1.5 py-0.5 group-hover:text-zinc-500 transition-colors">⌘K</span>
       </button>
 
       <!-- Right actions -->

@@ -394,7 +394,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKeyDown))
         </div>
 
         <div ref="tableWrap" :class="['overflow-hidden', !showTable ? 'hidden' : '']">
-          <div class="bg-zinc-900/50 border border-zinc-800/60 rounded-2xl overflow-hidden">
+          <div class="overflow-x-auto rounded-2xl">
+          <div class="bg-zinc-900/50 border border-zinc-800/60 rounded-2xl overflow-hidden min-w-[560px]">
             <!-- Table header -->
             <div class="grid grid-cols-4 bg-zinc-900/80 border-b border-zinc-800/60">
               <div class="px-6 py-4 text-xs font-semibold text-zinc-500 uppercase tracking-widest">Feature</div>
@@ -421,6 +422,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeyDown))
                 <span v-else class="text-sm text-zinc-300 font-medium">{{ col }}</span>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -498,7 +500,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeyDown))
     <!-- ─── Modal: Upgrade ────────────────────────────────────────────────────── -->
     <Transition name="modal">
       <div v-if="showUpgrade" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" @click.self="showUpgrade = false">
-        <div class="modal-box bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-8 shadow-2xl">
+        <div class="modal-box bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
           <!-- Header -->
           <div class="flex items-start justify-between mb-6">
             <div>
@@ -549,7 +551,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeyDown))
     <!-- ─── Modal: Contact Sales ──────────────────────────────────────────────── -->
     <Transition name="modal">
       <div v-if="showSales" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" @click.self="showSales = false">
-        <div class="modal-box bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-8 shadow-2xl">
+        <div class="modal-box bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
           <div class="flex items-start justify-between mb-6">
             <div>
               <h3 class="text-xl font-black text-white">Talk to our team</h3>

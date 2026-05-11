@@ -150,6 +150,9 @@ function closeDrawer() {
   setTimeout(() => { selectedContact.value = null }, 300)
 }
 
+// ─── Mobile sidebar ──────────────────────────────────────────────────────────
+const mobileSidebarOpen = ref(false)
+
 // ─── GSAP ──────────────────────────────────────────────────────────────────────
 onMounted(() => {
   gsap.to(counter, { contacts: 1284, deals: 47, won: 128400, rate: 24.3, duration: 1.6, ease: 'power2.out', delay: 0.2 })
@@ -172,8 +175,13 @@ onUnmounted(() => {
 <template>
   <div class="flex h-screen text-white overflow-hidden" style="background:#080808;font-family:Inter,system-ui,sans-serif">
 
+    <!-- Mobile sidebar overlay -->
+    <Transition enter-active-class="transition-opacity duration-200" leave-active-class="transition-opacity duration-200" enter-from-class="opacity-0" leave-to-class="opacity-0">
+      <div v-if="mobileSidebarOpen" class="fixed inset-0 z-30 bg-black/60 lg:hidden" @click="mobileSidebarOpen = false" />
+    </Transition>
+
     <!-- ─── Sidebar ───────────────────────────────────────────────────────────── -->
-    <aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-60 shrink-0 border-r border-zinc-800/60 bg-zinc-950">
+    <aside :class="['fixed inset-y-0 left-0 z-40 flex flex-col w-60 shrink-0 border-r border-zinc-800/60 bg-zinc-950 transition-transform duration-300', mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0']">
 
       <!-- Logo -->
       <div class="flex items-center gap-2.5 h-14 px-5 border-b border-zinc-800/60 shrink-0">
@@ -220,12 +228,16 @@ onUnmounted(() => {
     </aside>
 
     <!-- ─── Main ──────────────────────────────────────────────────────────────── -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-hidden ml-60">
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden lg:ml-60">
 
       <!-- Topbar -->
-      <header class="h-14 flex items-center gap-3 px-5 border-b border-zinc-800/60 shrink-0 sticky top-0 z-10 backdrop-blur-sm" style="background:rgba(8,8,8,0.9)">
+      <header class="h-14 flex items-center gap-3 px-4 border-b border-zinc-800/60 shrink-0 sticky top-0 z-10 backdrop-blur-sm" style="background:rgba(8,8,8,0.9)">
+        <!-- Hamburger (mobile) -->
+        <button @click="mobileSidebarOpen = !mobileSidebarOpen" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
         <!-- Breadcrumb -->
-        <div class="flex items-center gap-1.5 text-sm">
+        <div class="flex items-center gap-1.5 text-sm min-w-0">
           <span class="text-zinc-500">CRM</span>
           <svg class="w-3.5 h-3.5 text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
           <span class="text-white font-medium capitalize">{{ activeNav }}</span>

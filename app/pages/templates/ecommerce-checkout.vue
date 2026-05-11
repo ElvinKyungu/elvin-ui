@@ -313,7 +313,7 @@ onUnmounted(() => {
                   </div>
 
                   <!-- City / State / ZIP -->
-                  <div class="grid grid-cols-3 gap-3">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <label class="block text-xs text-zinc-400 font-medium mb-1.5">City</label>
                       <input v-model="form.city" type="text" placeholder="New York"

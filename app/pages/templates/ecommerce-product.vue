@@ -247,7 +247,7 @@ onUnmounted(() => {
           <div class="relative mb-3">
             <div
               ref="mainImage"
-              :class="`h-[420px] rounded-2xl bg-gradient-to-br ${images[activeImage]} flex items-center justify-center relative overflow-hidden cursor-zoom-in`"
+              :class="`h-64 sm:h-80 lg:h-[420px] rounded-2xl bg-gradient-to-br ${images[activeImage]} flex items-center justify-center relative overflow-hidden cursor-zoom-in`"
               @click="openLightbox(activeImage)"
             >
               <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]" />
