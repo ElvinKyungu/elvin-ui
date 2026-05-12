@@ -18,7 +18,10 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(Select-String -Path \"D:\\\\elvin-ui\\\\app\\\\pages\\\\templates\\\\ecommerce-product.vue\" -Pattern \"definePageMeta|showLightbox|showCart|showShare|addToCart|switchTab|changeImage|gsap\")",
       "Bash(Measure-Object)",
-      "Bash(Select-Object -ExpandProperty Count)"
+      "Bash(Select-Object -ExpandProperty Count)",
+      "Bash(cd /d \"D:\\\\elvin-ui\")",
+      "Bash(node -e ' *)",
+      "Bash(node *)"
     ]
   }
 }

@@ -256,44 +256,56 @@ onUnmounted(() => {
       </div>
 
       <div class="relative max-w-6xl mx-auto px-6 py-24">
-        <div class="max-w-4xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 mb-8 hero-sub">
-            <span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            Available for new projects
-          </div>
-          <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight mb-8" style="perspective: 600px">
-            We Build<br>
-            <span class="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent inline-flex flex-wrap">
-              <template v-for="(letter, i) in 'Digital'" :key="'d'+i">
-                <span class="hero-letter inline-block" style="display:inline-block">{{ letter }}</span>
-              </template>
-            </span><br>
-            <span class="inline-flex flex-wrap">
-              <template v-for="(letter, i) in 'Experiences'" :key="'e'+i">
-                <span class="hero-letter inline-block" style="display:inline-block">{{ letter === ' ' ? ' ' : letter }}</span>
-              </template>
-            </span>
-          </h1>
-          <p class="hero-sub text-lg md:text-xl text-zinc-400 max-w-xl mb-10 leading-relaxed">
-            A boutique creative studio crafting brands, products, and digital experiences
-            that move people — and move markets.
-          </p>
-          <div class="hero-ctas flex flex-col sm:flex-row gap-4">
-            <a href="#work" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-zinc-900 font-semibold rounded-full hover:bg-zinc-100 transition-colors">
-              See our work
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <!-- Magnetic wrapper — tracks cursor and pulls button inner toward pointer -->
-            <div ref="magneticBtn" class="relative inline-flex">
-              <a ref="magneticInner" href="#contact" class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-700 text-zinc-300 font-semibold rounded-full hover:border-zinc-500 hover:text-white transition-colors">
-                Get in touch
+        <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+          <!-- Left: content -->
+          <div class="flex flex-col justify-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 mb-8 hero-sub">
+              <span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
+              Available for new projects
+            </div>
+            <p class="hero-sub text-lg md:text-xl text-zinc-400 max-w-xl mb-10 leading-relaxed">
+              A boutique creative studio crafting brands, products, and digital experiences
+              that move people — and move markets.
+            </p>
+            <div class="hero-ctas flex flex-col sm:flex-row gap-4">
+              <a href="#work" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-zinc-900 font-semibold rounded-full hover:bg-zinc-100 transition-colors">
+                See our work
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
+              <div ref="magneticBtn" class="relative inline-flex">
+                <a ref="magneticInner" href="#contact" class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-700 text-zinc-300 font-semibold rounded-full hover:border-zinc-500 hover:text-white transition-colors">
+                  Get in touch
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: vertical letter columns -->
+          <div style="perspective: 800px">
+            <div class="flex gap-8 items-start">
+              <div class="flex flex-col">
+                <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-600 mb-2">We Build</p>
+                <span
+                  v-for="(letter, i) in 'Digital'"
+                  :key="'d'+i"
+                  class="hero-letter block font-black bg-gradient-to-b from-violet-300 to-pink-500 bg-clip-text text-transparent"
+                  style="font-size: clamp(3.5rem,8vw,7.5rem); line-height:0.83"
+                >{{ letter }}</span>
+              </div>
+              <div class="flex flex-col mt-10">
+                <span
+                  v-for="(letter, i) in 'Experiences'"
+                  :key="'e'+i"
+                  class="hero-letter block font-black text-zinc-500"
+                  style="font-size: clamp(2rem,4.5vw,4rem); line-height:0.83"
+                >{{ letter }}</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Stats row — numbers count up on scroll into view -->
-        <div class="stats-row mt-20 flex flex-wrap gap-12">
+        <!-- Stats row -->
+        <div class="stats-row flex flex-wrap gap-12">
           <div class="hero-sub">
             <div class="text-3xl font-black text-white">{{ statsCounters.projects }}+</div>
             <div class="text-sm text-zinc-500 mt-0.5">Projects shipped</div>
