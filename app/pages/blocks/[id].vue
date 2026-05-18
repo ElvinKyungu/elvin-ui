@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { blockDocs } from '~/data/blocks'
+import { blockDocs, BLOCKS_PACK_PRODUCT_ID } from '~/data/blocks'
 
 const route = useRoute()
 const id = route.params.id as string
@@ -33,7 +33,7 @@ const blockSource = computed(() => {
   return key ? (rawSources[key] as string) : '<!-- source not available -->'
 })
 
-// Component module — direct glob import, not resolveComponent (more reliable)
+// Component module
 const componentModules = import.meta.glob('~/components/blocks/*.vue', { eager: true }) as Record<string, { default: any }>
 const blockComponent = shallowRef<any>(null)
 
@@ -46,11 +46,30 @@ onMounted(() => {
   if (key) blockComponent.value = componentModules[key].default
 
   nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 100))
+
+  // Auto-open license key entry if redirected from Chariow payment
+  if (route.query['enter-key']) {
+    modalOpen.value = true
+  }
 })
 
 watch(activeTab, (tab) => {
   if (tab === 'preview') nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 100))
 })
+
+// Pro access
+const { isUnlocked } = useProAccess()
+const blocksUnlocked = computed(() => !BLOCKS_PACK_PRODUCT_ID || isUnlocked(BLOCKS_PACK_PRODUCT_ID))
+const modalOpen = ref(false)
+
+function handleSourceClick() {
+  if (blocksUnlocked.value) {
+    activeTab.value = 'source'
+  }
+  else {
+    modalOpen.value = true
+  }
+}
 </script>
 
 <template>
@@ -84,6 +103,14 @@ watch(activeTab, (tab) => {
               class="text-[10px] px-2 py-0.5 bg-accent/15 text-accent border border-accent/20 rounded font-bold uppercase tracking-wide leading-none"
             >New</span>
             <span class="text-xs px-2 py-0.5 bg-zinc-800 text-zinc-400 rounded-md border border-zinc-700/60">{{ block.category }}</span>
+            <span
+              v-if="BLOCKS_PACK_PRODUCT_ID && !blocksUnlocked"
+              class="text-[10px] px-2 py-0.5 bg-amber-400/10 text-amber-400 border border-amber-400/20 rounded font-bold uppercase tracking-widest"
+            >Pro</span>
+            <span
+              v-if="BLOCKS_PACK_PRODUCT_ID && blocksUnlocked"
+              class="text-[10px] px-2 py-0.5 bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 rounded font-bold uppercase tracking-wide"
+            >Unlocked</span>
           </div>
           <p class="text-sm text-zinc-400 max-w-xl leading-relaxed">{{ block.description }}</p>
         </div>
@@ -95,16 +122,30 @@ watch(activeTab, (tab) => {
       <!-- Tabs -->
       <div class="flex items-center gap-1 p-1 bg-zinc-900 rounded-xl border border-zinc-800 w-fit mb-6">
         <button
-          v-for="tab in ['preview', 'source'] as const"
-          :key="tab"
-          @click="activeTab = tab"
+          @click="activeTab = 'preview'"
           :class="[
-            'px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 capitalize',
-            activeTab === tab
+            'px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-150',
+            activeTab === 'preview'
               ? 'bg-zinc-800 text-white shadow-sm'
               : 'text-zinc-500 hover:text-zinc-300',
           ]"
-        >{{ tab }}</button>
+        >Preview</button>
+
+        <button
+          @click="handleSourceClick"
+          :class="[
+            'px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 flex items-center gap-1.5',
+            activeTab === 'source'
+              ? 'bg-zinc-800 text-white shadow-sm'
+              : 'text-zinc-500 hover:text-zinc-300',
+          ]"
+        >
+          Source
+          <span
+            v-if="BLOCKS_PACK_PRODUCT_ID && !blocksUnlocked"
+            class="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-amber-400/15 text-amber-400 border border-amber-400/20"
+          >Pro</span>
+        </button>
       </div>
 
       <!-- Preview -->
@@ -122,9 +163,34 @@ watch(activeTab, (tab) => {
           </div>
         </div>
 
-        <!-- Source -->
+        <!-- Source (locked) -->
         <div v-else key="source">
-          <UiCodeBlock :code="blockSource" lang="vue" />
+          <div v-if="BLOCKS_PACK_PRODUCT_ID && !blocksUnlocked" class="relative rounded-2xl overflow-hidden border border-zinc-800/80">
+            <!-- Blurred code preview -->
+            <div class="select-none pointer-events-none blur-sm opacity-40">
+              <UiCodeBlock :code="blockSource" lang="vue" />
+            </div>
+            <!-- Lock overlay -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-zinc-950/60 backdrop-blur-[2px]">
+              <div class="w-12 h-12 rounded-2xl bg-zinc-900 border border-amber-400/30 flex items-center justify-center">
+                <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="text-center">
+                <p class="text-sm font-semibold text-white">Source code locked</p>
+                <p class="text-xs text-zinc-500 mt-1">Unlock all 32 blocks with the All Blocks Pack</p>
+              </div>
+              <button
+                @click="modalOpen = true"
+                class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 text-zinc-900 text-sm font-bold hover:bg-amber-300 transition-colors"
+              >
+                Unlock all blocks — $39
+              </button>
+            </div>
+          </div>
+          <UiCodeBlock v-else :code="blockSource" lang="vue" />
         </div>
 
       </Transition>
@@ -133,5 +199,16 @@ watch(activeTab, (tab) => {
     <div class="border-t border-zinc-800/60 relative z-10">
       <BlocksFooterSection />
     </div>
+
+    <!-- Pro modal -->
+    <UiProModal
+      v-if="BLOCKS_PACK_PRODUCT_ID"
+      v-model="modalOpen"
+      :product-id="BLOCKS_PACK_PRODUCT_ID"
+      name="All Blocks Pack"
+      :price="39"
+      redirect-path="/blocks"
+      @unlocked="modalOpen = false; activeTab = 'source'"
+    />
   </div>
 </template>

@@ -7,7 +7,7 @@ export interface TemplateDoc {
   isNew?: boolean
   isPro?: boolean
   comingSoon?: boolean
-  chariowUrl?: string
+  chariowProductId?: string
 }
 
 export const templateDocs: Record<string, TemplateDoc> = {

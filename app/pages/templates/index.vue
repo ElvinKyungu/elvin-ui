@@ -57,6 +57,22 @@ function animateGrid() {
 
 watch(filteredTemplates, () => nextTick(animateGrid))
 onMounted(() => nextTick(animateGrid))
+
+// Pro modal
+const { isUnlocked } = useProAccess()
+const modalOpen = ref(false)
+const modalTemplate = ref<(typeof templates)[0] | null>(null)
+
+function handleCardClick(e: MouseEvent, template: (typeof templates)[0]) {
+  if (template.comingSoon) return
+  // If no product ID set yet, navigate normally
+  if (!template.chariowProductId) return
+  // If already unlocked, navigate normally
+  if (isUnlocked(template.chariowProductId)) return
+  e.preventDefault()
+  modalTemplate.value = template
+  modalOpen.value = true
+}
 </script>
 
 <template>
@@ -156,9 +172,12 @@ onMounted(() => nextTick(animateGrid))
                 :key="template.id"
                 :to="`/templates/${template.id}`"
                 class="group bg-zinc-900/40 border border-zinc-800/60 rounded-xl overflow-hidden hover:border-zinc-700/60 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 transition-all duration-200"
+                @click="handleCardClick($event, template)"
               >
                 <div class="aspect-[4/3] relative overflow-hidden bg-zinc-900">
                   <UiTemplatePreview :id="template.id" />
+
+                  <!-- Coming soon badge -->
                   <div
                     v-if="template.comingSoon"
                     class="absolute bottom-2 right-2 flex items-center gap-1 px-2 py-1 rounded-md bg-zinc-900/90 border border-zinc-700/60 text-[10px] text-zinc-500 font-semibold uppercase tracking-wide backdrop-blur-sm"
@@ -168,16 +187,43 @@ onMounted(() => nextTick(animateGrid))
                     </svg>
                     Soon
                   </div>
+
+                  <!-- Pro lock overlay (only when has productId and locked) -->
+                  <div
+                    v-else-if="template.chariowProductId && !isUnlocked(template.chariowProductId)"
+                    class="absolute bottom-2 right-2 flex items-center gap-1 px-2 py-1 rounded-md bg-amber-400/10 border border-amber-400/30 text-[10px] text-amber-400 font-bold uppercase tracking-widest backdrop-blur-sm"
+                  >
+                    <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-linecap="round" />
+                    </svg>
+                    Pro
+                  </div>
+
+                  <!-- Hover overlay -->
                   <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-200 flex items-center justify-center">
-                    <span class="opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0 text-xs font-medium px-3 py-1.5 bg-white text-zinc-900 rounded-lg">
+                    <span
+                      v-if="template.chariowProductId && !isUnlocked(template.chariowProductId)"
+                      class="opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0 text-xs font-semibold px-3 py-1.5 bg-amber-400 text-zinc-900 rounded-lg"
+                    >
+                      Unlock — $14 →
+                    </span>
+                    <span
+                      v-else
+                      class="opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0 text-xs font-medium px-3 py-1.5 bg-white text-zinc-900 rounded-lg"
+                    >
                       View template →
                     </span>
                   </div>
                 </div>
+
                 <div class="px-4 py-3 flex items-center justify-between border-t border-zinc-800/40">
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-medium text-zinc-200">{{ template.name }}</span>
                     <span v-if="template.isNew" class="text-[10px] px-1.5 py-0.5 bg-accent/15 text-accent border border-accent/20 rounded font-semibold uppercase tracking-wide leading-none">New</span>
+                    <span
+                      v-if="template.chariowProductId && !isUnlocked(template.chariowProductId)"
+                      class="text-[10px] px-1.5 py-0.5 bg-amber-400/10 text-amber-400 border border-amber-400/20 rounded font-bold uppercase tracking-widest leading-none"
+                    >Pro</span>
                   </div>
                   <span class="text-xs text-zinc-500">{{ template.category }}</span>
                 </div>
@@ -192,5 +238,16 @@ onMounted(() => nextTick(animateGrid))
     <div class="border-t border-zinc-800/60 relative z-10">
       <BlocksFooterSection />
     </div>
+
+    <!-- Pro modal -->
+    <UiProModal
+      v-if="modalTemplate"
+      v-model="modalOpen"
+      :product-id="modalTemplate.chariowProductId ?? ''"
+      :name="modalTemplate.name"
+      :price="14"
+      :redirect-path="`/templates/${modalTemplate.id}`"
+      @unlocked="modalOpen = false"
+    />
   </div>
 </template>

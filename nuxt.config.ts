@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
   ],
   runtimeConfig: {
+    chariowApiKey: process.env.CHARIOW_API_KEY || '',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://elvin-ui.com',
     },
