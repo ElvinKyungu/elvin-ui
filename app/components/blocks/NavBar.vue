@@ -73,9 +73,7 @@ onUnmounted(() => {
     <div class="max-w-5xl 2xl:max-w-[80rem] mx-auto px-4 h-full flex items-center justify-between">
 
       <NuxtLink to="/" class="flex items-center gap-2">
-        <span class="w-5 h-5 rounded-md bg-emerald-500 flex items-center justify-center flex-shrink-0">
-          <span class="text-white text-[10px] font-bold leading-none">E</span>
-        </span>
+        <UiLogo :size="24" color="white" />
         <span class="text-base font-semibold text-white tracking-tight">elvin ui</span>
       </NuxtLink>
 
@@ -146,9 +144,7 @@ onUnmounted(() => {
         <!-- Drawer header -->
         <div class="flex items-center justify-between px-5 h-14 border-b border-zinc-800/60 shrink-0">
           <NuxtLink to="/" @click="closeMenu" class="flex items-center gap-2">
-            <span class="w-5 h-5 rounded-md bg-emerald-500 flex items-center justify-center flex-shrink-0">
-              <span class="text-white text-[10px] font-bold leading-none">E</span>
-            </span>
+            <UiLogo :size="24" color="white" />
             <span class="text-base font-semibold text-white tracking-tight">elvin ui</span>
           </NuxtLink>
           <button

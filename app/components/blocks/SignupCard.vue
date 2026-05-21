@@ -73,12 +73,7 @@ onMounted(() => {
         <!-- Form -->
         <div v-else key="form" class="flex flex-col gap-6 p-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-sm">
           <div class="flex flex-col items-center gap-3 text-center">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center">
-              <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke-linecap="round" /><circle cx="9" cy="7" r="4" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round" />
-              </svg>
-            </div>
+            <UiLogo :size="40" color="white" />
             <div>
               <h2 class="text-xl font-bold text-white">Create an account</h2>
               <p class="text-sm text-zinc-500 mt-0.5">Start building in minutes</p>

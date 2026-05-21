@@ -44,11 +44,7 @@ onMounted(() => {
 
       <!-- Logo & heading -->
       <div class="flex flex-col items-center gap-4 text-center">
-        <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center">
-          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </div>
+        <UiLogo :size="40" color="white" />
         <div>
           <h2 class="text-xl font-bold text-white">Welcome back</h2>
           <p class="text-sm text-zinc-500 mt-0.5">Sign in to your account</p>

@@ -8,9 +8,7 @@
         <!-- Brand -->
         <div class="flex flex-col gap-4 sm:col-span-2 md:col-span-1">
           <div class="flex items-center gap-2">
-            <span class="w-6 h-6 rounded-md bg-emerald-500 flex items-center justify-center flex-shrink-0">
-              <span class="text-white text-xs font-bold leading-none">E</span>
-            </span>
+            <UiLogo :size="26" color="white" />
             <span class="text-base font-semibold text-zinc-200">elvin ui</span>
           </div>
           <p class="text-sm text-zinc-500 leading-relaxed max-w-[220px]">
