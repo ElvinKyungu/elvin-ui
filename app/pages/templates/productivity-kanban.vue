@@ -100,7 +100,7 @@ onMounted(() => {
     <!-- Nav -->
     <nav class="h-14 border-b border-zinc-800/80 flex items-center justify-between px-6 bg-zinc-950/90 sticky top-0 z-40 backdrop-blur-sm">
       <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center text-xs font-black">K</div>
+        <UiLogo :size="24" color="white" />
         <span class="font-bold text-sm">Elvin UI</span>
         <span class="text-zinc-700">/</span>
         <span class="text-sm text-zinc-400">Q2 Sprint</span>

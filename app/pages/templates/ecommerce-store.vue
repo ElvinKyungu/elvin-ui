@@ -188,13 +188,7 @@ onUnmounted(() => {
     <header class="h-16 flex items-center gap-4 px-5 border-b border-zinc-800/60 sticky top-0 z-20 backdrop-blur-md" style="background:rgba(8,8,8,0.92)">
       <!-- Logo -->
       <div class="flex items-center gap-2.5 shrink-0">
-        <div class="w-8 h-8 rounded-xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-          <svg class="w-4.5 h-4.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <path d="M16 10a4 4 0 0 1-8 0"/>
-          </svg>
-        </div>
+        <UiLogo :size="28" color="white" />
         <span class="text-sm font-bold text-white tracking-tight">Elvin Store</span>
       </div>
 

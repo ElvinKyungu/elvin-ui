@@ -109,7 +109,7 @@ onMounted(() => {
     <!-- Nav -->
     <nav class="h-14 border-b border-zinc-800/80 flex items-center justify-between px-6 bg-zinc-950/90 z-40 backdrop-blur-sm shrink-0">
       <div class="flex items-center gap-2.5">
-        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-xs font-black">✉</div>
+        <UiLogo :size="24" color="white" />
         <span class="font-bold text-sm tracking-wide">NovaMail</span>
       </div>
       <div class="relative flex-1 max-w-sm mx-6">

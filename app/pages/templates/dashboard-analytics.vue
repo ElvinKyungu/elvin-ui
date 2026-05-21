@@ -151,9 +151,7 @@ onUnmounted(() => {
     <aside :class="['fixed lg:static inset-y-0 left-0 z-30 flex flex-col w-60 border-r border-zinc-800/60 bg-zinc-900/90 backdrop-blur-xl transition-transform duration-300 ease-out lg:translate-x-0 shrink-0', sidebarOpen ? 'translate-x-0 shadow-2xl shadow-black/60' : '-translate-x-full']">
 
       <div class="flex items-center gap-2.5 h-14 px-5 border-b border-zinc-800/60 shrink-0">
-        <div class="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        </div>
+        <UiLogo :size="24" color="white" />
         <span class="text-sm font-bold text-white tracking-tight">Elvin Dashboard</span>
       </div>
 

@@ -247,9 +247,7 @@ watch(showSearch, (val) => {
 
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2 mr-4 lg:mr-8 shrink-0">
-        <div class="w-6 h-6 rounded-md bg-emerald-500 flex items-center justify-center shadow shadow-emerald-500/30">
-          <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        </div>
+        <UiLogo :size="24" color="white" />
         <span class="text-sm font-bold tracking-tight hidden sm:block">ElvinUI <span class="text-zinc-500 font-normal">Docs</span></span>
       </a>
 

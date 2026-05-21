@@ -201,9 +201,7 @@ onUnmounted(() => {
     <!-- ─── Top nav ──────────────────────────────────────────────────────────── -->
     <nav class="h-14 flex items-center px-5 lg:px-8 border-b border-zinc-800/60 bg-[#080808]/90 backdrop-blur-sm sticky top-0 z-20">
       <div class="flex items-center gap-2.5 mr-8 shrink-0">
-        <div class="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        </div>
+        <UiLogo :size="24" color="white" />
         <span class="font-bold text-white text-sm hidden sm:block">Elvin SaaS</span>
       </div>
 

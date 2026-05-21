@@ -124,7 +124,7 @@ onUnmounted(() => {
     <!-- Nav -->
     <nav class="h-14 border-b border-zinc-800/80 flex items-center justify-between px-6 backdrop-blur-sm bg-zinc-950/90 sticky top-0 z-40">
       <div class="flex items-center gap-2.5">
-        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center font-black text-xs text-zinc-900">₿</div>
+        <UiLogo :size="24" color="white" />
         <span class="font-bold tracking-wide text-sm">CRYPTEX</span>
       </div>
       <div class="hidden sm:flex items-center gap-1.5 text-xs text-zinc-400">

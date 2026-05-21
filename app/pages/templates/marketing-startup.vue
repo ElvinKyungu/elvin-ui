@@ -171,9 +171,7 @@ onUnmounted(() => {
       <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
         <!-- Logo -->
         <div class="flex items-center gap-1.5">
-          <div class="w-6 h-6 rounded-md bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center">
-            <svg class="w-3.5 h-3.5 text-zinc-900" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </div>
+          <UiLogo :size="24" color="white" />
           <span class="text-base font-black tracking-tight">NOVA</span>
         </div>
 

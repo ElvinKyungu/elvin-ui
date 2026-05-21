@@ -185,11 +185,7 @@ onUnmounted(() => {
 
       <!-- Logo -->
       <div class="flex items-center gap-2.5 h-14 px-5 border-b border-zinc-800/60 shrink-0">
-        <div class="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-          </svg>
-        </div>
+        <UiLogo :size="24" color="white" />
         <span class="text-sm font-bold text-white tracking-tight">Elvin CRM</span>
       </div>
 

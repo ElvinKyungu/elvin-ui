@@ -255,9 +255,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeyDown))
       <div class="max-w-6xl mx-auto w-full flex items-center gap-8">
         <!-- Logo -->
         <a href="/" class="flex items-center gap-2 shrink-0">
-          <div class="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </div>
+          <UiLogo :size="24" color="white" />
           <span class="text-sm font-bold tracking-tight">ElvinUI</span>
         </a>
 

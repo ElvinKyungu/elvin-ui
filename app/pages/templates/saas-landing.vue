@@ -228,9 +228,7 @@ onUnmounted(() => {
 
         <!-- Logo -->
         <div class="flex items-center gap-2.5 shrink-0">
-          <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-            <svg class="w-4.5 h-4.5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </div>
+          <UiLogo :size="28" color="white" />
           <span class="text-base font-bold text-white tracking-tight">ElvinUI</span>
         </div>
 
@@ -657,9 +655,7 @@ onUnmounted(() => {
           <!-- Brand col -->
           <div class="col-span-2 md:col-span-1">
             <div class="flex items-center gap-2.5 mb-4">
-              <div class="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
-                <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </div>
+              <UiLogo :size="24" color="white" />
               <span class="text-sm font-bold text-white">ElvinUI</span>
             </div>
             <p class="text-xs text-zinc-500 leading-relaxed">Copy-paste Nuxt 4 components built for speed and quality.</p>
