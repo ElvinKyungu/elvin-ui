@@ -59,7 +59,7 @@ onMounted(() => {
         <span ref="line1" class="block text-6xl md:text-8xl text-white"
           >Don't install.</span
         >
-        <span ref="line2" class="block text-6xl md:text-8xl text-zinc-600"
+        <span ref="line2" class="block text-6xl md:text-8xl text-zinc-400"
           >Just copy.</span
         >
       </h1>
