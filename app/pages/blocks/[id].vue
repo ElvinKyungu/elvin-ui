@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { blockDocs, BLOCKS_PACK_PRODUCT_ID } from '~/data/blocks'
+import { blockDocs } from '~/data/blocks'
 
 const route = useRoute()
 const id = route.params.id as string
@@ -57,9 +57,11 @@ watch(activeTab, (tab) => {
   if (tab === 'preview') nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 100))
 })
 
+const { public: { blocksPackProductId: BLOCKS_PACK_PRODUCT_ID } } = useRuntimeConfig()
+
 // Pro access
-const { isUnlocked } = useProAccess()
-const blocksUnlocked = computed(() => !BLOCKS_PACK_PRODUCT_ID || isUnlocked(BLOCKS_PACK_PRODUCT_ID))
+const { hasBlocksAccess } = useAuth()
+const blocksUnlocked = computed(() => !BLOCKS_PACK_PRODUCT_ID || hasBlocksAccess.value)
 const modalOpen = ref(false)
 
 function handleSourceClick() {

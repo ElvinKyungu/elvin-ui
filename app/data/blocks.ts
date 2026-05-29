@@ -1,6 +1,3 @@
-// One-time purchase unlocks all blocks — create this product in Chariow dashboard at $39
-export const BLOCKS_PACK_PRODUCT_ID = '' // TODO: fill after creating product in Chariow
-
 export interface BlockDoc {
   id: string
   name: string

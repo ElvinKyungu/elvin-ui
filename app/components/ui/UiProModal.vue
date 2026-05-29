@@ -13,7 +13,7 @@ const emit = defineEmits<{
   'unlocked': [productId: string]
 }>()
 
-const { unlockWithKey } = useProAccess()
+const { login } = useAuth()
 const { public: { siteUrl } } = useRuntimeConfig()
 
 type View = 'buy' | 'key'
@@ -104,7 +104,7 @@ async function handleKey() {
   keyLoading.value = true
   keyError.value = ''
 
-  const result = await unlockWithKey(licenseKey.value.trim())
+  const result = await login(licenseKey.value.trim())
 
   if (!result.success) {
     keyError.value = result.error ?? 'Invalid license key'
@@ -116,7 +116,7 @@ async function handleKey() {
   keyLoading.value = false
 
   setTimeout(() => {
-    emit('unlocked', result.productId ?? props.productId)
+    emit('unlocked', result.accessLevel ?? props.productId)
     close()
   }, 1000)
 }

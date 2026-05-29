@@ -10,8 +10,13 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     chariowApiKey: process.env.CHARIOW_API_KEY || '',
+    sessionSecret: process.env.SESSION_SECRET || 'dev-only-secret-change-in-production!!',
+    blocksPackProductId: process.env.BLOCKS_PACK_PRODUCT_ID || '',
+    fullAccessProductId: process.env.FULL_ACCESS_PRODUCT_ID || '',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://elvin-ui.com',
+      blocksPackProductId: process.env.NUXT_PUBLIC_BLOCKS_PACK_PRODUCT_ID || '',
+      fullAccessProductId: process.env.NUXT_PUBLIC_FULL_ACCESS_PRODUCT_ID || '',
     },
   },
   app: {
