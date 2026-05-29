@@ -57,11 +57,10 @@ watch(activeTab, (tab) => {
   if (tab === 'preview') nextTick(() => setTimeout(() => ScrollTrigger.refresh(true), 100))
 })
 
-const { public: { blocksPackProductId: BLOCKS_PACK_PRODUCT_ID } } = useRuntimeConfig()
-
-// Pro access
+// Pro access — 'elvin-ui' is the Chariow slug for the Blocks Pack
+const BLOCKS_PACK_PRODUCT_ID = 'elvin-ui'
 const { hasBlocksAccess } = useAuth()
-const blocksUnlocked = computed(() => !BLOCKS_PACK_PRODUCT_ID || hasBlocksAccess.value)
+const blocksUnlocked = computed(() => hasBlocksAccess.value)
 const modalOpen = ref(false)
 
 function handleSourceClick() {
@@ -204,12 +203,10 @@ function handleSourceClick() {
 
     <!-- Pro modal -->
     <UiProModal
-      v-if="BLOCKS_PACK_PRODUCT_ID"
       v-model="modalOpen"
       :product-id="BLOCKS_PACK_PRODUCT_ID"
       name="All Blocks Pack"
       :price="39"
-      redirect-path="/blocks"
       @unlocked="modalOpen = false; activeTab = 'source'"
     />
   </div>
