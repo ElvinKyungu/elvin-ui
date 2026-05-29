@@ -1,5 +1,5 @@
-import { getUserSession } from '~/server/utils/session'
-import { resolveAccessLevel } from '~/server/utils/products'
+import { getUserSession } from '../../utils/session'
+import { resolveAccessLevel } from '../../utils/products'
 
 export default defineEventHandler(async (event) => {
   const { licenseKey } = await readBody(event)
