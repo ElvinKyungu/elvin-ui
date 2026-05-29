@@ -13,6 +13,7 @@ const emit = defineEmits<{
 }>()
 
 const { login } = useAuth()
+const { public: { chariowShopUrl } } = useRuntimeConfig()
 
 type View = 'buy' | 'key'
 const view = ref<View>('buy')
@@ -22,7 +23,7 @@ const keyError = ref('')
 const keyLoading = ref(false)
 const keySuccess = ref(false)
 
-const chariowUrl = computed(() => `https://oeeriqib.mychariow.shop/${props.productId}`)
+const chariowUrl = computed(() => `${chariowShopUrl}/${props.productId}`)
 
 function close() {
   emit('update:modelValue', false)

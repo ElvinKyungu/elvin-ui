@@ -4,8 +4,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const section = useTemplateRef('section')
 
-const BLOCKS_URL = 'https://oeeriqib.mychariow.shop/elvin-ui'
-const FULL_URL = 'https://oeeriqib.mychariow.shop/elvin-ui-full-access'
+const { public: { chariowShopUrl } } = useRuntimeConfig()
+const BLOCKS_URL = `${chariowShopUrl}/elvin-ui`
+const FULL_URL = `${chariowShopUrl}/elvin-ui-full-access`
 
 const plans = [
   {

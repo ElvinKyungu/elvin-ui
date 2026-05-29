@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { public: { siteUrl } } = useRuntimeConfig()
+const { public: { siteUrl, chariowShopUrl } } = useRuntimeConfig()
 
 useSeoMeta({
   title: 'Pricing — Elvin UI',
@@ -8,8 +8,8 @@ useSeoMeta({
   ogImage: `${siteUrl}/og.png`,
 })
 
-const BLOCKS_URL = 'https://oeeriqib.mychariow.shop/elvin-ui'
-const FULL_URL = 'https://oeeriqib.mychariow.shop/elvin-ui-full-access'
+const BLOCKS_URL = `${chariowShopUrl}/elvin-ui`
+const FULL_URL = `${chariowShopUrl}/elvin-ui-full-access`
 
 const blocksFeatures = [
   'All 20+ blocks source code',

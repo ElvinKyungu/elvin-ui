@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     sessionSecret: process.env.SESSION_SECRET || 'dev-only-secret-change-in-production!!',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://elvin-ui.com',
+      chariowShopUrl: 'https://oeeriqib.mychariow.shop',
     },
   },
   app: {
