@@ -1,11 +1,11 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 const { public: { siteUrl, chariowShopUrl } } = useRuntimeConfig()
 
 useSeoMeta({
   title: 'Pricing — Elvin UI',
   description: 'One-time purchase. Lifetime access to all Elvin UI blocks and templates.',
   ogTitle: 'Pricing — Elvin UI',
-  ogImage: `${siteUrl}/og.png`,
+  ogImage: `${siteUrl}/home_screen.png`,
 })
 
 const BLOCKS_URL = `${chariowShopUrl}/elvin-ui`

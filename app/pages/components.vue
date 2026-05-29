@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { categories, allItems } from '~/data/ui-components'
 
 const { public: { siteUrl } } = useRuntimeConfig()
@@ -8,14 +8,14 @@ useSeoMeta({
   description: '23 copy-paste Nuxt 4 UI components — buttons, forms, modals, tables, and more. Fully typed, zero hidden deps.',
   ogTitle: 'Components — Elvin UI',
   ogDescription: '23 copy-paste Nuxt 4 UI components — buttons, forms, modals, tables, and more.',
-  ogImage: `${siteUrl}/og.png`,
+  ogImage: `${siteUrl}/home_screen.png`,
   ogUrl: `${siteUrl}/components`,
   ogType: 'website',
   ogSiteName: 'Elvin UI',
   twitterCard: 'summary_large_image',
   twitterTitle: 'Components — Elvin UI',
   twitterDescription: '23 copy-paste Nuxt 4 UI components — buttons, forms, modals, tables, and more.',
-  twitterImage: `${siteUrl}/og.png`,
+  twitterImage: `${siteUrl}/home_screen.png`,
 })
 
 const router = useRouter()

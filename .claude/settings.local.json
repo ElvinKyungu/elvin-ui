@@ -27,7 +27,8 @@
       "Bash(Select-Object FullName)",
       "Bash(git add *)",
       "Bash(powershell *)",
-      "WebFetch(domain:oeeriqib.mychariow.shop)"
+      "WebFetch(domain:oeeriqib.mychariow.shop)",
+      "Bash(Get-Content \"D:\\\\elvin-ui\\\\app\\\\layouts\\\\default.vue\")"
     ]
   }
 }

@@ -14,14 +14,14 @@ useSeoMeta({
   description: template.description,
   ogTitle: `${template.name} — Elvin UI Templates`,
   ogDescription: template.description,
-  ogImage: `${siteUrl}/og.png`,
+  ogImage: `${siteUrl}/home_screen.png`,
   ogUrl: `${siteUrl}/templates/${template.id}`,
   ogType: 'website',
   ogSiteName: 'Elvin UI',
   twitterCard: 'summary_large_image',
   twitterTitle: `${template.name} — Elvin UI Templates`,
   twitterDescription: template.description,
-  twitterImage: `${siteUrl}/og.png`,
+  twitterImage: `${siteUrl}/home_screen.png`,
 })
 
 const includedItems = [

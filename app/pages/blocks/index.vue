@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { blockDocs, BLOCKS_PACK_PRODUCT_ID } from '~/data/blocks'
 
@@ -9,14 +9,14 @@ useSeoMeta({
   description: 'Ready-to-use UI sections for Nuxt 4 — hero, navbar, pricing, footer, and more. Copy-paste into any project.',
   ogTitle: 'Blocks — Elvin UI',
   ogDescription: 'Ready-to-use UI sections for Nuxt 4 — hero, navbar, pricing, footer, and more.',
-  ogImage: `${siteUrl}/og.png`,
+  ogImage: `${siteUrl}/home_screen.png`,
   ogUrl: `${siteUrl}/blocks`,
   ogType: 'website',
   ogSiteName: 'Elvin UI',
   twitterCard: 'summary_large_image',
   twitterTitle: 'Blocks — Elvin UI',
   twitterDescription: 'Ready-to-use UI sections for Nuxt 4 — hero, navbar, pricing, footer, and more.',
-  twitterImage: `${siteUrl}/og.png`,
+  twitterImage: `${siteUrl}/home_screen.png`,
 })
 
 const blocks = Object.values(blockDocs)

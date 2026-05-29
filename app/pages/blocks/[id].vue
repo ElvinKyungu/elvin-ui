@@ -16,14 +16,14 @@ useSeoMeta({
   description: block.description,
   ogTitle: `${block.name} — Elvin UI`,
   ogDescription: block.description,
-  ogImage: `${siteUrl}/og.png`,
+  ogImage: `${siteUrl}/home_screen.png`,
   ogUrl: `${siteUrl}/blocks/${block.id}`,
   ogType: 'website',
   ogSiteName: 'Elvin UI',
   twitterCard: 'summary_large_image',
   twitterTitle: `${block.name} — Elvin UI`,
   twitterDescription: block.description,
-  twitterImage: `${siteUrl}/og.png`,
+  twitterImage: `${siteUrl}/home_screen.png`,
 })
 
 // Source code (raw string)
