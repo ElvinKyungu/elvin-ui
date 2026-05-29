@@ -307,6 +307,10 @@ onMounted(() => {
     }
   )
 })
+
+onUnmounted(() => {
+  ScrollTrigger.getAll().forEach(t => t.kill())
+})
 </script>
 
 <template>
