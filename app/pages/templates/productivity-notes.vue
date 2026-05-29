@@ -19,7 +19,7 @@ const vContent = {
 type BlockType =
   | 'text' | 'h1' | 'h2' | 'h3'
   | 'bullet' | 'numbered' | 'todo'
-  | 'quote' | 'divider' | 'callout' | 'code' | 'toggle'
+  | 'quote' | 'divider' | 'callout' | 'code' | 'toggle' | 'image'
 
 interface Block {
   id: string
@@ -30,12 +30,15 @@ interface Block {
   expanded?: boolean
   language?: string
   calloutIcon?: string
+  imageUrl?: string
+  imageCaption?: string
 }
 
 interface Page {
   id: string
   title: string
   icon: string
+  cover?: string
   blocks: Block[]
 }
 
@@ -46,7 +49,7 @@ function uid(): string {
 // ── Pages ────────────────────────────────────────────────────────────────────
 const pages = ref<Page[]>([
   {
-    id: 'p1', title: 'Getting Started', icon: '🚀',
+    id: 'p1', title: 'Getting Started', icon: '🚀', cover: 'linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #533483 100%)',
     blocks: [
       { id: uid(), type: 'h1', content: 'Getting Started', indent: 0 },
       { id: uid(), type: 'callout', content: 'Press <strong>/</strong> for blocks · Drag <strong>⠿</strong> to reorder · <strong>⌘K</strong> for commands · Select text for formatting', indent: 0, calloutIcon: '💡' },
@@ -68,7 +71,7 @@ const pages = ref<Page[]>([
     ],
   },
   {
-    id: 'p2', title: 'Design System', icon: '🎨',
+    id: 'p2', title: 'Design System', icon: '🎨', cover: `url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1600&q=80&auto=format&fit=crop')`,
     blocks: [
       { id: uid(), type: 'h1', content: 'Design System', indent: 0 },
       { id: uid(), type: 'text', content: 'Document your tokens, components, and patterns here.', indent: 0 },
@@ -132,6 +135,9 @@ const emojiOpen = ref(false)
 const slashMenu = ref({ open: false, blockId: '', x: 0, y: 0, filter: '' })
 const floatingBar = ref({ open: false, x: 0, y: 0 })
 const ctxMenu = ref({ open: false, blockId: '', x: 0, y: 0 })
+const coverPickerOpen = ref(false)
+const fullWidth = ref(false)
+const showCoverHint = ref(false)
 
 // ── Computed ──────────────────────────────────────────────────────────────────
 const page = computed(() => pages.value.find(p => p.id === currentPageId.value)!)
@@ -164,6 +170,7 @@ function addAfter(id: string, type: BlockType = 'text') {
   if (type === 'toggle') nb.expanded = false
   if (type === 'callout') nb.calloutIcon = '💡'
   if (type === 'code') nb.language = 'javascript'
+  if (type === 'image') { nb.imageUrl = ''; nb.imageCaption = '' }
   page.value.blocks.splice(idx + 1, 0, nb)
   nextTick(() => {
     const el = document.querySelector(`[data-block="${nb.id}"]`)
@@ -190,8 +197,21 @@ function setType(id: string, type: BlockType) {
   if (type === 'toggle') b.expanded = false
   if (type === 'callout') b.calloutIcon = '💡'
   if (type === 'code') b.language = 'javascript'
+  if (type === 'image') { b.imageUrl = ''; b.imageCaption = '' }
   nextTick(() => { const el = contentEl(id); if (el) { el.innerHTML = ''; focusEnd(id, false) } })
   slashMenu.value.open = false
+  save()
+}
+
+function setCover(value: string) {
+  page.value.cover = value
+  coverPickerOpen.value = false
+  save()
+}
+
+function removeCover() {
+  page.value.cover = undefined
+  coverPickerOpen.value = false
   save()
 }
 
@@ -309,18 +329,19 @@ function onInput(e: Event, b: Block) {
 
 // ── Slash commands ─────────────────────────────────────────────────────────────
 const slashCmds = [
-  { icon: '¶', label: 'Text', desc: 'Plain paragraph', type: 'text' as BlockType, kbd: '' },
-  { icon: 'H1', label: 'Heading 1', desc: 'Large title', type: 'h1' as BlockType, kbd: '#' },
-  { icon: 'H2', label: 'Heading 2', desc: 'Section title', type: 'h2' as BlockType, kbd: '##' },
-  { icon: 'H3', label: 'Heading 3', desc: 'Sub-section', type: 'h3' as BlockType, kbd: '###' },
-  { icon: '•', label: 'Bullet list', desc: 'Unordered list', type: 'bullet' as BlockType, kbd: '-' },
-  { icon: '1.', label: 'Numbered list', desc: 'Ordered list', type: 'numbered' as BlockType, kbd: '1.' },
-  { icon: '☑', label: 'To-do', desc: 'Checkbox task', type: 'todo' as BlockType, kbd: '[]' },
-  { icon: '▶', label: 'Toggle', desc: 'Collapsible', type: 'toggle' as BlockType, kbd: '' },
-  { icon: '"', label: 'Quote', desc: 'Blockquote', type: 'quote' as BlockType, kbd: '>' },
-  { icon: '💡', label: 'Callout', desc: 'Highlighted box', type: 'callout' as BlockType, kbd: '' },
-  { icon: '</>', label: 'Code', desc: 'Code snippet', type: 'code' as BlockType, kbd: '```' },
-  { icon: '—', label: 'Divider', desc: 'Horizontal rule', type: 'divider' as BlockType, kbd: '---' },
+  { label: 'Text', desc: 'Plain paragraph', type: 'text' as BlockType, kbd: '' },
+  { label: 'Heading 1', desc: 'Large section title', type: 'h1' as BlockType, kbd: '#' },
+  { label: 'Heading 2', desc: 'Medium section title', type: 'h2' as BlockType, kbd: '##' },
+  { label: 'Heading 3', desc: 'Sub-section title', type: 'h3' as BlockType, kbd: '###' },
+  { label: 'Bullet list', desc: 'Unordered list', type: 'bullet' as BlockType, kbd: '-' },
+  { label: 'Numbered list', desc: 'Ordered list', type: 'numbered' as BlockType, kbd: '1.' },
+  { label: 'To-do', desc: 'Checkbox task', type: 'todo' as BlockType, kbd: '[]' },
+  { label: 'Toggle', desc: 'Collapsible block', type: 'toggle' as BlockType, kbd: '' },
+  { label: 'Quote', desc: 'Highlighted blockquote', type: 'quote' as BlockType, kbd: '>' },
+  { label: 'Callout', desc: 'Info callout box', type: 'callout' as BlockType, kbd: '' },
+  { label: 'Code', desc: 'Code snippet', type: 'code' as BlockType, kbd: '```' },
+  { label: 'Image', desc: 'Embed an image by URL', type: 'image' as BlockType, kbd: '' },
+  { label: 'Divider', desc: 'Horizontal rule', type: 'divider' as BlockType, kbd: '---' },
 ]
 
 const filteredSlash = computed(() => {
@@ -427,16 +448,64 @@ function closeMenus(e: Event) {
   if (!t.closest('.slash-menu')) slashMenu.value.open = false
   if (!t.closest('.ctx-menu')) ctxMenu.value.open = false
   if (!t.closest('.emoji-picker') && !t.closest('.emoji-btn')) emojiOpen.value = false
+  if (!t.closest('.cover-picker') && !t.closest('.cover-btn')) coverPickerOpen.value = false
   if (!t.closest('.floating-bar') && window.getSelection()?.isCollapsed) floatingBar.value.open = false
 }
 
 // ── Emojis ─────────────────────────────────────────────────────────────────────
-const emojis = ['📄','🚀','🎨','🗺️','📝','💡','🌍','🔥','⚡','🎯','📊','🏆','🌙','⭐','🎵','📚','💻','🔮','🌸','🦋','🧪','🔑','📦','🎬','🏗️']
+const emojiCategories = [
+  { label: 'Common', icons: ['📄','📝','📌','📎','🗒️','🗂️','📁','📂','🗃️','📋'] },
+  { label: 'Objects', icons: ['💡','🔑','🔮','🧪','🔬','💊','🎯','📊','📈','🏆'] },
+  { label: 'Nature', icons: ['🌍','🌸','🌿','🍀','🌊','🔥','⚡','🌙','⭐','☀️'] },
+  { label: 'Activities', icons: ['🚀','✈️','🏗️','🎬','🎵','🎮','⚽','🏋️','🎸','🎨'] },
+  { label: 'People', icons: ['🧠','👁️','✍️','🤝','💪','🙌','👋','🧑‍💻','🎓','🏆'] },
+  { label: 'Tech', icons: ['💻','📱','🖥️','⌨️','🖱️','📡','🔧','⚙️','🛠️','🔩'] },
+]
+const emojiTab = ref(0)
+const emojis = computed(() => emojiCategories[emojiTab.value]?.icons ?? [])
+
+const coverOptions: Array<{ type: 'gradient' | 'photo'; value: string; thumb: string }> = [
+  { type: 'gradient', value: 'linear-gradient(135deg,#1a1a2e,#0f3460 50%,#533483)', thumb: 'linear-gradient(135deg,#1a1a2e,#533483)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#667eea,#764ba2)', thumb: 'linear-gradient(135deg,#667eea,#764ba2)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#f093fb,#f5576c)', thumb: 'linear-gradient(135deg,#f093fb,#f5576c)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#4facfe,#00f2fe)', thumb: 'linear-gradient(135deg,#4facfe,#00f2fe)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#43e97b,#38f9d7)', thumb: 'linear-gradient(135deg,#43e97b,#38f9d7)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#fa709a,#fee140)', thumb: 'linear-gradient(135deg,#fa709a,#fee140)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#a18cd1,#fbc2eb)', thumb: 'linear-gradient(135deg,#a18cd1,#fbc2eb)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#fd746c,#ff9068)', thumb: 'linear-gradient(135deg,#fd746c,#ff9068)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#2d3436,#636e72)', thumb: 'linear-gradient(135deg,#2d3436,#636e72)' },
+  { type: 'gradient', value: 'linear-gradient(135deg,#ffecd2,#fcb69f)', thumb: 'linear-gradient(135deg,#ffecd2,#fcb69f)' },
+  { type: 'photo', value: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80&auto=format&fit=crop')`, thumb: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=60&auto=format&fit=crop')` },
+  { type: 'photo', value: `url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1600&q=80&auto=format&fit=crop')`, thumb: `url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400&q=60&auto=format&fit=crop')` },
+  { type: 'photo', value: `url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1600&q=80&auto=format&fit=crop')`, thumb: `url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=60&auto=format&fit=crop')` },
+  { type: 'photo', value: `url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=80&auto=format&fit=crop')`, thumb: `url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=60&auto=format&fit=crop')` },
+  { type: 'photo', value: `url('https://images.unsplash.com/photo-1682685797208-c741d58c2eff?w=1600&q=80&auto=format&fit=crop')`, thumb: `url('https://images.unsplash.com/photo-1682685797208-c741d58c2eff?w=400&q=60&auto=format&fit=crop')` },
+  { type: 'photo', value: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80&auto=format&fit=crop')`, thumb: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=60&auto=format&fit=crop')` },
+]
+
+function blockTypeIcon(type: string): string {
+  const icons: Record<string, string> = {
+    text: `<svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2.5" rx="1.25"/><rect x="1" y="6.75" width="11" height="2.5" rx="1.25"/><rect x="1" y="11.5" width="7" height="2.5" rx="1.25"/></svg>`,
+    h1: `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5h2v4.5h3.5V2.5h2V13H6.5V9H3v4H1V2.5z"/><text x="10" y="13" font-size="6" font-weight="800" font-family="system-ui,sans-serif" fill="currentColor">1</text></svg>`,
+    h2: `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5h2v4.5h3.5V2.5h2V13H6.5V9H3v4H1V2.5z"/><text x="10" y="13" font-size="6" font-weight="800" font-family="system-ui,sans-serif" fill="currentColor">2</text></svg>`,
+    h3: `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5h2v4.5h3.5V2.5h2V13H6.5V9H3v4H1V2.5z"/><text x="10" y="13" font-size="6" font-weight="800" font-family="system-ui,sans-serif" fill="currentColor">3</text></svg>`,
+    bullet: `<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="2.5" cy="5" r="1.5"/><rect x="5.5" y="3.75" width="9" height="2.5" rx="1.25"/><circle cx="2.5" cy="11" r="1.5"/><rect x="5.5" y="9.75" width="9" height="2.5" rx="1.25"/></svg>`,
+    numbered: `<svg viewBox="0 0 16 16" fill="currentColor"><text x="0.5" y="6.5" font-size="5" font-weight="700" font-family="system-ui,sans-serif" fill="currentColor">1.</text><text x="0.5" y="13.5" font-size="5" font-weight="700" font-family="system-ui,sans-serif" fill="currentColor">2.</text><rect x="6" y="3.75" width="9.5" height="2.5" rx="1.25"/><rect x="6" y="9.75" width="9.5" height="2.5" rx="1.25"/></svg>`,
+    todo: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2.5" width="11" height="11" rx="2"/><path d="M5 8l2.5 2.5L11 6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    toggle: `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 4l5 4-5 4z"/><rect x="4" y="14" width="8" height="1.5" rx="0.75"/></svg>`,
+    quote: `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 3c-.6 0-1 .4-1 1v3.5c0 .6.4 1 1 1h1l-1.5 3H3L5 8V4c0-.6-.4-1-1-1H2zm7 0c-.6 0-1 .4-1 1v3.5c0 .6.4 1 1 1h1l-1.5 3h1.5L12 8V4c0-.6-.4-1-1-1H9z"/></svg>`,
+    callout: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25"><circle cx="8" cy="8" r="6.5"/><line x1="8" y1="6.5" x2="8" y2="11" stroke-linecap="round"/><circle cx="8" cy="4.5" r="0.75" fill="currentColor" stroke="none"/></svg>`,
+    code: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5L2 8l3 3M11 5l3 3-3 3M9.5 4l-3 8"/></svg>`,
+    divider: `<svg viewBox="0 0 16 16" fill="currentColor"><rect x="0.5" y="7" width="15" height="2" rx="1"/></svg>`,
+    image: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"/><circle cx="5.5" cy="6" r="1.25"/><path d="M1.5 11l3.5-3 3 2.5 2-2 3.5 3"/></svg>`,
+  }
+  return icons[type] ?? `<svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="12" height="12" rx="2" fill-opacity=".4"/></svg>`
+}
 
 // ── Global keyboard ────────────────────────────────────────────────────────────
 function onGlobalKey(e: KeyboardEvent) {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); cmdOpen.value = !cmdOpen.value; cmdQuery.value = '' }
-  if (e.key === 'Escape') { cmdOpen.value = false; slashMenu.value.open = false; ctxMenu.value.open = false; floatingBar.value.open = false; emojiOpen.value = false }
+  if (e.key === 'Escape') { cmdOpen.value = false; slashMenu.value.open = false; ctxMenu.value.open = false; floatingBar.value.open = false; emojiOpen.value = false; coverPickerOpen.value = false }
 }
 
 // ── Lifecycle ──────────────────────────────────────────────────────────────────
@@ -493,6 +562,10 @@ onUnmounted(() => {
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           Search
           <kbd class="text-[9px] px-1 py-0.5 rounded font-mono opacity-60 ml-0.5" :class="darkMode ? 'bg-zinc-700' : 'bg-gray-200'">⌘K</kbd>
+        </button>
+        <button @click="fullWidth = !fullWidth" class="ib hidden sm:flex" :title="fullWidth ? 'Narrow view' : 'Full width'">
+          <svg v-if="!fullWidth" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+          <svg v-else class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 9L4 4m0 0v5m0-5h5M15 9l5-5m0 0v5m0-5h-5M9 15l-5 5m0 0v-5m0 5h5M15 15l5 5m0 0v-5m0 5h-5"/></svg>
         </button>
         <button class="share-btn px-2.5 py-1 text-xs rounded-md font-medium">Share</button>
       </div>
@@ -559,14 +632,65 @@ onUnmounted(() => {
       <!-- ── Editor ────────────────────────────────────────────────────────── -->
       <main class="flex-1 overflow-hidden" :class="darkMode ? 'bg-[#191919]' : 'bg-white'">
         <div class="editor-scroll h-full overflow-y-auto custom-scroll" @click.self="addAfter(blocks[blocks.length - 1]?.id)">
-          <div class="max-w-[720px] mx-auto px-4 sm:px-14 pt-16 pb-48">
+
+          <!-- ── Cover image ─────────────────────────────────────────────────── -->
+          <div
+            class="cover-area relative group"
+            :class="page?.cover ? 'h-52' : 'h-0'"
+            @mouseenter="showCoverHint = true"
+            @mouseleave="showCoverHint = false"
+          >
+            <div
+              v-if="page?.cover"
+              class="absolute inset-0 bg-center bg-cover"
+              :style="{ background: page.cover, backgroundSize: 'cover', backgroundPosition: 'center' }"
+            />
+            <!-- Cover controls -->
+            <Transition name="pop">
+              <div v-if="page?.cover && showCoverHint" class="absolute bottom-3 right-4 flex items-center gap-2">
+                <button class="cover-btn cover-ctrl" @click.stop="coverPickerOpen = !coverPickerOpen">Change cover</button>
+                <button class="cover-btn cover-ctrl" @click.stop="removeCover">Remove</button>
+              </div>
+            </Transition>
+          </div>
+
+          <div :class="fullWidth ? 'px-6 sm:px-16 pt-8 pb-48' : 'max-w-[720px] mx-auto px-4 sm:px-14 pt-8 pb-48'">
+
+            <!-- Add cover / icon row (shown when no cover or on hover) -->
+            <div v-if="!page?.cover" class="flex items-center gap-2 mb-4 opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity">
+              <button class="cover-btn" @click.stop="coverPickerOpen = !coverPickerOpen">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Add cover
+              </button>
+              <button v-if="!page?.icon" class="cover-btn" @click.stop="emojiOpen = true">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Add icon
+              </button>
+            </div>
 
             <!-- Page icon -->
-            <div class="relative inline-block mb-3">
-              <button class="emoji-btn text-5xl hover:scale-110 transition-transform" @click.stop="emojiOpen = !emojiOpen">{{ page?.icon }}</button>
+            <div class="relative inline-block mb-3" :class="page?.cover ? '-mt-10' : ''">
+              <button class="emoji-btn text-5xl hover:scale-110 transition-transform" @click.stop="emojiOpen = !emojiOpen" :title="page?.icon ? 'Change icon' : 'Add icon'">
+                {{ page?.icon || '📄' }}
+              </button>
               <Transition name="pop">
-                <div v-if="emojiOpen" class="emoji-picker absolute top-full left-0 mt-2 p-3 rounded-xl shadow-2xl z-50 grid grid-cols-5 gap-1 w-48" :class="darkMode ? 'bg-[#252525] border border-[#3a3a3a]' : 'bg-white border border-[#ededed] shadow-xl'" @click.stop>
-                  <button v-for="e in emojis" :key="e" @click="page.icon = e; emojiOpen = false" class="text-xl hover:scale-125 transition-transform p-1 rounded hover:bg-black/10">{{ e }}</button>
+                <div v-if="emojiOpen" class="emoji-picker absolute top-full left-0 mt-2 rounded-xl shadow-2xl z-50 overflow-hidden w-56" :class="darkMode ? 'bg-[#252525] border border-[#3a3a3a]' : 'bg-white border border-[#ededed] shadow-xl'" @click.stop>
+                  <!-- Tabs -->
+                  <div class="flex border-b overflow-x-auto custom-scroll" :class="darkMode ? 'border-[#333]' : 'border-[#ededed]'">
+                    <button
+                      v-for="(cat, ci) in emojiCategories"
+                      :key="ci"
+                      @click="emojiTab = ci"
+                      class="px-2.5 py-1.5 text-[10px] shrink-0 font-medium transition-colors whitespace-nowrap"
+                      :class="emojiTab === ci ? (darkMode ? 'text-white border-b-2 border-white' : 'text-gray-900 border-b-2 border-gray-900') : 'op'"
+                    >{{ cat.label }}</button>
+                  </div>
+                  <div class="p-2 grid grid-cols-5 gap-0.5">
+                    <button v-for="e in emojis" :key="e" @click="page.icon = e; emojiOpen = false" class="text-xl hover:scale-125 transition-transform p-1.5 rounded hover:bg-black/10">{{ e }}</button>
+                  </div>
+                  <div class="border-t p-2" :class="darkMode ? 'border-[#333]' : 'border-[#ededed]'">
+                    <button @click="page.icon = ''; emojiOpen = false" class="w-full text-[11px] py-1 text-center op hover:opacity-100 transition-opacity">Remove icon</button>
+                  </div>
                 </div>
               </Transition>
             </div>
@@ -683,6 +807,33 @@ onUnmounted(() => {
                   </div>
                 </template>
 
+                <!-- IMAGE -->
+                <template v-else-if="b.type === 'image'">
+                  <div class="my-1.5">
+                    <div v-if="b.imageUrl" class="relative group/img rounded-lg overflow-hidden">
+                      <img :src="b.imageUrl" alt="Block image" class="w-full rounded-lg object-cover max-h-[480px]" @error="b.imageUrl = ''" />
+                      <div class="absolute inset-0 bg-black/0 group-hover/img:bg-black/20 transition-colors rounded-lg" />
+                      <button @click="b.imageUrl = ''" class="absolute top-2 right-2 opacity-0 group-hover/img:opacity-100 transition-opacity text-[10px] px-2 py-1 rounded-md font-medium" :class="darkMode ? 'bg-black/60 text-white' : 'bg-white/90 text-gray-700'">Replace</button>
+                    </div>
+                    <div v-else class="flex flex-col items-center justify-center gap-2 py-8 rounded-lg border-2 border-dashed cursor-pointer" :class="darkMode ? 'border-[#333] hover:border-[#444]' : 'border-gray-200 hover:border-gray-300'">
+                      <svg class="w-8 h-8 op" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      <p class="text-xs op">Paste image URL below</p>
+                      <input
+                        type="url"
+                        class="w-full max-w-xs px-3 py-1.5 text-xs rounded-lg outline-none"
+                        :class="darkMode ? 'bg-[#333] text-zinc-200 placeholder-zinc-600' : 'bg-gray-100 text-gray-800 placeholder-gray-400'"
+                        placeholder="https://..."
+                        @keydown.enter.prevent="(e) => { const v = (e.target as HTMLInputElement).value.trim(); if (v) { b.imageUrl = v; save() } }"
+                        @blur="(e) => { const v = (e.target as HTMLInputElement).value.trim(); if (v) { b.imageUrl = v; save() } }"
+                        @click.stop
+                      />
+                    </div>
+                    <div class="mt-1 text-center">
+                      <div class="bc inline-block min-w-[200px] outline-none text-xs italic text-center py-1" :class="darkMode ? 'text-zinc-600' : 'text-gray-400'" contenteditable="true" :data-ph="'Add a caption…'" v-content="b.imageCaption || ''" @blur="b.imageCaption = ($event.target as HTMLElement).textContent || ''" />
+                    </div>
+                  </div>
+                </template>
+
                 <!-- TEXT / H1 / H2 / H3 -->
                 <template v-else>
                   <div
@@ -717,6 +868,41 @@ onUnmounted(() => {
 
           </div>
         </div>
+
+        <!-- ── Cover picker ──────────────────────────────────────────────────── -->
+        <Transition name="pop">
+          <div v-if="coverPickerOpen" class="cover-picker fixed z-[80] bottom-auto left-1/2 -translate-x-1/2 w-80 rounded-xl shadow-2xl overflow-hidden" style="top: 25%" :class="darkMode ? 'bg-[#252525] border border-[#3a3a3a]' : 'bg-white border border-[#e5e5e5]'" @click.stop>
+            <div class="px-4 pt-3 pb-2 flex items-center justify-between">
+              <span class="text-xs font-semibold op uppercase tracking-wider">Page cover</span>
+              <button @click="coverPickerOpen = false" class="ib text-xs">✕</button>
+            </div>
+            <div class="px-3 pb-3">
+              <p class="text-[10px] op font-medium uppercase tracking-wider mb-2 px-1">Gradients</p>
+              <div class="grid grid-cols-5 gap-1.5 mb-3">
+                <button
+                  v-for="(opt, i) in coverOptions.filter(o => o.type === 'gradient')"
+                  :key="i"
+                  @click="setCover(opt.value)"
+                  class="h-10 rounded-md border-2 transition-all hover:scale-105"
+                  :class="page?.cover === opt.value ? 'border-blue-500' : (darkMode ? 'border-transparent' : 'border-transparent')"
+                  :style="{ background: opt.thumb }"
+                />
+              </div>
+              <p class="text-[10px] op font-medium uppercase tracking-wider mb-2 px-1">Photos</p>
+              <div class="grid grid-cols-3 gap-1.5">
+                <button
+                  v-for="(opt, i) in coverOptions.filter(o => o.type === 'photo')"
+                  :key="i"
+                  @click="setCover(opt.value)"
+                  class="h-16 rounded-md border-2 bg-cover bg-center transition-all hover:scale-[1.02]"
+                  :class="page?.cover === opt.value ? 'border-blue-500' : 'border-transparent'"
+                  :style="{ backgroundImage: opt.thumb }"
+                />
+              </div>
+              <button v-if="page?.cover" @click="removeCover" class="mt-3 w-full py-1.5 text-xs rounded-lg text-center transition-colors" :class="darkMode ? 'bg-red-900/30 text-red-400 hover:bg-red-900/50' : 'bg-red-50 text-red-500 hover:bg-red-100'">Remove cover</button>
+            </div>
+          </div>
+        </Transition>
       </main>
     </div>
 
@@ -726,7 +912,7 @@ onUnmounted(() => {
         <div class="px-3 pt-2.5 pb-1 text-[10px] font-bold uppercase tracking-wider op">Block type</div>
         <div class="max-h-72 overflow-y-auto custom-scroll py-1">
           <button v-for="c in filteredSlash" :key="c.type" class="slash-item w-full flex items-center gap-3 px-3 py-2 text-left" @mousedown.prevent="pickSlash(c.type)">
-            <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-mono shrink-0" :class="darkMode ? 'bg-[#333] text-zinc-400' : 'bg-gray-100 text-gray-600'">{{ c.icon }}</div>
+            <div class="w-7 h-7 rounded-lg flex items-center justify-center p-1.5 shrink-0" :class="darkMode ? 'bg-[#333] text-zinc-400' : 'bg-gray-100 text-gray-600'" v-html="blockTypeIcon(c.type)" />
             <div>
               <div class="text-[13px] font-medium" :class="darkMode ? 'text-zinc-200' : 'text-gray-800'">{{ c.label }}</div>
               <div class="text-[11px]" :class="darkMode ? 'text-zinc-600' : 'text-gray-400'">{{ c.desc }}</div>
@@ -871,6 +1057,13 @@ onUnmounted(() => {
 .expand-enter-active { transition: all 0.2s ease; max-height: 300px; overflow: hidden; }
 .expand-leave-active { transition: all 0.15s ease; max-height: 300px; overflow: hidden; }
 .expand-enter-from, .expand-leave-to { opacity: 0; max-height: 0; }
+
+/* ── Cover ── */
+.cover-area { transition: height 0.25s ease; overflow: hidden; }
+.cover-btn { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.12s; background: var(--hover); color: var(--muted); border: 1px solid var(--border); }
+.cover-btn:hover { color: var(--text); background: var(--surface); }
+.cover-ctrl { background: rgba(0,0,0,0.55); color: rgba(255,255,255,0.9); border-color: transparent; backdrop-filter: blur(4px); }
+.cover-ctrl:hover { background: rgba(0,0,0,0.75); color: white; }
 
 /* ── Selection ── */
 .dark ::selection { background: rgba(99,102,241,0.3); }
