@@ -60,7 +60,7 @@ watch(activeTab, (tab) => {
 // Pro access — 'elvin-ui' is the Chariow slug for the Blocks Pack
 const BLOCKS_PACK_PRODUCT_ID = 'elvin-ui'
 const { hasBlocksAccess } = useAuth()
-const blocksUnlocked = computed(() => hasBlocksAccess.value)
+const blocksUnlocked = computed(() => import.meta.dev || hasBlocksAccess.value)
 const modalOpen = ref(false)
 
 function handleSourceClick() {
