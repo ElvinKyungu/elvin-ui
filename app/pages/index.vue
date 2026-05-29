@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 const { public: { siteUrl } } = useRuntimeConfig()
 
 useSeoMeta({
@@ -6,14 +6,14 @@ useSeoMeta({
   description: 'Beautiful, production-ready UI components for Nuxt 4. Copy, paste, ship. No CLI, no config, no hidden deps.',
   ogTitle: 'Elvin UI — Copy-paste Nuxt 4 components',
   ogDescription: 'Beautiful, production-ready UI components for Nuxt 4. Copy, paste, ship. No CLI, no config, no hidden deps.',
-  ogImage: `${siteUrl}/og.png`,
+  ogImage: `${siteUrl}/home_screen.png`,
   ogUrl: siteUrl,
   ogType: 'website',
   ogSiteName: 'Elvin UI',
   twitterCard: 'summary_large_image',
   twitterTitle: 'Elvin UI — Copy-paste Nuxt 4 components',
   twitterDescription: 'Beautiful, production-ready UI components for Nuxt 4. Copy, paste, ship.',
-  twitterImage: `${siteUrl}/og.png`,
+  twitterImage: `${siteUrl}/home_screen.png`,
 })
 </script>
 

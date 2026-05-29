@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { gsap } from 'gsap'
 import { templateDocs } from '~/data/templates'
 
@@ -9,14 +9,14 @@ useSeoMeta({
   description: 'Full-page Nuxt 4 templates — landing pages, dashboards, and SaaS starters built with Elvin UI components.',
   ogTitle: 'Templates — Elvin UI',
   ogDescription: 'Full-page Nuxt 4 templates — landing pages, dashboards, and SaaS starters.',
-  ogImage: `${siteUrl}/og.png`,
+  ogImage: `${siteUrl}/home_screen.png`,
   ogUrl: `${siteUrl}/templates`,
   ogType: 'website',
   ogSiteName: 'Elvin UI',
   twitterCard: 'summary_large_image',
   twitterTitle: 'Templates — Elvin UI',
   twitterDescription: 'Full-page Nuxt 4 templates — landing pages, dashboards, and SaaS starters.',
-  twitterImage: `${siteUrl}/og.png`,
+  twitterImage: `${siteUrl}/home_screen.png`,
 })
 
 const templates = Object.values(templateDocs)
