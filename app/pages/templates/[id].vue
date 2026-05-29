@@ -216,7 +216,6 @@ onMounted(() => {
       :product-id="template.chariowProductId"
       :name="template.name"
       :price="14"
-      :redirect-path="`/templates/${template.id}`"
       @unlocked="modalOpen = false"
     />
   </div>

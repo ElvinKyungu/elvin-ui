@@ -13,6 +13,7 @@ const links = [
   { label: "Components", href: "/components", icon: "lucide:layers" },
   { label: "Blocks", href: "/blocks", icon: "lucide:layout-panel-left" },
   { label: "Templates", href: "/templates", icon: "lucide:app-window" },
+  { label: "Pricing", href: "/pricing", icon: "lucide:tag" },
   { label: "Docs", href: "/docs", icon: "lucide:book-open" },
 ];
 

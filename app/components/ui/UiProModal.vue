@@ -4,35 +4,26 @@ interface Props {
   productId: string
   name: string
   price: number
-  redirectPath: string
 }
 
 const props = defineProps<Props>()
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
-  'unlocked': [productId: string]
+  'unlocked': [value: string]
 }>()
 
 const { login } = useAuth()
-const { public: { siteUrl } } = useRuntimeConfig()
+const { public: { chariowShopUrl } } = useRuntimeConfig()
 
 type View = 'buy' | 'key'
 const view = ref<View>('buy')
 
-// Buy form
-const email = ref('')
-const firstName = ref('')
-const lastName = ref('')
-const phoneNumber = ref('')
-const phoneCountry = ref('CD')
-const buyError = ref('')
-const buyLoading = ref(false)
-
-// License key form
 const licenseKey = ref('')
 const keyError = ref('')
 const keyLoading = ref(false)
 const keySuccess = ref(false)
+
+const chariowUrl = computed(() => `${chariowShopUrl}/${props.productId}`)
 
 function close() {
   emit('update:modelValue', false)
@@ -40,11 +31,6 @@ function close() {
 
 function reset() {
   view.value = 'buy'
-  email.value = ''
-  firstName.value = ''
-  lastName.value = ''
-  phoneNumber.value = ''
-  buyError.value = ''
   keyError.value = ''
   licenseKey.value = ''
   keySuccess.value = false
@@ -53,47 +39,6 @@ function reset() {
 watch(() => props.modelValue, (open) => {
   if (!open) setTimeout(reset, 300)
 })
-
-async function handleBuy() {
-  if (!email.value || !firstName.value || !lastName.value || !phoneNumber.value) {
-    buyError.value = 'Please fill in all fields'
-    return
-  }
-
-  buyLoading.value = true
-  buyError.value = ''
-
-  try {
-    const redirectUrl = `${siteUrl}${props.redirectPath}?enter-key=true`
-
-    const data = await $fetch<{ checkoutUrl?: string, alreadyPurchased?: boolean }>('/api/checkout', {
-      method: 'POST',
-      body: {
-        productId: props.productId,
-        email: email.value,
-        firstName: firstName.value,
-        lastName: lastName.value,
-        phone: { number: phoneNumber.value, country_code: phoneCountry.value },
-        redirectUrl,
-      },
-    })
-
-    if (data.alreadyPurchased) {
-      view.value = 'key'
-      return
-    }
-
-    if (data.checkoutUrl) {
-      window.location.href = data.checkoutUrl
-    }
-  }
-  catch {
-    buyError.value = 'Something went wrong. Please try again.'
-  }
-  finally {
-    buyLoading.value = false
-  }
-}
 
 async function handleKey() {
   if (!licenseKey.value.trim()) {
@@ -174,71 +119,19 @@ async function handleKey() {
                 <span class="text-xl font-bold text-white">${{ price }}</span>
               </div>
 
-              <div class="flex flex-col gap-3">
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-medium text-zinc-400">First name</label>
-                    <input
-                      v-model="firstName"
-                      type="text"
-                      placeholder="John"
-                      class="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                    />
-                  </div>
-                  <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-medium text-zinc-400">Last name</label>
-                    <input
-                      v-model="lastName"
-                      type="text"
-                      placeholder="Doe"
-                      class="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div class="flex flex-col gap-1.5">
-                  <label class="text-xs font-medium text-zinc-400">Email</label>
-                  <input
-                    v-model="email"
-                    type="email"
-                    placeholder="john@example.com"
-                    class="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                  />
-                </div>
-
-                <div class="flex flex-col gap-1.5">
-                  <label class="text-xs font-medium text-zinc-400">Phone number</label>
-                  <div class="flex gap-2">
-                    <input
-                      v-model="phoneCountry"
-                      type="text"
-                      placeholder="CD"
-                      maxlength="3"
-                      class="w-16 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors uppercase text-center"
-                    />
-                    <input
-                      v-model="phoneNumber"
-                      type="tel"
-                      placeholder="0812345678"
-                      class="flex-1 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <p v-if="buyError" class="text-xs text-red-400 text-center">{{ buyError }}</p>
-
-              <button
-                @click="handleBuy"
-                :disabled="buyLoading"
-                class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+              <a
+                :href="chariowUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent/90 transition-colors"
               >
-                <svg v-if="buyLoading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke-linecap="round" />
+                Purchase on Chariow
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke-linecap="round" stroke-linejoin="round" />
+                  <polyline points="15 3 21 3 21 9" stroke-linecap="round" stroke-linejoin="round" />
+                  <line x1="10" y1="14" x2="21" y2="3" stroke-linecap="round" />
                 </svg>
-                <span v-else>Pay ${{ price }} →</span>
-                <span v-if="buyLoading">Redirecting...</span>
-              </button>
+              </a>
 
               <button
                 @click="view = 'key'"
@@ -261,6 +154,7 @@ async function handleKey() {
                   type="text"
                   placeholder="ABC-123-XYZ-789"
                   :disabled="keySuccess"
+                  @keydown.enter="handleKey"
                   class="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 font-mono tracking-wider transition-colors disabled:opacity-50"
                 />
               </div>

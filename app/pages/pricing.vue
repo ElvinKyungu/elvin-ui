@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { public: { siteUrl, blocksPackProductId, fullAccessProductId } } = useRuntimeConfig()
+const { public: { siteUrl, chariowShopUrl } } = useRuntimeConfig()
 
 useSeoMeta({
   title: 'Pricing — Elvin UI',
@@ -8,22 +8,8 @@ useSeoMeta({
   ogImage: `${siteUrl}/og.png`,
 })
 
-const route = useRoute()
-
-const blocksModalOpen = ref(false)
-const fullModalOpen = ref(false)
-
-// Auto-open key entry when redirected back from Chariow
-onMounted(() => {
-  if (route.query['enter-key']) {
-    if (route.query.product === 'full') fullModalOpen.value = true
-    else blocksModalOpen.value = true
-  }
-})
-
-function handleUnlocked() {
-  navigateTo('/dashboard')
-}
+const BLOCKS_URL = `${chariowShopUrl}/elvin-ui`
+const FULL_URL = `${chariowShopUrl}/elvin-ui-full-access`
 
 const blocksFeatures = [
   'All 20+ blocks source code',
@@ -118,7 +104,7 @@ const openFaq = ref<number | null>(null)
             <span class="text-sm text-zinc-500">one-time</span>
           </div>
 
-          <ul class="flex flex-col gap-2.5">
+          <ul class="flex flex-col gap-2.5 flex-1">
             <li
               v-for="feature in blocksFeatures"
               :key="feature"
@@ -131,12 +117,19 @@ const openFaq = ref<number | null>(null)
             </li>
           </ul>
 
-          <button
-            @click="blocksModalOpen = true"
+          <a
+            :href="BLOCKS_URL"
+            target="_blank"
+            rel="noopener noreferrer"
             class="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-zinc-700 text-white text-sm font-semibold hover:bg-zinc-800 transition-colors"
           >
             Get Blocks Pack
-          </button>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke-linecap="round" stroke-linejoin="round" />
+              <polyline points="15 3 21 3 21 9" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="10" y1="14" x2="21" y2="3" stroke-linecap="round" />
+            </svg>
+          </a>
         </div>
 
         <!-- Full Access (featured) -->
@@ -159,7 +152,7 @@ const openFaq = ref<number | null>(null)
             <span class="text-sm text-zinc-500">one-time</span>
           </div>
 
-          <ul class="flex flex-col gap-2.5">
+          <ul class="flex flex-col gap-2.5 flex-1">
             <li
               v-for="feature in fullFeatures"
               :key="feature"
@@ -172,12 +165,19 @@ const openFaq = ref<number | null>(null)
             </li>
           </ul>
 
-          <button
-            @click="fullModalOpen = true"
+          <a
+            :href="FULL_URL"
+            target="_blank"
+            rel="noopener noreferrer"
             class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-accent text-white text-sm font-bold hover:bg-accent/90 transition-colors"
           >
             Get Full Access
-          </button>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke-linecap="round" stroke-linejoin="round" />
+              <polyline points="15 3 21 3 21 9" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="10" y1="14" x2="21" y2="3" stroke-linecap="round" />
+            </svg>
+          </a>
         </div>
       </div>
 
@@ -231,27 +231,5 @@ const openFaq = ref<number | null>(null)
     <div class="border-t border-zinc-800/60 relative z-10">
       <BlocksFooterSection />
     </div>
-
-    <!-- Blocks Pack modal -->
-    <UiProModal
-      v-if="blocksPackProductId"
-      v-model="blocksModalOpen"
-      :product-id="blocksPackProductId"
-      name="Blocks Pack"
-      :price="39"
-      redirect-path="/pricing"
-      @unlocked="handleUnlocked"
-    />
-
-    <!-- Full Access modal -->
-    <UiProModal
-      v-if="fullAccessProductId"
-      v-model="fullModalOpen"
-      :product-id="fullAccessProductId"
-      name="Full Access"
-      :price="99"
-      redirect-path="/pricing?product=full"
-      @unlocked="handleUnlocked"
-    />
   </div>
 </template>

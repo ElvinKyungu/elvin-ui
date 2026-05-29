@@ -1,5 +1,5 @@
-import { getUserSession } from '~/server/utils/session'
-import { resolveAccessLevel } from '~/server/utils/products'
+import { getUserSession } from '../../utils/session'
+import { resolveAccessLevel } from '../../utils/products'
 
 export default defineEventHandler(async (event) => {
   const { licenseKey } = await readBody(event)
@@ -28,12 +28,8 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'License has expired' })
   }
 
-  const productId = license.product?.id ?? ''
-  const accessLevel = resolveAccessLevel(
-    productId,
-    config.blocksPackProductId as string,
-    config.fullAccessProductId as string,
-  )
+  const productSlug = license.product?.slug ?? ''
+  const accessLevel = resolveAccessLevel(productSlug)
 
   if (!accessLevel) {
     throw createError({ statusCode: 401, message: 'This license does not grant access to any Elvin UI product' })
@@ -42,10 +38,10 @@ export default defineEventHandler(async (event) => {
   const session = await getUserSession(event)
   await session.update({
     licenseKey: licenseKey.trim(),
-    productId,
+    productId: productSlug,
     accessLevel,
     unlockedAt: Date.now(),
   })
 
-  return { licenseKey: licenseKey.trim(), productId, accessLevel, unlockedAt: Date.now() }
+  return { licenseKey: licenseKey.trim(), productId: productSlug, accessLevel, unlockedAt: Date.now() }
 })

@@ -1,11 +1,10 @@
 export type AccessLevel = 'blocks' | 'full-access'
 
-export function resolveAccessLevel(
-  productId: string,
-  blocksPackProductId: string,
-  fullAccessProductId: string,
-): AccessLevel | null {
-  if (fullAccessProductId && productId === fullAccessProductId) return 'full-access'
-  if (blocksPackProductId && productId === blocksPackProductId) return 'blocks'
-  return null
+const SLUG_MAP: Record<string, AccessLevel> = {
+  'elvin-ui': 'blocks',
+  'elvin-ui-full-access': 'full-access',
+}
+
+export function resolveAccessLevel(productSlug: string): AccessLevel | null {
+  return SLUG_MAP[productSlug] ?? null
 }
