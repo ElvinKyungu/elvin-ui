@@ -235,4 +235,12 @@ export const templateDocs: Record<string, TemplateDoc> = {
     tags: ['Travel', 'Landing', 'Dark', 'GSAP'],
     isNew: true,
   },
+  'production-management': {
+    id: 'production-management',
+    name: 'Production Management',
+    category: 'Dashboard',
+    description: '"Backlot" — Film & TV production management dashboard. Light theme with purple accents. Collapsible sidebar, project header with production badges, animated KPI stat cards (crew payments, supplier invoices, expense claims), SVG bar chart with tooltip, cost centres table, production health wallet panel, arc budget burn chart, and upcoming payments list.',
+    tags: ['Dashboard', 'Light', 'GSAP', 'Film & TV'],
+    isNew: true,
+  },
 }

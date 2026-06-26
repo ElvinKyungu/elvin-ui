@@ -905,4 +905,226 @@ defineProps<{ id: string }>()
     </div>
   </template>
 
+  <!-- Production Management (Backlot) -->
+  <template v-else-if="id === 'production-management'">
+    <div class="absolute inset-0 flex overflow-hidden" style="background:#f9fafb">
+      <!-- Sidebar -->
+      <div class="w-12 border-r flex flex-col shrink-0" style="background:#fff;border-color:#e5e7eb">
+        <div class="h-5 border-b flex items-center px-1.5 gap-1 shrink-0" style="border-color:#e5e7eb">
+          <div class="w-3 h-3 rounded-[3px] shrink-0" style="background:#7c3aed" />
+          <div class="h-1 w-5 rounded-full" style="background:#111827" />
+        </div>
+        <div class="px-1.5 py-1 border-b shrink-0" style="border-color:#f3f4f6">
+          <div class="h-2 rounded-md flex items-center px-1 gap-0.5" style="background:#f3f4f6;border:1px solid #e5e7eb">
+            <div class="w-1 h-1 rounded-full shrink-0" style="background:#9ca3af" />
+            <div class="flex-1 h-0.5 rounded-full" style="background:#d1d5db" />
+          </div>
+        </div>
+        <div class="flex-1 px-1.5 py-1 flex flex-col gap-0.5">
+          <div class="h-2 rounded-md" style="background:#f5f3ff;border:1px solid #ede9fe" />
+          <div v-for="i in 3" :key="i" class="h-2 rounded-md" style="background:transparent" />
+          <div class="h-2 rounded-md" style="background:transparent" />
+          <div v-for="i in 2" :key="i" class="h-1.5 rounded-md ml-1" style="background:#f9fafb" />
+          <div v-for="i in 3" :key="i" class="h-2 rounded-md mt-0.5" style="background:transparent" />
+        </div>
+        <div class="p-1.5 border-t shrink-0" style="border-color:#e5e7eb">
+          <div class="rounded-lg p-1 flex flex-col gap-0.5" style="background:#f9fafb;border:1px solid #e5e7eb">
+            <div class="h-0.5 w-6 rounded-full" style="background:#9ca3af" />
+            <div class="h-1 w-5 rounded-full" style="background:#374151" />
+            <div class="h-0.5 w-full rounded-full overflow-hidden" style="background:#e5e7eb">
+              <div class="h-full rounded-full" style="width:67%;background:#7c3aed" />
+            </div>
+            <div class="h-1.5 w-full rounded-md" style="background:#7c3aed" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Main -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <div class="h-5 border-b flex items-center px-2 gap-1.5 shrink-0" style="background:#fff;border-color:#e5e7eb">
+          <div class="h-0.5 w-7 rounded-full" style="background:#9ca3af" />
+          <div class="h-0.5 w-1 rounded-full" style="background:#d1d5db" />
+          <div class="h-0.5 w-8 rounded-full" style="background:#374151" />
+          <div class="ml-auto flex gap-1">
+            <div class="h-2.5 w-6 rounded-md" style="border:1px solid #e5e7eb" />
+            <div class="h-2.5 w-6 rounded-md" style="border:1px solid #e5e7eb" />
+          </div>
+        </div>
+
+        <div class="flex-1 p-1.5 flex flex-col gap-1.5 overflow-hidden">
+          <!-- project header -->
+          <div class="flex items-center gap-1.5">
+            <div class="h-1.5 w-12 rounded-full" style="background:#111827" />
+            <div class="h-2 w-9 rounded-md" style="background:#d1fae5;border:1px solid #a7f3d0" />
+            <div class="h-0.5 w-5 rounded-full" style="background:#9ca3af" />
+            <div class="h-0.5 w-5 rounded-full" style="background:#9ca3af" />
+            <div class="ml-auto flex gap-1">
+              <div class="h-2 w-7 rounded-md" style="border:1px solid #e5e7eb" />
+              <div class="h-2 w-7 rounded-md" style="border:1px solid #e5e7eb" />
+              <div class="h-2 w-10 rounded-md" style="background:#7c3aed" />
+            </div>
+          </div>
+
+          <!-- 3 stat cards -->
+          <div class="grid gap-1" style="grid-template-columns:1fr 1fr 1fr">
+            <div v-for="i in 3" :key="i" class="rounded-lg p-1.5 flex flex-col gap-1" style="background:#fff;border:1px solid #e5e7eb">
+              <div class="flex items-center gap-1">
+                <div class="w-1.5 h-1.5 rounded-sm shrink-0" style="background:#e5e7eb" />
+                <div class="h-0.5 w-10 rounded-full" style="background:#9ca3af" />
+              </div>
+              <div class="grid gap-1" style="grid-template-columns:1fr 1fr">
+                <div class="flex flex-col gap-0.5">
+                  <div class="h-0.5 w-4 rounded-full" style="background:#d1d5db" />
+                  <div class="h-2 w-4 rounded" style="background:#111827" />
+                  <div class="h-0.5 w-6 rounded-full" style="background:#6b7280" />
+                  <div class="h-0.5 w-8 rounded-full" style="background:#fca5a5" />
+                </div>
+                <div class="flex flex-col gap-0.5">
+                  <div class="h-0.5 w-4 rounded-full" style="background:#d1d5db" />
+                  <div class="h-2 w-5 rounded" style="background:#111827" />
+                  <div class="h-0.5 w-6 rounded-full" style="background:#6b7280" />
+                  <div class="h-0.5 w-8 rounded-full" style="background:#6ee7b7" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- two-column layout -->
+          <div class="flex-1 flex gap-1.5 min-h-0 overflow-hidden">
+            <!-- left col -->
+            <div class="flex-1 flex flex-col gap-1.5 min-w-0 overflow-hidden">
+              <!-- cost report -->
+              <div class="rounded-lg p-1.5 flex flex-col gap-1" style="background:#fff;border:1px solid #e5e7eb;flex:1.1">
+                <div class="flex items-center justify-between">
+                  <div class="h-1 w-10 rounded-full" style="background:#374151" />
+                  <div class="h-1.5 w-10 rounded-md" style="border:1px solid #e5e7eb" />
+                </div>
+                <div class="flex items-center gap-1">
+                  <div class="h-2 w-10 rounded" style="background:#111827" />
+                  <div class="h-1.5 w-14 rounded-md" style="background:#d1fae5;border:1px solid #a7f3d0" />
+                </div>
+                <div class="flex-1 flex items-end gap-0.5 min-h-0">
+                  <div v-for="(h, i) in [18,28,22,35,100,42,33,24,30,38,26,20]" :key="i"
+                    class="flex-1 rounded-t-[1px]"
+                    :style="`height:${h}%;background:${i === 4 ? '#7c3aed' : '#e5e7eb'}`"
+                  />
+                </div>
+                <div class="flex justify-between">
+                  <div class="h-0.5 w-8 rounded-full" style="background:#d1d5db" />
+                  <div class="h-0.5 w-8 rounded-full" style="background:#d1d5db" />
+                </div>
+              </div>
+              <!-- cost centres -->
+              <div class="rounded-lg p-1.5 flex flex-col gap-1" style="background:#fff;border:1px solid #e5e7eb;flex:1">
+                <div class="flex items-center justify-between">
+                  <div class="h-1 w-10 rounded-full" style="background:#374151" />
+                  <div class="h-1.5 w-8 rounded-md" style="border:1px solid #e5e7eb" />
+                </div>
+                <div class="h-1.5 rounded-full overflow-hidden flex">
+                  <div class="h-full" style="width:34%;background:#3b82f6" />
+                  <div class="h-full" style="width:31%;background:#22c55e" />
+                  <div class="h-full" style="width:18%;background:#60a5fa" />
+                  <div class="h-full" style="width:17%;background:#94a3b8" />
+                </div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <div v-for="color in ['#3b82f6','#22c55e','#60a5fa','#94a3b8']" :key="color" class="flex items-center gap-0.5">
+                    <div class="w-1 h-1 rounded-full" :style="`background:${color}`" />
+                    <div class="h-0.5 w-4 rounded-full" style="background:#d1d5db" />
+                  </div>
+                </div>
+                <div class="rounded-md overflow-hidden" style="border:1px solid #e5e7eb">
+                  <div class="h-1.5 flex gap-1 px-1" style="background:#f9fafb;border-bottom:1px solid #e5e7eb">
+                    <div class="h-0.5 w-6 rounded-full self-center" style="background:#d1d5db" />
+                    <div class="h-0.5 w-4 rounded-full self-center ml-auto" style="background:#d1d5db" />
+                  </div>
+                  <div v-for="(color, i) in ['#3b82f6','#22c55e','#60a5fa','#94a3b8']" :key="color"
+                    class="h-2 flex items-center gap-1 px-1"
+                    :style="i < 3 ? 'border-bottom:1px solid #f3f4f6' : ''"
+                  >
+                    <div class="w-1 h-1 rounded-full shrink-0" :style="`background:${color}`" />
+                    <div class="h-0.5 w-7 rounded-full" style="background:#6b7280" />
+                    <div class="h-0.5 w-4 rounded-full ml-auto" style="background:#374151" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- right col -->
+            <div class="flex flex-col gap-1.5 overflow-hidden shrink-0" style="width:76px">
+              <!-- production health -->
+              <div class="rounded-lg p-1.5 flex flex-col gap-1 shrink-0" style="background:#fff;border:1px solid #e5e7eb">
+                <div class="flex items-center justify-between gap-0.5">
+                  <div class="h-1 w-10 rounded-full" style="background:#374151" />
+                  <div class="h-1.5 w-8 rounded-md shrink-0" style="border:1px solid #e5e7eb" />
+                </div>
+                <div class="flex items-end justify-between gap-1">
+                  <div>
+                    <div class="h-0.5 w-8 rounded-full mb-0.5" style="background:#9ca3af" />
+                    <div class="h-1.5 w-10 rounded" style="background:#111827" />
+                    <div class="h-0.5 w-8 rounded-full mt-0.5" style="background:#d1d5db" />
+                  </div>
+                  <svg viewBox="0 0 30 14" style="width:22px;height:10px;flex-shrink:0" preserveAspectRatio="none">
+                    <defs><linearGradient id="th-ph2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22c55e" stop-opacity="0.25"/><stop offset="100%" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs>
+                    <path d="M0,12 L6,10 L12,11 L18,7 L24,4 L30,1 L30,14 L0,14 Z" fill="url(#th-ph2)"/>
+                    <polyline points="0,12 6,10 12,11 18,7 24,4 30,1" fill="none" stroke="#22c55e" stroke-width="1" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="grid gap-0.5" style="grid-template-columns:1fr 1fr">
+                  <div v-for="i in 4" :key="i" class="h-2 rounded-md" style="background:#f9fafb;border:1px solid #e5e7eb" />
+                </div>
+              </div>
+              <!-- budget burn -->
+              <div class="rounded-lg p-1.5 flex flex-col gap-1 shrink-0" style="background:#fff;border:1px solid #e5e7eb">
+                <div class="h-1 w-10 rounded-full" style="background:#374151" />
+                <div class="flex items-center gap-1.5">
+                  <div class="relative shrink-0" style="width:28px;height:28px">
+                    <svg viewBox="0 0 40 40" style="width:28px;height:28px;transform:rotate(-90deg)">
+                      <circle cx="20" cy="20" r="13" fill="none" stroke="#f3f4f6" stroke-width="5"/>
+                      <circle cx="20" cy="20" r="13" fill="none" stroke="#7c3aed" stroke-width="5" stroke-linecap="round" stroke-dasharray="21 81.68" />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <span style="font-size:4.5px;font-weight:700;color:#111827">26%</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-0.5 flex-1">
+                    <div class="h-1 w-5 rounded" style="background:#111827" />
+                    <div class="h-0.5 w-7 rounded-full" style="background:#9ca3af" />
+                    <div class="h-0.5 w-full rounded-full overflow-hidden mt-0.5" style="background:#f3f4f6">
+                      <div class="h-full rounded-full" style="width:26%;background:#7c3aed" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- upcoming payments -->
+              <div class="rounded-lg p-1.5 flex flex-col gap-1 flex-1 min-h-0" style="background:#fff;border:1px solid #e5e7eb">
+                <div class="flex items-center justify-between">
+                  <div class="h-1 w-10 rounded-full" style="background:#374151" />
+                  <div class="h-1.5 w-8 rounded-md shrink-0" style="border:1px solid #e5e7eb" />
+                </div>
+                <div class="pb-1" style="border-bottom:1px solid #f3f4f6">
+                  <div class="h-0.5 w-8 rounded-full" style="background:#9ca3af" />
+                  <div class="flex items-center gap-1 mt-0.5">
+                    <div class="h-1.5 w-9 rounded" style="background:#111827" />
+                    <div class="h-0.5 w-5 rounded-full" style="background:#7c3aed" />
+                  </div>
+                </div>
+                <div v-for="(bg, i) in ['#ede9fe','#e0f2fe','#fef3c7','#f3f4f6']" :key="i" class="flex items-center gap-1 py-0.5 rounded-md px-0.5">
+                  <div class="w-3 h-3 rounded-md shrink-0" :style="`background:${bg}`" />
+                  <div class="flex-1 min-w-0 flex flex-col gap-0.5">
+                    <div class="h-0.5 rounded-full" style="background:#374151;width:90%" />
+                    <div class="h-0.5 w-8 rounded-full" style="background:#d1d5db" />
+                  </div>
+                  <div class="flex items-center gap-0.5 shrink-0">
+                    <div class="h-1.5 w-5 rounded-sm" :style="`background:${i % 2 === 0 ? '#fed7aa' : '#bae6fd'};border:1px solid ${i % 2 === 0 ? '#fdba74' : '#7dd3fc'}`" />
+                    <div class="h-0.5 w-4 rounded-full" style="background:#374151" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
 </template>
