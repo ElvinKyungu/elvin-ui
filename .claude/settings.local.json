@@ -28,7 +28,10 @@
       "Bash(git add *)",
       "Bash(powershell *)",
       "WebFetch(domain:oeeriqib.mychariow.shop)",
-      "Bash(Get-Content \"D:\\\\elvin-ui\\\\app\\\\layouts\\\\default.vue\")"
+      "Bash(Get-Content \"D:\\\\elvin-ui\\\\app\\\\layouts\\\\default.vue\")",
+      "PowerShell($content = Get-Content \"D:\\\\elvin-ui\\\\app\\\\components\\\\ui\\\\UiTemplatePreview.vue\" -Encoding UTF8; Write-Host \"Total lines: $\\($content.Count\\)\"; $content | Select-String \"travel-\" | Select-Object LineNumber, Line)",
+      "Bash(git -C D:\\\\elvin-ui status)",
+      "Bash(git -C D:\\\\elvin-ui diff --stat HEAD)"
     ]
   }
 }
